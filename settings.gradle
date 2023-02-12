@@ -1,3 +1,4 @@
 rootProject.name = 'CPS406_TMS'
 include 'WTServer'
 include 'TDClient'
+include 'Core'
