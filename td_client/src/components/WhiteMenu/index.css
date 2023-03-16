@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500&display=swap');
+
+.WhiteMenu {
+  height: 50vh;
+  width: 50%;
+  background: white;
+  border-radius: 37px;
+  margin: auto;
+}
+
+.WhiteMenu-error {
+  display: block;
+  font-size: 8px;
+  font-weight: 600;
+  color: #f23d3d;
+}
+
+.WhiteMenu-header {
+  font-family: 'M PLUS 2', sans-serif;
+  font-style: bold;
+}
+

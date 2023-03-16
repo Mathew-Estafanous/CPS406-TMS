@@ -1,9 +1,19 @@
 .App {
-  text-align: center;
+  text-align: center
+}
+
+.App-BoxLogo {
+  margin-top: 10px;
+  height: 20vh;
+}
+
+.App-Title {
+  margin: 0;
+  color: white;
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 30vh;
   pointer-events: none;
 }
 

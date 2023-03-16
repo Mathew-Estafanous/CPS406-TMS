@@ -1,23 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import BoxLogo from './BoxLogo.svg'
+import WhiteMenu from './components/WhiteMenu';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img src={BoxLogo} className="App-BoxLogo"></img>
+      <h1 className="App-Title">warehouse</h1>
+      <WhiteMenu />
     </div>
   );
 }
