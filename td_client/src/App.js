@@ -1,14 +1,17 @@
 import './App.css';
 import BoxLogo from './BoxLogo.svg'
-import WhiteMenu from './components/WhiteMenu';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import CheckIn from "./pages/CheckIn";
 
 function App() {
   return (
-    <div className="App">
-      <img src={BoxLogo} className="App-BoxLogo"></img>
-      <h1 className="App-Title">warehouse</h1>
-      <WhiteMenu />
-    </div>
+    <BrowserRouter>
+    <Routes>
+      <Route exact path="/" element={<Home history/>}/>
+      <Route exact path="/CheckIn" element={<CheckIn/>}/>
+    </Routes>
+    </BrowserRouter>
   );
 }
 
