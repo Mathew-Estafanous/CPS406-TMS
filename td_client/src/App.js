@@ -1,15 +1,14 @@
 import './App.css';
-import BoxLogo from './BoxLogo.svg'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import CheckIn from "./pages/CheckIn";
+import CheckOut from "./pages/CheckOut";
 
 function App() {
   return (
     <BrowserRouter>
     <Routes>
       <Route exact path="/" element={<Home history/>}/>
-      <Route exact path="/CheckIn" element={<CheckIn/>}/>
+      <Route exact path="/CheckOut" element={<CheckOut/>}/>
     </Routes>
     </BrowserRouter>
   );
