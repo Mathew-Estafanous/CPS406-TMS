@@ -3,20 +3,19 @@ package org.tms.server.websocket;
 import com.google.gson.Gson;
 
 import javax.websocket.*;
-import java.time.Period;
 
 public class TruckMessage {
     private final int truckID;
     private final String driverName;
-    private final Period estimatedDockingTime;
+    private final String estimatedDockingTime;
 
-    public TruckMessage(int truckID, String driverName, Period estimatedDockingTime) {
+    public TruckMessage(int truckID, String driverName, String estimatedDockingTime) {
         this.truckID = truckID;
         this.driverName = driverName;
         this.estimatedDockingTime = estimatedDockingTime;
     }
 
-    public Period getEstimatedDockingTime() {
+    public String getEstimatedDockingTime() {
         return estimatedDockingTime;
     }
 

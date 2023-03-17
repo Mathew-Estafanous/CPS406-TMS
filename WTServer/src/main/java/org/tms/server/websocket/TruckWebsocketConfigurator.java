@@ -13,7 +13,10 @@ public class TruckWebsocketConfigurator extends ServerEndpointConfig.Configurato
     }
 
     @Override
-    public <T> T getEndpointInstance(Class<T> endpointClass) {
-        return (T) new TruckServerController(truckService);
+    public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
+        if (endpointClass == TruckServerController.class) {
+            return (T) new TruckServerController(truckService);
+        }
+        return super.getEndpointInstance(endpointClass);
     }
 }
