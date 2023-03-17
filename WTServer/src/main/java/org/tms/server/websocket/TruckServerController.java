@@ -1,5 +1,7 @@
 package org.tms.server.websocket;
 
+import org.tms.server.ITruckService;
+
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
@@ -11,6 +13,11 @@ import java.util.logging.Logger;
 public class TruckServerController {
 
     private static final Logger log = Logger.getLogger(TruckServerController.class.getName());
+    private final ITruckService truckService;
+
+    public TruckServerController(ITruckService truckService) {
+        this.truckService = truckService;
+    }
 
     @OnOpen
     public void onOpen(Session session) throws IOException {

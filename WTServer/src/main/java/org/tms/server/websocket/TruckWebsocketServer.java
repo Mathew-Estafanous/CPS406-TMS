@@ -4,13 +4,16 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.javax.server.config.JavaxWebSocketServletContainerInitializer;
+import org.tms.server.ITruckService;
+
+import javax.websocket.server.ServerEndpointConfig;
 
 public class TruckWebsocketServer {
 
     private final Server server;
     private final ServerConnector connector;
 
-    public TruckWebsocketServer(int port) {
+    public TruckWebsocketServer(int port, ITruckService truckService) {
         server = new Server();
         connector = new ServerConnector(server);
         server.addConnector(connector);
@@ -22,18 +25,16 @@ public class TruckWebsocketServer {
 
         JavaxWebSocketServletContainerInitializer.configure(context, (servletContext, container) -> {
             container.setDefaultMaxTextMessageBufferSize(65535);
-            container.addEndpoint(TruckServerController.class);
+            container.addEndpoint(ServerEndpointConfig.Builder
+                    .create(TruckServerController.class, "/truck/server")
+                    .configurator(new TruckWebsocketConfigurator(truckService))
+                    .build());
         });
     }
 
     public void start() throws Exception {
         System.out.println("Server started on port " + connector.getPort());
         server.start();
-    }
-
-    public void stop() throws Exception {
-        System.out.println("Server is stopping");
-        server.stop();
     }
 
     public void join() throws InterruptedException {
