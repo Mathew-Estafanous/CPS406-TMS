@@ -27,6 +27,10 @@ public class TruckState {
         return truckDriver.getTruckID();
     }
 
+    public int getTruckID() {
+        return truckDriver.getTruckID();
+    }
+
     public TruckDriver getTruckDriver() {
         return truckDriver;
     }
