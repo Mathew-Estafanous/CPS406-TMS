@@ -8,7 +8,7 @@ public class Main {
         ITruckService mockService = new ITruckService() {
             @Override
             public TruckState checkIn(TruckDriver driver) {
-                return null;
+                return new TruckState(driver, true, 3);
             }
 
             @Override

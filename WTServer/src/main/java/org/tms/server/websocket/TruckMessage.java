@@ -1,22 +1,32 @@
 package org.tms.server.websocket;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import javax.websocket.*;
 
 public class TruckMessage {
+    @SerializedName("type")
+    private final MessageType type;
+
     private final int truckID;
     private final String driverName;
     private final String estimatedDockingTime;
 
-    public TruckMessage(int truckID, String driverName, String estimatedDockingTime) {
+    private final Boolean inWaitingArea;
+    private final int position;
+
+    public TruckMessage(int truckID, MessageType type, String driverName, String estimatedDockingTime, Boolean inWaitingArea, int position) {
         this.truckID = truckID;
+        this.type = type;
         this.driverName = driverName;
         this.estimatedDockingTime = estimatedDockingTime;
+        this.inWaitingArea = inWaitingArea;
+        this.position = position;
     }
 
-    public String getEstimatedDockingTime() {
-        return estimatedDockingTime;
+    public TruckMessage(int truckID, MessageType type, Boolean inWaitingArea, int position) {
+        this(truckID, type, "", "", inWaitingArea, position);
     }
 
     public int getTruckID() {
@@ -27,17 +37,43 @@ public class TruckMessage {
         return driverName;
     }
 
+    public String getEstimatedDockingTime() {
+        return estimatedDockingTime;
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
-        return String.format("TruckMessage{truckID=%d, driverName='%s', estimatedDockingTime=%s}", truckID, driverName, estimatedDockingTime);
+        return String.format("TruckMessage{truckID=%d}", truckID);
     }
+
+    public Boolean getInWaitingArea() {
+        return inWaitingArea;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public enum MessageType {
+        @SerializedName("check-in")
+        CHECK_IN,
+        @SerializedName("check-out")
+        CHECK_OUT,
+        @SerializedName("state-update")
+        STATE_UPDATE
+    }
+
 
     public static class TruckMessageEncoder implements Encoder.Text<TruckMessage> {
 
         private static final Gson gson = new Gson();
 
         @Override
-        public String encode(TruckMessage truckMessage) throws EncodeException {
+        public String encode(TruckMessage truckMessage) {
             return gson.toJson(truckMessage);
         }
 
@@ -53,7 +89,7 @@ public class TruckMessage {
         private final Gson gson = new Gson();
 
         @Override
-        public TruckMessage decode(String s) throws DecodeException {
+        public TruckMessage decode(String s) {
             return gson.fromJson(s, TruckMessage.class);
         }
 
@@ -63,13 +99,9 @@ public class TruckMessage {
         }
 
         @Override
-        public void init(EndpointConfig config) {
-
-        }
+        public void init(EndpointConfig config) {}
 
         @Override
-        public void destroy() {
-
-        }
+        public void destroy() {}
     }
 }
