@@ -12,6 +12,10 @@ public class TruckState {
         this.position = position;
     }
 
+    public int getTruckID() {
+        return truckDriver.getTruckID();
+    }
+
     public TruckDriver getTruckDriver() {
         return truckDriver;
     }
