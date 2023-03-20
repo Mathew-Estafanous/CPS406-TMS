@@ -33,7 +33,7 @@ public class TruckServerController {
     public void onOpen(Session session,
                        @PathParam("truckID") String truckID) {
         log.info("New connection opened with ID: " + truckID);
-        sessionMap.put(Integer.getInteger(truckID), session);
+        sessionMap.put(Integer.parseInt(truckID), session);
     }
 
     @OnMessage

@@ -28,7 +28,7 @@ public class TruckWebsocketServer {
         JavaxWebSocketServletContainerInitializer.configure(context, (servletContext, container) -> {
             container.setDefaultMaxTextMessageBufferSize(65535);
             container.addEndpoint(ServerEndpointConfig.Builder
-                    .create(TruckServerController.class, "/truck/server")
+                    .create(TruckServerController.class, "/server/{truckID}")
                     .configurator(new TruckWebsocketConfigurator(truckService, sessionMap))
                     .build());
         });
