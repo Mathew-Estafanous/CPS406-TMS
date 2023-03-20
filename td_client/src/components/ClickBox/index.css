@@ -1,8 +1,9 @@
 .ClickBox-Input {
     display: block;
-    padding: 3px;
-    width: 21vh;
+    padding: 5px;
+    width: 23vh;
     font-family: inherit;
+    font-size: 18px;
     color: white;
     font-weight: 500;
     border-radius: 38px;

@@ -2,21 +2,47 @@
 
 .WhiteMenu {
   height: 50vh;
-  width: 50%;
+  width: 40vh;
   background: white;
   border-radius: 37px;
   margin: auto;
+  margin-top: 2vh;
 }
 
 .WhiteMenu-error {
+  margin: auto;
+  padding-bottom: 5px;
+  text-align: left;
+  width: 22vh;
   display: block;
   font-size: 8px;
   font-weight: 600;
   color: #f23d3d;
 }
 
+.WhiteMenu-hide{
+  visibility: hidden;
+}
+
+.WhiteMenu-title {
+  padding-top: 10px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-family: 'M PLUS 2', sans-serif;
+  font-weight: bold;
+}
+
 .WhiteMenu-header {
+  padding-top: 10px;
+  font-size: 25px;
+  font-weight: bold;
   font-family: 'M PLUS 2', sans-serif;
   font-style: bold;
+}
+
+.WhiteMenu-subheader {
+  color: #373737;
+  font-size: 15px;
+  padding-bottom: 12vh;
 }
 
