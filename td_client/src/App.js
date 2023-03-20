@@ -4,8 +4,7 @@ import Home from "./pages/Home";
 import CheckOut from "./pages/CheckOut";
 import React from 'react';
 
-class App extends React.Component {
-  render() { 
+function App() {
     return (
     <BrowserRouter>
     <Routes>
@@ -14,7 +13,6 @@ class App extends React.Component {
     </Routes>
     </BrowserRouter>
   );
-  }
 }
 
 export default App;

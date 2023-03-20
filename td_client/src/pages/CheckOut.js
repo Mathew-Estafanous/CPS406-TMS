@@ -1,13 +1,14 @@
 import '../App.css';
-import BoxLogo from '../BoxLogo.svg'
 import WhiteMenu from '../components/WhiteMenu';
+import Logo from '../components/Logo';
 
 function CheckOut() {
   return (
     <div className="App">
-        <img src={BoxLogo} className="App-BoxLogo"></img>
-        <h1 className="App-Title">warehouse</h1>
+      <div className="Background-Image">
+        <Logo/>
         <WhiteMenu pageType={"CheckOut"}/>
+        </div>
     </div>
   );
 }
