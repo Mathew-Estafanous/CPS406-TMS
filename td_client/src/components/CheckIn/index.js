@@ -5,6 +5,12 @@ import NumberBox from '../NumberBox';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 
+function timeToString(time) {
+  const hours = Math.floor(time/60);
+  const minutes = time%60;
+  return "PT"+hours+"H"+minutes+"M"+"0S";
+}
+
 function CheckIn() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
@@ -17,6 +23,7 @@ function CheckIn() {
   const submitHandler = (event) => {
     event.preventDefault();
     let errorMessages = [...errors];
+    let estimatedTimeString = ""
 
     //Logic for determining a valid Truck ID
     if (inputs.truckID === undefined || inputs.truckID === "") {
@@ -41,13 +48,18 @@ function CheckIn() {
 
     if (errorMessages[0] === "." && errorMessages[1] === ".") {
       navigate("/CheckOut");
+      estimatedTimeString = timeToString(inputs.estimatedTime);
+      console.log(estimatedTimeString);
     }
+
+
   }
 
   return (
     <div>
       <div className="WhiteMenu-title">Check In</div>
       <form onSubmit={submitHandler}>
+     
       <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler}/>
       { errors[0] !== "." ? <label className='WhiteMenu-error'>{errors[0]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}      
       <NumberBox placeholder={"Estimated Time"} name={"estimatedTime"} changeHandler={changeHandler}/>
