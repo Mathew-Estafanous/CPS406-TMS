@@ -1,4 +1,5 @@
 import ClickBox from "../ClickBox";
+import '../WhiteMenu/index.css';
 import { useNavigate } from "react-router-dom"
 
 function CheckOut() {
@@ -11,7 +12,12 @@ function CheckOut() {
 
   return (
     <div>
-      This is the check out
+      <div className="WhiteMenu-header">
+      Position Number: 5
+      </div>
+      <div className="WhiteMenu-header WhiteMenu-subheader">
+      Estimated Time: 5
+      </div>
       <form onSubmit={submitHandler}>
         <ClickBox text={"Cancel"}/>
       </form>
