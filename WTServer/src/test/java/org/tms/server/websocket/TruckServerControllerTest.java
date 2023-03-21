@@ -20,6 +20,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.tms.server.TruckState.LocationState.*;
 import static org.tms.server.websocket.TruckMessage.MessageType.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +48,7 @@ class TruckServerControllerTest {
     void givenCheckInMessage_TruckServiceCalled_thenReturnResult(@Mock Session session) throws EncodeException, IOException {
         final TruckMessage message = new TruckMessage(1, CHECK_IN, "John Doe", "PT1H");
         final TruckDriver expectedDriver = new TruckDriver(1, "John Doe", Duration.ofHours(1));
-        final TruckState truckStateResult = new TruckState(expectedDriver, false, 1);
+        final TruckState truckStateResult = new TruckState(expectedDriver, DOCKING_AREA, 1);
 
         when(truckService.checkIn(expectedDriver)).thenReturn(truckStateResult);
         RemoteEndpoint.Basic basicRemote = mock(RemoteEndpoint.Basic.class);
@@ -63,7 +64,7 @@ class TruckServerControllerTest {
     void givenCheckOutMessage_TruckServiceCalled_thenReturnResult(@Mock Session session) throws EncodeException, IOException {
         final TruckMessage message = new TruckMessage(1, CHECK_OUT, "John Doe", "PT1H");
         final TruckDriver expectedDriver = new TruckDriver(1, "John Doe", Duration.ofHours(1));
-        final TruckState truckStateResult = new TruckState(expectedDriver, false, 1);
+        final TruckState truckStateResult = new TruckState(expectedDriver, DOCKING_AREA, 1);
 
         when(truckService.checkOut(1)).thenReturn(truckStateResult);
         RemoteEndpoint.Basic basicRemote = mock(RemoteEndpoint.Basic.class);
@@ -77,8 +78,8 @@ class TruckServerControllerTest {
 
     @Test
     void givenStateUpdateMessage_TruckServiceCalled_thenReturnResult(@Mock Session session) throws EncodeException, IOException {
-        final TruckMessage message = new TruckMessage(1, STATE_UPDATE, true, 1);
-        final TruckState truckStateResult = new TruckState(new TruckDriver(1, "", Duration.ZERO), true, 6);
+        final TruckMessage message = new TruckMessage(1, STATE_UPDATE, UNKNOWN, 1);
+        final TruckState truckStateResult = new TruckState(new TruckDriver(1, "", Duration.ZERO), WAITING_AREA, 6);
 
         when(truckService.getCurrentTruckState(1)).thenReturn(truckStateResult);
         RemoteEndpoint.Basic basicRemote = mock(RemoteEndpoint.Basic.class);

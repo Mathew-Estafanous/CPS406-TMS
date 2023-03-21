@@ -46,7 +46,7 @@ public class TruckServerController {
     }
 
     private void handleCheckIn(Session session, TruckMessage message) throws IOException {
-        final Duration estDockingTime = Duration.parse(message.getEstimatedDockingTime());
+        final Duration estDockingTime = Duration.parse(message.getEstimatedTime());
         final TruckDriver driver = new TruckDriver(message.getTruckID(), message.getDriverName(), estDockingTime);
         final TruckState truckState = truckService.checkIn(driver);
         final TruckMessage response = new TruckMessage(truckState, CHECK_IN);

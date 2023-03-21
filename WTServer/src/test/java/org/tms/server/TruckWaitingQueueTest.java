@@ -31,6 +31,12 @@ class TruckWaitingQueueTest {
     }
 
     @Test
+    void testDequeueingTrucksWorks() {
+        final TruckDriver driver = truckWaitingQueue.dequeueNextTruck();
+        assertEquals(1, driver.getTruckID());
+    }
+
+    @Test
     void testAllCasesOfRepositioningTrucks() {
         // move truck 2 to position 1
         final int position = truckWaitingQueue.repositionTruck(2, 1);
