@@ -3,6 +3,7 @@ package org.tms.server;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * TruckWaitingQueue represents a queue of trucks waiting to dock.
@@ -40,8 +41,11 @@ public class TruckWaitingQueue {
      * Removes the truck the front of the queue and returns the truck.
      * @return The truck at the front of the queue.
      */
-    public TruckDriver dequeueNextTruck() {
-        return queue.remove(0);
+    public Optional<TruckDriver> dequeueNextTruck() {
+        if (queue.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(queue.remove(0));
     }
 
     /**

@@ -1,8 +1,13 @@
 package org.tms.server;
 
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import static org.tms.server.TruckState.LocationState.*;
 
-public class WarehouseServer implements ITruckService {
+public class WarehouseServer implements ITruckService, IAdminService {
 
     private final TruckWaitingQueue waitingQueue;
     private final DockingAreaManager dockingArea;
@@ -16,7 +21,7 @@ public class WarehouseServer implements ITruckService {
 
     @Override
     public TruckState checkIn(TruckDriver driver) {
-        if (dockingArea.isAreaAvailable()) {
+        if (dockingArea.isDockingAreaAvailable()) {
             final int dockingNumber = dockingArea.startUnload(driver);
             return new TruckState(driver, DOCKING_AREA, dockingNumber);
         } else {
@@ -28,7 +33,23 @@ public class WarehouseServer implements ITruckService {
     @Override
     public TruckState checkOut(int truckId) {
         final TruckDriver driver = dockingArea.stopUnload(truckId);
+        // get the next truck in the queue and start unloading it.
+        startUnloadingOfNextInQueue();
         return new TruckState(driver, LEAVING, 0);
+    }
+
+    private void startUnloadingOfNextInQueue() {
+        final Optional<TruckDriver> nextTruckOptional = waitingQueue.dequeueNextTruck();
+        if (nextTruckOptional.isEmpty()) return;
+        final TruckDriver nextTruck = nextTruckOptional.get();
+        final int dockingNumber = dockingArea.startUnload(nextTruck);
+        notificationService.notifyTruckStartedUnloading(nextTruck, dockingNumber);
+
+        waitingQueue.getQueueCurrentState().forEach(truck -> {
+            final Duration waitTime = waitingQueue.getWaitTime(truck.getTruckID());
+            final int queuePosition = waitingQueue.queuePosition(truck.getTruckID());
+            notificationService.notifyTruckUpdatedState(truck, queuePosition, waitTime);
+        });
     }
 
     @Override
@@ -47,5 +68,44 @@ public class WarehouseServer implements ITruckService {
         final var waitTime = waitingQueue.getWaitTime(truckId);
         final int queuePosition = waitingQueue.queuePosition(truckId);
         return new TruckState(driver, WAITING_AREA, queuePosition, waitTime);
+    }
+
+    @Override
+    public TruckDriver cancelTruck(int truckId) throws IllegalArgumentException {
+        if (dockingArea.isTruckUnloading(truckId)) {
+            final TruckDriver driver = dockingArea.stopUnload(truckId);
+            startUnloadingOfNextInQueue();
+            return driver;
+        } else {
+            final int position = waitingQueue.queuePosition(truckId);
+            final TruckDriver driver = waitingQueue.cancelTruck(truckId);
+            if (driver == null) throw new IllegalArgumentException("Truck not found");
+            notifyAllAffectedTrucksInQueue(waitingQueue.queuePosition(position));
+            return driver;
+        }
+    }
+
+    @Override
+    public boolean changeQueuePosition(int truckId, int newPosition) {
+        final int pos = waitingQueue.repositionTruck(truckId, newPosition);
+        if (pos == -1) return false;
+        notifyAllAffectedTrucksInQueue(pos);
+        return true;
+    }
+
+    private void notifyAllAffectedTrucksInQueue(int pos) {
+        final List<TruckDriver> queue = waitingQueue.getQueueCurrentState();
+        for (int queuePos = pos; queuePos < queue.size(); queuePos++) {
+            final TruckDriver truck = queue.get(queuePos);
+            final Duration waitTime = waitingQueue.getWaitTime(truck.getTruckID());
+            notificationService.notifyTruckUpdatedState(truck, queuePos, waitTime);
+        }
+    }
+
+    @Override
+    public WarehouseState viewEntireWarehouseState() {
+        final Map<Integer, TruckDriver> currentState = dockingArea.getCurrentState();
+        final List<TruckDriver> queue = waitingQueue.getQueueCurrentState();
+        return new WarehouseState(currentState.values().stream().toList(), queue);
     }
 }

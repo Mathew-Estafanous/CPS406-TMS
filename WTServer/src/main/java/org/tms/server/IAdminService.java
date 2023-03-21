@@ -13,7 +13,7 @@ public interface IAdminService {
     /**
      * Changes the position of a truck in the waiting area.
      * @param truckId the id of the truck to change the position of
-     * @param newPosition the new position of the truck (1 is the first position)
+     * @param newPosition the new position of the truck (0 is the first position)
      * @return true if the truck was moved, false if the truck was not in the waiting area
      */
     boolean changeQueuePosition(int truckId, int newPosition);

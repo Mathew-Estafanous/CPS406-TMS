@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,8 +33,9 @@ class TruckWaitingQueueTest {
 
     @Test
     void testDequeueingTrucksWorks() {
-        final TruckDriver driver = truckWaitingQueue.dequeueNextTruck();
-        assertEquals(1, driver.getTruckID());
+        final Optional<TruckDriver> driver = truckWaitingQueue.dequeueNextTruck();
+        assertTrue(driver.isPresent());
+        assertEquals(1, driver.get().getTruckID());
     }
 
     @Test

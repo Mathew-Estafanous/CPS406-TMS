@@ -9,7 +9,16 @@ public class DockingAreaManager {
      * Check if there is a DA available to dock a truck.
      * @return true if there is a DA available, false otherwise.
      */
-    public boolean isAreaAvailable() {
+    public boolean isDockingAreaAvailable() {
+        return false;
+    }
+
+    /**
+     * Checks if a truck with the given id is currently unloading.
+     * @param truckId the truck id
+     * @return true if the truck is unloading, false otherwise.
+     */
+    public boolean isTruckUnloading(int truckId) {
         return false;
     }
 
@@ -39,5 +48,9 @@ public class DockingAreaManager {
      */
     public Optional<Map.Entry<Integer, TruckDriver>> retrieveUnloadingTruck(int truckId) {
         return Optional.empty();
+    }
+
+    public Map<Integer, TruckDriver> getCurrentState() {
+        return null;
     }
 }
