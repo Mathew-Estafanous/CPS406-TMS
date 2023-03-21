@@ -1,5 +1,5 @@
-import ClickBox from "../ClickBox";
-import '../WhiteMenu/index.css';
+import ClickBox from "../ClickBox/ClickBox";
+import '../WhiteMenu/WhiteMenu.css';
 import { useNavigate } from "react-router-dom"
 
 function CheckOut() {

@@ -1,6 +1,6 @@
 import '../App.css';
-import WhiteMenu from '../components/WhiteMenu';
-import Logo from '../components/Logo';
+import WhiteMenu from '../components/WhiteMenu/WhiteMenu';
+import Logo from '../components/Logo/Logo';
 
 function CheckOut() {
   return (
