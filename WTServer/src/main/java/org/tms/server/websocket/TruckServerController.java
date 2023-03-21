@@ -10,7 +10,6 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import static org.tms.server.websocket.TruckMessage.MessageType.*;
@@ -22,18 +21,18 @@ public class TruckServerController {
 
     private static final Logger log = Logger.getLogger(TruckServerController.class.getName());
     private final ITruckService truckService;
-    private final ConcurrentHashMap<Integer, Session> sessionMap;
+    private final Map<Integer, Session> sessionMap;
 
-    public TruckServerController(ITruckService truckService, ConcurrentHashMap<Integer, Session> sessionMap) {
+    public TruckServerController(ITruckService truckService, Map<Integer, Session> sessionMap) {
         this.truckService = truckService;
         this.sessionMap = sessionMap;
     }
 
     @OnOpen
     public void onOpen(Session session,
-                       @PathParam("truckID") String truckID) {
+                       @PathParam("truckID") int truckID) {
         log.info("New connection opened with ID: " + truckID);
-        sessionMap.put(Integer.parseInt(truckID), session);
+        sessionMap.put(truckID, session);
     }
 
     @OnMessage
@@ -50,7 +49,7 @@ public class TruckServerController {
         final Duration estDockingTime = Duration.parse(message.getEstimatedDockingTime());
         final TruckDriver driver = new TruckDriver(message.getTruckID(), message.getDriverName(), estDockingTime);
         final TruckState truckState = truckService.checkIn(driver);
-        final TruckMessage response = new TruckMessage(truckState.getTruckID(), CHECK_IN, truckState.getInWaitingArea(), truckState.getPosition());
+        final TruckMessage response = new TruckMessage(truckState, CHECK_IN);
         try {
             session.getBasicRemote().sendObject(response);
         } catch (EncodeException e) {
@@ -60,17 +59,17 @@ public class TruckServerController {
 
     private void handleCheckOut(Session session, TruckMessage message) throws IOException {
         final TruckState state = truckService.checkOut(message.getTruckID());
-        final TruckMessage response = new TruckMessage(state.getTruckID(), CHECK_OUT, false, 0);
+        final TruckMessage response = new TruckMessage(state, CHECK_OUT);
         try {
             session.getBasicRemote().sendObject(response);
         } catch (EncodeException e) {
-            log.warning("Failed to encode check-in response object: " + e.getMessage());
+            log.warning("Failed to encode  check-in response object: " + e.getMessage());
         }
     }
 
     private void handleStateUpdate(Session session, TruckMessage message) throws IOException {
         final TruckState state = truckService.getEntireTruckState(message.getTruckID());
-        final TruckMessage response = new TruckMessage(state.getTruckID(), STATE_UPDATE, state.getInWaitingArea(), state.getPosition());
+        final TruckMessage response = new TruckMessage(state, STATE_UPDATE);
         try {
             session.getBasicRemote().sendObject(response);
         } catch (EncodeException e) {

@@ -2,8 +2,10 @@ package org.tms.server.websocket;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import org.tms.server.TruckState;
 
 import javax.websocket.*;
+import java.util.Objects;
 
 public class TruckMessage {
     @SerializedName("type")
@@ -23,6 +25,19 @@ public class TruckMessage {
         this.estimatedDockingTime = estimatedDockingTime;
         this.inWaitingArea = inWaitingArea;
         this.position = position;
+    }
+
+    public TruckMessage(TruckState state, MessageType type) {
+        this(state.getTruckDriver().getTruckID(),
+            type,
+            state.getTruckDriver().getDriverName(),
+            state.getTruckDriver().getEstimatedDockingTime().toString(),
+            state.getInWaitingArea(),
+            state.getPosition());
+    }
+
+    public TruckMessage(int truckID, MessageType type, String driverName, String estimatedDockingTime) {
+        this(truckID, type, driverName, estimatedDockingTime, false, 0);
     }
 
     public TruckMessage(int truckID, MessageType type, Boolean inWaitingArea, int position) {
@@ -56,6 +71,19 @@ public class TruckMessage {
 
     public int getPosition() {
         return position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TruckMessage that = (TruckMessage) o;
+        return truckID == that.truckID && position == that.position && type == that.type && Objects.equals(driverName, that.driverName) && Objects.equals(estimatedDockingTime, that.estimatedDockingTime) && inWaitingArea.equals(that.inWaitingArea);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, truckID, driverName, estimatedDockingTime, inWaitingArea, position);
     }
 
     public enum MessageType {
