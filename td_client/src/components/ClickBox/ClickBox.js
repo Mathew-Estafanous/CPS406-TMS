@@ -1,4 +1,4 @@
-import './index.css'
+import './ClickBox.css'
 
 function ClickBox({text}) {
     return (

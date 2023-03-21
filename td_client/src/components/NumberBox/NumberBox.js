@@ -1,4 +1,4 @@
-import './index.css'
+import './NumberBox.css'
 
 function NumberBox({placeholder, name, changeHandler}) {
     return (
