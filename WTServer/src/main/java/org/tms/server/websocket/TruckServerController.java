@@ -68,7 +68,7 @@ public class TruckServerController {
     }
 
     private void handleStateUpdate(Session session, TruckMessage message) throws IOException {
-        final TruckState state = truckService.getEntireTruckState(message.getTruckID());
+        final TruckState state = truckService.getCurrentTruckState(message.getTruckID());
         final TruckMessage response = new TruckMessage(state, STATE_UPDATE);
         try {
             session.getBasicRemote().sendObject(response);

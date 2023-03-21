@@ -20,7 +20,7 @@ public class Main {
             }
 
             @Override
-            public TruckState getEntireTruckState(int truckId) {
+            public TruckState getCurrentTruckState(int truckId) {
                 return null;
             }
         };

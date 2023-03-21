@@ -80,13 +80,13 @@ class TruckServerControllerTest {
         final TruckMessage message = new TruckMessage(1, STATE_UPDATE, true, 1);
         final TruckState truckStateResult = new TruckState(new TruckDriver(1, "", Duration.ZERO), true, 6);
 
-        when(truckService.getEntireTruckState(1)).thenReturn(truckStateResult);
+        when(truckService.getCurrentTruckState(1)).thenReturn(truckStateResult);
         RemoteEndpoint.Basic basicRemote = mock(RemoteEndpoint.Basic.class);
         when(session.getBasicRemote()).thenReturn(basicRemote);
         assertDoesNotThrow(() -> controller.onMessage(session, message));
 
         final TruckMessage resultMessage = new TruckMessage(truckStateResult, STATE_UPDATE);
-        verify(truckService).getEntireTruckState(1);
+        verify(truckService).getCurrentTruckState(1);
         verify(basicRemote).sendObject(resultMessage);
     }
 
