@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(), new DockingAreaManager(), new NotificationService());
         final ConcurrentHashMap<Integer, Session> sessionMap = new ConcurrentHashMap<>();
-
         final TruckWebsocketServer truckWsServer = new TruckWebsocketServer(8080, warehouseServer, sessionMap);
         try {
             truckWsServer.start();
