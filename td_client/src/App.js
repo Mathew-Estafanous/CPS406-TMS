@@ -1,7 +1,8 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import CheckOut from "./pages/CheckOut";
+import WaitingArea from "./pages/WaitingArea";
+import DockingArea from "./pages/DockingArea";
 import React from 'react';
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route exact path="/" element={<Home history/>}/>
-      <Route exact path="/CheckOut" element={<CheckOut/>}/>
+      <Route exact path="/WaitingArea" element={<WaitingArea/>}/>
+      <Route exact path="/DockingArea" element={<DockingArea/>}/>
     </Routes>
     </BrowserRouter>
   );
