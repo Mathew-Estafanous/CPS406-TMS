@@ -3,6 +3,7 @@ package org.tms.server;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class TruckState {
     private final TruckDriver truckDriver;
@@ -40,6 +41,19 @@ public class TruckState {
 
     public Duration getEstimatedTime() {
         return estimatedTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TruckState that = (TruckState) o;
+        return position == that.position && truckDriver.equals(that.truckDriver) && locationState == that.locationState && Objects.equals(estimatedTime, that.estimatedTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(truckDriver, locationState, position, estimatedTime);
     }
 
     public enum LocationState {
