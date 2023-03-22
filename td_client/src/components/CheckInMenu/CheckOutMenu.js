@@ -4,6 +4,9 @@ import ClickBox from '../ClickBox/ClickBox';
 import NumberBox from '../NumberBox/NumberBox';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
+import useWebSocket from 'react-use-websocket';
+const WS_URL = 'ws://127.0.0.1:8000/server/';
+
 
 function timeToString(time) {
   const hours = Math.floor(time/60);
@@ -16,6 +19,8 @@ function CheckIn() {
   const [inputs, setInputs] = useState({});
   const [errors, changeErrorMessage] = useState([".",".","."]);
 
+  const {sendMessage, sendJsonMessage, getWebSocket} = useWebSocket(WS_URL, { onOpen: () => console.log('opened'), onError: () => console.log("Error")});
+
   const changeHandler = (event) => {
     setInputs(values => ({...values, [event.target.name]: event.target.value}))
   }
@@ -23,6 +28,12 @@ function CheckIn() {
   const submitHandler = (event) => {
     event.preventDefault();
     let errorMessages = [...errors];
+    let message = {
+      "type": "check-in",
+      "truckID": "",
+      "driverName": "",
+      "estimatedDockingTime": ""
+    }
     let estimatedTimeString = ""
 
     //Logic for determining a valid name
@@ -31,7 +42,6 @@ function CheckIn() {
     } else {
       errorMessages[0] = ".";
     }
-
 
     //Logic for determining a valid Truck ID
     if (inputs.truckID === undefined || inputs.truckID === "") {
@@ -56,9 +66,15 @@ function CheckIn() {
     changeErrorMessage(errorMessages);
 
     if (errorMessages[0] === "." && errorMessages[1] === "." && errorMessages[2] === ".") {
-      navigate("/CheckOut");
       estimatedTimeString = timeToString(inputs.estimatedTime);
-      console.log(estimatedTimeString);
+
+      message.driverName = inputs.driverName;
+      message.truckID = inputs.truckID;
+      message.estimatedDockingTime = estimatedTimeString;
+      console.log(message);
+
+      navigate("/WaitingArea");
+
     }
 
 
