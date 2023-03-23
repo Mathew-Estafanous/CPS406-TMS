@@ -1,16 +1,30 @@
 package org.tms.server;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class DockingAreaManager {
+
+    // Map of Docking Number to Truck Driver.
+    private final Map<Integer, TruckDriver> dockingMap;
+    private final int totalDockingAreas;
+
+    public DockingAreaManager(int totalDockingAreas) {
+        this(new HashMap<>(), totalDockingAreas);
+    }
+
+    public DockingAreaManager(Map<Integer, TruckDriver> dockingMap, int totalDockingAreas) {
+        this.dockingMap = dockingMap;
+        this.totalDockingAreas = totalDockingAreas;
+    }
 
     /**
      * Check if there is a DA available to dock a truck.
      * @return true if there is a DA available, false otherwise.
      */
     public boolean isDockingAreaAvailable() {
-        return false;
+        return dockingMap.size() < totalDockingAreas;
     }
 
     /**
@@ -19,7 +33,8 @@ public class DockingAreaManager {
      * @return true if the truck is unloading, false otherwise.
      */
     public boolean isTruckUnloading(int truckId) {
-        return false;
+        return dockingMap.values().stream()
+                .anyMatch(truckDriver -> truckDriver.getTruckID() == truckId);
     }
 
     /**
@@ -27,8 +42,14 @@ public class DockingAreaManager {
      * @param driver the truck driver
      * @return the DA # assigned to the truck.
      */
-    public int startUnload(TruckDriver driver) {
-        return 0;
+    public int startUnload(TruckDriver driver) throws IllegalArgumentException {
+        for (int i = 1; i <= totalDockingAreas; i++) {
+            if (!dockingMap.containsKey(i)) {
+                dockingMap.put(i, driver);
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("No docking area available.");
     }
 
     /**
@@ -37,7 +58,12 @@ public class DockingAreaManager {
      * @return the truck driver that has stopped unloading.
      */
     public TruckDriver stopUnload(int truckId) {
-        return null;
+        final var driverOptional = dockingMap.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getTruckID() == truckId)
+                .findFirst();
+        final Map.Entry<Integer, TruckDriver> driver = driverOptional.orElseThrow(() -> new IllegalArgumentException("Truck not found."));
+        return dockingMap.remove(driver.getKey());
     }
 
     /**
@@ -47,10 +73,17 @@ public class DockingAreaManager {
      * @return The docking area number and the truck driver that is unloading.
      */
     public Optional<Map.Entry<Integer, TruckDriver>> retrieveUnloadingTruck(int truckId) {
-        return Optional.empty();
+        return dockingMap.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getTruckID() == truckId)
+                .findFirst();
     }
 
+    /**
+     * Returns the current state of the docking area.
+     * @return A map of the DA # to the truck driver that is unloading.
+     */
     public Map<Integer, TruckDriver> getCurrentState() {
-        return null;
+        return Map.copyOf(dockingMap);
     }
 }

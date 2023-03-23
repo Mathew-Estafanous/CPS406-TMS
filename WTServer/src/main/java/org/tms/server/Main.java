@@ -8,7 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static void main(String[] args) {
-        WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(), new DockingAreaManager(), new NotificationService());
+        final int totalDockingAreas = 5;
+        WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(), new DockingAreaManager(totalDockingAreas), new NotificationService());
         final Map<Integer, Session> sessionMap = new ConcurrentHashMap<>();
         final TruckWebsocketServer truckWsServer = new TruckWebsocketServer(8080, warehouseServer, sessionMap);
         try {
