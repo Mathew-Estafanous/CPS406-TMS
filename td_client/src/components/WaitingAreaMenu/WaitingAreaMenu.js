@@ -40,11 +40,14 @@ function WaitingAreaMenu() {
 
     return (
         <div>
-            <div className="WhiteMenu-header">
-            Position Number: {position}
-            </div>
+            <div className="WhiteMenu-title">Waiting Area:</div>
+            <div className="WhiteMenu-header WhiteMenu-subheader">Position Number: {position}</div>
+            <hr className="Divider"/>
             <div className="WhiteMenu-header WhiteMenu-subheader">
-            Estimated Time: {eta.hours || "0"} HRS { eta.minutes || "0"} MIN
+                Estimated Time:
+                <div>
+                    {eta.hours || "0"} HRS { eta.minutes || "0"} MIN
+                </div>
             </div>
             <form onSubmit={submitHandler}>
                 <ClickBox text={"Cancel"}/>

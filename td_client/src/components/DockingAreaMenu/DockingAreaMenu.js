@@ -37,11 +37,9 @@ function DockingAreaMenu() {
             <div className="WhiteMenu-header WhiteMenu-subheader">Assigned Docking #: {position}</div>
             <hr className="Divider" />
             <div className="WhiteMenu-header WhiteMenu-subheader">
+                Estimated Time:
                 <div>
-                    Estimated Time:
-                    <div>
-                        {eta.hours || "00"} HRS {eta.minutes || "00"} MIN
-                    </div>
+                    {eta.hours || "0"} HRS {eta.minutes || "0"} MIN
                 </div>
             </div>
             <form onSubmit={submitHandler}>
