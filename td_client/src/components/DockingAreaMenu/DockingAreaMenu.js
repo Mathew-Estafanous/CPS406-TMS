@@ -17,7 +17,7 @@ function DockingAreaMenu() {
         if (receivedMessage.type === "state_update") {
             setPosition(receivedMessage.position)
             setETA(receivedMessage.estimatedTime)
-        } else if (receivedMessage.type === "check_out") {
+        } else if (receivedMessage.locationState === "leaving") {
             navigate("/");
         }
     }, [receivedMessage])
