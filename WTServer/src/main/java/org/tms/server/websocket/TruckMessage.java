@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import org.tms.server.TruckState;
 
 import javax.websocket.*;
+import java.time.Duration;
 import java.util.Objects;
 
 public class TruckMessage {
@@ -41,6 +42,10 @@ public class TruckMessage {
 
     public TruckMessage(int truckID, MessageType type, TruckState.LocationState locationState, int position) {
         this(truckID, type, "", "", locationState, position);
+    }
+
+    public TruckMessage(int truckID, MessageType stateUpdate, TruckState.LocationState waitingArea, int queuePosition, Duration waitTime) {
+        this(truckID, stateUpdate, "", waitTime.toString(), waitingArea, queuePosition);
     }
 
     public int getTruckID() {

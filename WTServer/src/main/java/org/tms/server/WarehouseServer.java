@@ -43,12 +43,12 @@ public class WarehouseServer implements ITruckService, IAdminService {
         if (nextTruckOptional.isEmpty()) return;
         final TruckDriver nextTruck = nextTruckOptional.get();
         final int dockingNumber = dockingArea.startUnload(nextTruck);
-        notificationService.notifyTruckStartedUnloading(nextTruck, dockingNumber);
+        notificationService.notifyTruckStartedUnloading(nextTruck.getTruckID(), dockingNumber);
 
         waitingQueue.getQueueCurrentState().forEach(truck -> {
             final Duration waitTime = waitingQueue.getWaitTime(truck.getTruckID());
             final int queuePosition = waitingQueue.queuePosition(truck.getTruckID());
-            notificationService.notifyTruckUpdatedState(truck, queuePosition, waitTime);
+            notificationService.notifyTruckUpdatedState(truck.getTruckID(), queuePosition, waitTime);
         });
     }
 
@@ -98,7 +98,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
         for (int queuePos = pos; queuePos < queue.size(); queuePos++) {
             final TruckDriver truck = queue.get(queuePos);
             final Duration waitTime = waitingQueue.getWaitTime(truck.getTruckID());
-            notificationService.notifyTruckUpdatedState(truck, queuePos, waitTime);
+            notificationService.notifyTruckUpdatedState(truck.getTruckID(), queuePos, waitTime);
         }
     }
 

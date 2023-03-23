@@ -105,7 +105,7 @@ class WarehouseServerTest {
         final TruckDriver resultDriver = warehouseServer.cancelTruck(1);
         verify(dockingAreaManager).stopUnload(1);
         verify(dockingAreaManager).startUnload(janeDriver);
-        verify(notificationService).notifyTruckStartedUnloading(janeDriver, 2);
+        verify(notificationService).notifyTruckStartedUnloading(2, 2);
         assertEquals(johnDriver, resultDriver);
     }
 
@@ -120,8 +120,8 @@ class WarehouseServerTest {
 
         final boolean success = warehouseServer.changeQueuePosition(1, 0);
         assertTrue(success);
-        verify(notificationService).notifyTruckUpdatedState(janeDriver, 0, Duration.ZERO);
-        verify(notificationService).notifyTruckUpdatedState(johnDriver, 1, Duration.ofHours(2));
+        verify(notificationService).notifyTruckUpdatedState(janeDriver.getTruckID(), 0, Duration.ZERO);
+        verify(notificationService).notifyTruckUpdatedState(johnDriver.getTruckID(), 1, Duration.ofHours(2));
     }
 
     @Test
