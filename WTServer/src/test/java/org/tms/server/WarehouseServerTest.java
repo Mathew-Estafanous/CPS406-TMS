@@ -106,6 +106,23 @@ class WarehouseServerTest {
         verify(dockingAreaManager).stopUnload(1);
         verify(dockingAreaManager).startUnload(janeDriver);
         verify(notificationService).notifyTruckStartedUnloading(2, 2);
+        verify(notificationService).notifyTruckCancelled(1);
+        assertEquals(johnDriver, resultDriver);
+    }
+
+    @Test
+    void givenValidCancel_truckInQueue_removeTruckFromQueue() {
+        final TruckDriver johnDriver = new TruckDriver(1, "John", Duration.ofHours(1));
+        final TruckDriver janeDriver = new TruckDriver(2, "Jane", Duration.ofHours(2));
+        when(dockingAreaManager.isTruckUnloading(1)).thenReturn(false);
+        when(truckWaitingQueue.queuePosition(1)).thenReturn(0);
+        when(truckWaitingQueue.cancelTruck(1)).thenReturn(johnDriver);
+        when(truckWaitingQueue.getQueueCurrentState()).thenReturn(List.of(janeDriver));
+        when(truckWaitingQueue.getWaitTime(2)).thenReturn(Duration.ZERO);
+
+        final TruckDriver resultDriver = warehouseServer.cancelTruck(1);
+        verify(notificationService).notifyTruckCancelled(1);
+        verify(notificationService).notifyTruckUpdatedState(2, 0, Duration.ZERO);
         assertEquals(johnDriver, resultDriver);
     }
 

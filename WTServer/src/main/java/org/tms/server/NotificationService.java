@@ -54,4 +54,17 @@ public class NotificationService {
             log.warning("Failed to send truckID updated state message: " + e.getMessage());
         }
     }
+
+    public void notifyTruckCancelled(int truckId) {
+        final RemoteEndpoint.Basic session = sessionMap.get(truckId).getBasicRemote();
+        final TruckMessage truckMessage = new TruckMessage(truckId,
+                TruckMessage.MessageType.CHECK_OUT,
+                TruckState.LocationState.LEAVING,
+                -1);
+        try {
+            session.sendObject(truckMessage);
+        } catch (Exception e) {
+            log.warning("Failed to send truckID cancelled message: " + e.getMessage());
+        }
+    }
 }

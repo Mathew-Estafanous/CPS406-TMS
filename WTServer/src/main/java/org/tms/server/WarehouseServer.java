@@ -74,6 +74,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
     public TruckDriver cancelTruck(int truckId) throws IllegalArgumentException {
         if (dockingArea.isTruckUnloading(truckId)) {
             final TruckDriver driver = dockingArea.stopUnload(truckId);
+            notificationService.notifyTruckCancelled(truckId);
             startUnloadingOfNextInQueue();
             return driver;
         } else {
@@ -81,6 +82,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
             final TruckDriver driver = waitingQueue.cancelTruck(truckId);
             if (driver == null) throw new IllegalArgumentException("Truck not found");
             notifyAllAffectedTrucksInQueue(waitingQueue.queuePosition(position));
+            notificationService.notifyTruckCancelled(truckId);
             return driver;
         }
     }

@@ -32,6 +32,7 @@ public class TruckServerController {
     public void onOpen(Session session,
                        @PathParam("truckID") int truckID) {
         log.info("New connection opened with ID: " + truckID);
+        session.setMaxIdleTimeout(0); // Remove maximum timeout.
         sessionMap.put(truckID, session);
     }
 
@@ -62,6 +63,7 @@ public class TruckServerController {
         final TruckMessage response = new TruckMessage(state, CHECK_OUT);
         try {
             session.getBasicRemote().sendObject(response);
+            session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Check-out successful"));
         } catch (EncodeException e) {
             log.warning("Failed to encode  check-in response object: " + e.getMessage());
         }

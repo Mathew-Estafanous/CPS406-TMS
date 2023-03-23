@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static void main(String[] args) {
-        final int totalDockingAreas = 5;
+        final int totalDockingAreas = 1;
         final Map<Integer, Session> sessionMap = new ConcurrentHashMap<>();
         WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(),
                 new DockingAreaManager(totalDockingAreas),
