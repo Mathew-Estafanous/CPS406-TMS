@@ -1,8 +1,19 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500&display=swap');
+
+ /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif;*/
+/*
+  background-image: url("https://cdn.discordapp.com/attachments/419635961350193162/1086782752281604186/chuttersnap-BNBA1h-NgdY-unsplash_1.jpg");
+*/
+body {
+  
+  background: linear-gradient(180deg, #3185FC 0%, #3185FC 59.9%, #495BFF 100%);
+  background-size: cover;
+  overflow: hidden;
+  height: 100vh;
+  margin: 0;
+  font-family: 'M PLUS 2', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

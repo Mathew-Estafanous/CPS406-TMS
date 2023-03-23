@@ -3,6 +3,7 @@ package org.tms.server;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * TruckWaitingQueue represents a queue of trucks waiting to dock.
@@ -40,8 +41,25 @@ public class TruckWaitingQueue {
      * Removes the truck the front of the queue and returns the truck.
      * @return The truck at the front of the queue.
      */
-    private TruckDriver dequeueNextTruck() {
-        return queue.remove(0);
+    public Optional<TruckDriver> dequeueNextTruck() {
+        if (queue.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(queue.remove(0));
+    }
+
+    /**
+     * Returns the position of the truck in the queue.
+     * @param truckId The id of the truck to find.
+     * @return The position of the tuck in the queue or -1 if the truck is not found.
+     */
+    public int queuePosition(int truckId) {
+        for (int i = 0; i < queue.size(); i++) {
+            if (queue.get(i).getTruckID() == truckId) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -104,7 +122,12 @@ public class TruckWaitingQueue {
         return driver;
     }
 
-    private TruckDriver findTruckDriver(int truckID) {
+    /**
+     * Finds a truck with the given truckID in the queue.
+     * @param truckID The id of the truck to find.
+     * @return The truck with the given truckID or null if the truck is not found.
+     */
+    public TruckDriver findTruckDriver(int truckID) {
         return queue.stream().filter(truck -> truck.getTruckID() == truckID).findFirst().orElse(null);
     }
 }

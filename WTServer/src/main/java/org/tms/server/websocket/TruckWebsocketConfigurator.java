@@ -4,14 +4,14 @@ import org.tms.server.ITruckService;
 
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpointConfig;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 public class TruckWebsocketConfigurator extends ServerEndpointConfig.Configurator {
 
     private final ITruckService truckService;
-    private final ConcurrentHashMap<Integer, Session> sessionMap;
+    private final Map<Integer, Session> sessionMap;
 
-    public TruckWebsocketConfigurator(ITruckService truckService, ConcurrentHashMap<Integer, Session> sessionMap) {
+    public TruckWebsocketConfigurator(ITruckService truckService, Map<Integer, Session> sessionMap) {
         this.truckService = truckService;
         this.sessionMap = sessionMap;
     }

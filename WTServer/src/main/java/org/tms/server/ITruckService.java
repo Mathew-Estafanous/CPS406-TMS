@@ -19,7 +19,7 @@ public interface ITruckService {
     /**
      * Gets the current state of the truck.
      * @param truckId The id of the truck to get the state of.
-     * @return The curent state of the truck.
+     * @return The current state of the truck.
      */
-    TruckState getEntireTruckState(int truckId);
+    TruckState getCurrentTruckState(int truckId);
 }

@@ -8,14 +8,14 @@ import org.tms.server.ITruckService;
 
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpointConfig;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 public class TruckWebsocketServer {
 
     private final Server server;
     private final ServerConnector connector;
 
-    public TruckWebsocketServer(int port, ITruckService truckService, ConcurrentHashMap<Integer, Session> sessionMap) {
+    public TruckWebsocketServer(int port, ITruckService truckService, Map<Integer, Session> sessionMap) {
         server = new Server();
         connector = new ServerConnector(server);
         server.addConnector(connector);

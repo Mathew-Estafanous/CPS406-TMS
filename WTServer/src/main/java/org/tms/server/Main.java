@@ -3,30 +3,17 @@ package org.tms.server;
 import org.tms.server.websocket.TruckWebsocketServer;
 
 import javax.websocket.Session;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static void main(String[] args) {
-        // TODO: Replace this with a real implementation when available.
-        ITruckService mockService = new ITruckService() {
-            @Override
-            public TruckState checkIn(TruckDriver driver) {
-                return new TruckState(driver, true, 3);
-            }
-
-            @Override
-            public TruckState checkOut(int truckId) {
-                return null;
-            }
-
-            @Override
-            public TruckState getEntireTruckState(int truckId) {
-                return null;
-            }
-        };
-        final ConcurrentHashMap<Integer, Session> sessionMap = new ConcurrentHashMap<>();
-
-        final TruckWebsocketServer truckWsServer = new TruckWebsocketServer(8080, mockService, sessionMap);
+        final int totalDockingAreas = 1;
+        final Map<Integer, Session> sessionMap = new ConcurrentHashMap<>();
+        WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(),
+                new DockingAreaManager(totalDockingAreas),
+                new NotificationService(sessionMap));
+        final TruckWebsocketServer truckWsServer = new TruckWebsocketServer(8080, warehouseServer, sessionMap);
         try {
             truckWsServer.start();
             truckWsServer.join();

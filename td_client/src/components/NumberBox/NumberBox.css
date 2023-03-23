@@ -1,0 +1,22 @@
+.NumberBox-input {
+    display: flexbox;
+    margin: 3px;
+    height: 2%;
+    width: 60%;
+    padding: 2%;
+    border-radius: 8px;
+    border: 2;
+    border-style: solid;
+    border-color: #a4abb3;
+    font-family: inherit;
+    font-weight: 500;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+  
+.NumberBox-error {
+  border-color: #f23d3d;
+}
+
+.NumberBox-input::placeholder {
+    color: #AAB9B7;
+  }
