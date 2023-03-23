@@ -1,11 +1,11 @@
 .TextBox-input {
-  display: flexbox;
+  display: -ms-flexbox;
   margin: 3px;
   height: 2%;
   width: 60%;
   padding: 2%;
   border-radius: 8px;
-  border: 2;
+  border: 2px;
   border-style: solid;
   border-color: #a4abb3;
   text-align: left;

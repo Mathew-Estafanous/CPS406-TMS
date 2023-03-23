@@ -18,6 +18,8 @@ function CheckIn() {
   }
 
   useEffect(() => {
+    console.log("CHECK IN:");
+    console.log(receivedMessage);
     if (receivedMessage.type !== "check-in") return;
     if (receivedMessage.locationState === "waiting_area") {
       navigate("/WaitingArea");
@@ -59,7 +61,7 @@ function CheckIn() {
       errorMessages[2] = "Enter an estimated time";
     } 
     else if (!Number.isInteger(parseInt(inputs.estimatedTime)) || parseInt(inputs.estimatedTime) < 0 || parseInt(inputs.estimatedTime) > 360) {
-      errorMessages[1] = "Invalid estimation";
+      errorMessages[2] = "Invalid estimation";
     } else {
       errorMessages[2] = ".";
     }
@@ -86,10 +88,10 @@ function CheckIn() {
       <form onSubmit={submitHandler}>
       { errors[0] !== "." ? <TextBox placeholder={"Name"} name={"driverName"} changeHandler={changeHandler} error={true}/> :  <TextBox placeholder={"Name"} name={"driverName"} changeHandler={changeHandler} error={false}/>}
       { errors[0] !== "." ? <label className='WhiteMenu-error'>{errors[0]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}      
-      { errors[0] !== "." ? <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={true}/> :  <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={false}/>}
-      { errors[1] !== "." ? <label className='WhiteMenu-error'>{errors[1]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}      
-      <NumberBox placeholder={"Estimated Minutes"} name={"estimatedTime"} changeHandler={changeHandler}/>
-      { errors[2] !== "." ? <label className='WhiteMenu-error'>{errors[2]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}      
+      { errors[1] !== "." ? <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={true}/> :  <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={false}/>}
+      { errors[1] !== "." ? <label className='WhiteMenu-error'>{errors[1]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}
+      { errors[2] !== "." ? <NumberBox placeholder={"Estimated Minutes"} name={"estimatedTime"} changeHandler={changeHandler} error={true}/> : <NumberBox placeholder={"Estimated Minutes"} name={"estimatedTime"} changeHandler={changeHandler} error={false}/>}
+      { errors[2] !== "." ? <label className='WhiteMenu-error'>{errors[2]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}
       <ClickBox text={"Submit"}/>
       </form>
     </div>
