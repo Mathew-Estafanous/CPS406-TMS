@@ -26,7 +26,8 @@ public class WarehouseServer implements ITruckService, IAdminService {
             return new TruckState(driver, DOCKING_AREA, dockingNumber);
         } else {
             final int queuePosition = waitingQueue.queueTruck(driver);
-            return new TruckState(driver, WAITING_AREA, queuePosition);
+            final Duration waitTime = waitingQueue.getWaitTime(driver.getTruckID());
+            return new TruckState(driver, WAITING_AREA, queuePosition, waitTime);
         }
     }
 
