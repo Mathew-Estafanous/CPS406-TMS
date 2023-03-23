@@ -2,11 +2,9 @@ import '../WhiteMenu/WhiteMenu.css';
 import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
 import NumberBox from '../NumberBox/NumberBox';
-import { useState } from "react";
+import {useContext, useState} from "react";
 import { useNavigate } from "react-router-dom"
-import useWebSocket from 'react-use-websocket';
-const WS_URL = 'ws://127.0.0.1:8000/server/';
-
+import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 
 function timeToString(time) {
   const hours = Math.floor(time/60);
@@ -18,8 +16,7 @@ function CheckIn() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
   const [errors, changeErrorMessage] = useState([".",".","."]);
-
-  const {sendMessage, sendJsonMessage, getWebSocket} = useWebSocket(WS_URL, { onOpen: () => console.log('opened'), onError: () => console.log("Error")});
+  const {sendJsonMessage, changeId} = useContext(WebSocketContext);
 
   const changeHandler = (event) => {
     setInputs(values => ({...values, [event.target.name]: event.target.value}))
@@ -32,7 +29,7 @@ function CheckIn() {
       "type": "check-in",
       "truckID": "",
       "driverName": "",
-      "estimatedDockingTime": ""
+      "estimatedTime": ""
     }
     let estimatedTimeString = ""
 
@@ -70,11 +67,11 @@ function CheckIn() {
 
       message.driverName = inputs.driverName;
       message.truckID = inputs.truckID;
-      message.estimatedDockingTime = estimatedTimeString;
+      message.estimatedTime = estimatedTimeString;
       console.log(message);
-
+      changeId(message.truckID);
+      sendJsonMessage(message);
       navigate("/WaitingArea");
-
     }
 
 
