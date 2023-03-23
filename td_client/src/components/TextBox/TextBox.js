@@ -2,7 +2,7 @@ import './TextBox.css'
 
 function TextBox({ placeholder, name, changeHandler, error}) {
   return (
-    <div>
+    <>
       {error ?
         <input
           type="text"
@@ -25,7 +25,7 @@ function TextBox({ placeholder, name, changeHandler, error}) {
         />
 
       }
-    </div>
+    </>
   );
 }
 
