@@ -2,8 +2,9 @@ import '../WhiteMenu/WhiteMenu.css';
 import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
 import NumberBox from '../NumberBox/NumberBox';
-import { useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom"
+import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 
 function timeToString(time) {
   const hours = Math.floor(time/60);
@@ -15,14 +16,31 @@ function CheckIn() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
   const [errors, changeErrorMessage] = useState([".",".","."]);
+  const {sendJsonMessage, changeId, receivedMessage} = useContext(WebSocketContext);
 
   const changeHandler = (event) => {
     setInputs(values => ({...values, [event.target.name]: event.target.value}))
   }
 
+  useEffect(() => {
+    console.log("CHECK IN: " + receivedMessage);
+    if (receivedMessage.type !== "check-in") return;
+    if (receivedMessage.locationState === "waiting_area") {
+      navigate("/WaitingArea");
+    } else if (receivedMessage.locationState === "docking_area") {
+      navigate("/DockingArea");
+    }
+  }, [receivedMessage])
+
   const submitHandler = (event) => {
     event.preventDefault();
     let errorMessages = [...errors];
+    let message = {
+      "type": "check-in",
+      "truckID": "",
+      "driverName": "",
+      "estimatedTime": ""
+    }
     let estimatedTimeString = ""
 
     //Logic for determining a valid name
@@ -31,7 +49,6 @@ function CheckIn() {
     } else {
       errorMessages[0] = ".";
     }
-
 
     //Logic for determining a valid Truck ID
     if (inputs.truckID === undefined || inputs.truckID === "") {
@@ -56,9 +73,14 @@ function CheckIn() {
     changeErrorMessage(errorMessages);
 
     if (errorMessages[0] === "." && errorMessages[1] === "." && errorMessages[2] === ".") {
-      navigate("/CheckOut");
       estimatedTimeString = timeToString(inputs.estimatedTime);
-      console.log(estimatedTimeString);
+
+      message.driverName = inputs.driverName;
+      message.truckID = inputs.truckID;
+      message.estimatedTime = estimatedTimeString;
+      console.log(message);
+      changeId(message.truckID);
+      sendJsonMessage(message);
     }
 
 

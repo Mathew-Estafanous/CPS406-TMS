@@ -2,7 +2,7 @@ import ClickBox from "../ClickBox/ClickBox";
 import '../WhiteMenu/WhiteMenu.css';
 import { useNavigate } from "react-router-dom"
 
-function CheckOut() {
+function WaitingAreaMenu() {
   //Check out just takes you back to the Check In for now
   const navigate = useNavigate();
 
@@ -25,4 +25,4 @@ function CheckOut() {
   );
 }
 
-export default CheckOut;
+export default WaitingAreaMenu;

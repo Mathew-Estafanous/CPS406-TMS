@@ -1,11 +1,12 @@
 import './WhiteMenu.css';
 import CheckInMenu from "../CheckInMenu/CheckOutMenu"
-import CheckOutMenu from "../CheckOutMenu/CheckOutMenu"
+import WaitingAreaMenu from "../WaitingAreaMenu/WaitingAreaMenu"
+import DockingAreaMenu from "../DockingAreaMenu/DockingAreaMenu"
 
 function WhiteMenu({pageType}) {
-  return ( //For now, white menu can only be a CheckIn page or a CheckOut page
+  return ( 
     <div className="WhiteMenu">
-        {pageType === "CheckIn" ? <CheckInMenu /> : <CheckOutMenu />}
+        {pageType === "CheckIn" ? <CheckInMenu /> : pageType === "WaitingArea" ? <WaitingAreaMenu/> : <DockingAreaMenu/>}
     </div>
   );
 }
