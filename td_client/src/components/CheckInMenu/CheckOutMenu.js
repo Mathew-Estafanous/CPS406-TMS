@@ -2,7 +2,7 @@ import '../WhiteMenu/WhiteMenu.css';
 import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
 import NumberBox from '../NumberBox/NumberBox';
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom"
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 
@@ -16,11 +16,21 @@ function CheckIn() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({});
   const [errors, changeErrorMessage] = useState([".",".","."]);
-  const {sendJsonMessage, changeId} = useContext(WebSocketContext);
+  const {sendJsonMessage, changeId, receivedMessage} = useContext(WebSocketContext);
 
   const changeHandler = (event) => {
     setInputs(values => ({...values, [event.target.name]: event.target.value}))
   }
+
+  useEffect(() => {
+    console.log("CHECK IN: " + receivedMessage);
+    if (receivedMessage.type !== "check-in") return;
+    if (receivedMessage.locationState === "waiting_area") {
+      navigate("/WaitingArea");
+    } else if (receivedMessage.locationState === "docking_area") {
+      navigate("/DockingArea");
+    }
+  }, [receivedMessage])
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -71,7 +81,6 @@ function CheckIn() {
       console.log(message);
       changeId(message.truckID);
       sendJsonMessage(message);
-      navigate("/WaitingArea");
     }
 
 
