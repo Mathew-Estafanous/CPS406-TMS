@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import static org.tms.server.TruckState.LocationState.*;
 
-public class WarehouseServer implements ITruckService, IAdminService {
+public class WarehouseServer implements ITruckService, IAdminService, Cancellable {
 
     private final TruckWaitingQueue waitingQueue;
     private final DockingAreaManager dockingArea;

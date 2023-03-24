@@ -1,5 +1,6 @@
 package org.tms.server.websocket;
 
+import org.tms.server.Cancellable;
 import org.tms.server.ITruckService;
 import org.tms.server.TruckDriver;
 import org.tms.server.TruckState;
@@ -10,6 +11,8 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import static org.tms.server.websocket.TruckMessage.MessageType.*;
@@ -17,13 +20,13 @@ import static org.tms.server.websocket.TruckMessage.MessageType.*;
 @ServerEndpoint(value = "/server/{truckID}",
                 decoders = TruckMessage.TruckMessageDecoder.class,
                 encoders = TruckMessage.TruckMessageEncoder.class)
-public class TruckServerController {
+public class TruckServerController<T extends ITruckService & Cancellable> {
 
     private static final Logger log = Logger.getLogger(TruckServerController.class.getName());
-    private final ITruckService truckService;
+    private final T truckService;
     private final Map<Integer, Session> sessionMap;
 
-    public TruckServerController(ITruckService truckService, Map<Integer, Session> sessionMap) {
+    public TruckServerController(T truckService, Map<Integer, Session> sessionMap) {
         this.truckService = truckService;
         this.sessionMap = sessionMap;
     }
@@ -88,6 +91,23 @@ public class TruckServerController {
         final Map.Entry<Integer, Session> closedSession = sessionEntry.get();
         sessionMap.remove(closedSession.getKey());
         log.info("Connection closed for session: " + closedSession.getKey());
+        scheduleCancelIfNotReconnected(closedSession.getKey());
+    }
+
+    private void scheduleCancelIfNotReconnected(int truckID) {
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (sessionMap.containsKey(truckID)) return;
+                try {
+                    truckService.cancelTruck(truckID);
+                    log.info(String.format("Truck %d failed to open a new session and has been cancelled.", truckID));
+                } catch (IllegalArgumentException e) {
+                    log.info(String.format("Truck with ID %d is already out of the warehouse.", truckID));
+                }
+            }
+        }, 10000);
     }
 
     @OnError
