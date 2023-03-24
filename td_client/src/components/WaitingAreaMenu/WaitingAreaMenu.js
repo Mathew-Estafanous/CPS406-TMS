@@ -51,6 +51,8 @@ function WaitingAreaMenu() {
             <div className="WhiteMenu-title">Waiting Area:</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Position Number: {position}</div>
             <hr className="Divider"/>
+            <div className="WhiteMenu-header WhiteMenu-subheader">Truck ID: {id}</div>
+            <hr className="Divider" />
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Estimated Time:
                 <div>

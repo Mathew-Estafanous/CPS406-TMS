@@ -39,6 +39,8 @@ function DockingAreaMenu() {
             <div className="WhiteMenu-title">Docking Area</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Assigned Docking #: {position}</div>
             <hr className="Divider" />
+            <div className="WhiteMenu-header WhiteMenu-subheader">Truck ID: {id}</div>
+            <hr className="Divider" />
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Estimated Time:
                 <div>
