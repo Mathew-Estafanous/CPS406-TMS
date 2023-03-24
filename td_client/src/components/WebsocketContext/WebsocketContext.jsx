@@ -25,7 +25,10 @@ export const WebSocketsProvider = (props) => {
             changeReceivedMessage(newMessage);
             sessionStorage.setItem("message", JSON.stringify(newMessage))
         },
-        onClose: () => console.log("Connection closed")
+        onClose: () => {
+            changeReceivedMessage(initialState);
+            changeId("");
+        }
     });
 
     return <WebSocketContext.Provider value={{sendJsonMessage, id, changeId, receivedMessage}} {...props} />
