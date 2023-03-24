@@ -11,7 +11,7 @@ function DockingAreaMenu() {
     const {sendJsonMessage, id, receivedMessage} = useContext(WebSocketContext);
 
     const [position, setPosition] = useState(receivedMessage.position);
-    const [_, setETA] = useState(parse(receivedMessage.estimatedTime));
+    const [eta, setETA] = useState(parse(receivedMessage.estimatedTime));
 
     useEffect(() => {
         console.log("DOCKING AREA");

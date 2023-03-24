@@ -73,7 +73,7 @@ public class WarehouseServer implements ITruckService, IAdminService, Cancellabl
         }
         final TruckDriver driver = waitingQueue.findTruckDriver(truckId);
         if (driver == null) {
-            return new TruckState(null, UNKNOWN, -1);
+            return new TruckState();
         }
 
         final var waitTime = waitingQueue.getWaitTime(truckId);
