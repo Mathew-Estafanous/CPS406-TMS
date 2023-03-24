@@ -83,7 +83,6 @@ function CheckIn() {
       sendJsonMessage(message);
     }
 
-
   }
 
   return (
