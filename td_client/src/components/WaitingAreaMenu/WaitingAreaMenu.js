@@ -17,7 +17,6 @@ function WaitingAreaMenu() {
     useEffect(() => {
         console.log("WAITING AREA");
         console.log(receivedMessage);
-        if (receivedMessage.type !== "state_update") return;
         if (receivedMessage.locationState === "waiting_area") {
             setPosition(receivedMessage.position);
             setETA(parse(receivedMessage.estimatedTime));
@@ -33,6 +32,8 @@ function WaitingAreaMenu() {
             });
         } else if (receivedMessage.locationState === "docking_area") {
             navigate("/DockingArea");
+        } else if (receivedMessage.locationState === "leaving") {
+            navigate("/");
         }
     }, [receivedMessage]);
 
@@ -42,7 +43,6 @@ function WaitingAreaMenu() {
             "truckID": id
         }
         sendJsonMessage(message);
-        navigate("/");
     }
 
     return (

@@ -19,15 +19,15 @@ public class NotificationService {
 
     /**
      * Sends a websocket message to the truck to notify it that it can start unloading.
-     * @param nextTruckID The truck that can start unloading.
+     * @param driver The truck that can start unloading.
      * @param dockingNumber The docking number that the truck can use to start unloading.
      */
-    public void notifyTruckStartedUnloading(int nextTruckID, int dockingNumber) {
-        final RemoteEndpoint.Basic session = sessionMap.get(nextTruckID).getBasicRemote();
-        final TruckMessage truckMessage = new TruckMessage(nextTruckID,
+    public void notifyTruckStartedUnloading(TruckDriver driver, int dockingNumber) {
+        final RemoteEndpoint.Basic session = sessionMap.get(driver.getTruckID()).getBasicRemote();
+        final TruckMessage truckMessage = new TruckMessage(driver.getTruckID(),
                 TruckMessage.MessageType.STATE_UPDATE,
                 TruckState.LocationState.DOCKING_AREA,
-                dockingNumber);
+                dockingNumber, driver.getEstimatedDockingTime());
         try {
             session.sendObject(truckMessage);
         } catch (Exception e) {
