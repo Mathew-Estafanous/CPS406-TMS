@@ -23,7 +23,9 @@ public class NotificationService {
      * @param dockingNumber The docking number that the truck can use to start unloading.
      */
     public void notifyTruckStartedUnloading(TruckDriver driver, int dockingNumber) {
-        final RemoteEndpoint.Basic session = sessionMap.get(driver.getTruckID()).getBasicRemote();
+        final Session websocket = sessionMap.get(driver.getTruckID());
+        if (websocket == null) return;
+        final RemoteEndpoint.Basic session = websocket.getBasicRemote();
         final TruckMessage truckMessage = new TruckMessage(driver.getTruckID(),
                 TruckMessage.MessageType.STATE_UPDATE,
                 TruckState.LocationState.DOCKING_AREA,
@@ -42,7 +44,9 @@ public class NotificationService {
      * @param waitTime The estimated time the truckID has to wait.
      */
     public void notifyTruckUpdatedState(int truckID, int queuePosition, Duration waitTime) {
-        final RemoteEndpoint.Basic session = sessionMap.get(truckID).getBasicRemote();
+        final Session websocket = sessionMap.get(truckID);
+        if (websocket == null) return;
+        final RemoteEndpoint.Basic session = websocket.getBasicRemote();
         final TruckMessage truckMessage = new TruckMessage(truckID,
                 TruckMessage.MessageType.STATE_UPDATE,
                 TruckState.LocationState.WAITING_AREA,
@@ -56,7 +60,9 @@ public class NotificationService {
     }
 
     public void notifyTruckCancelled(int truckId) {
-        final RemoteEndpoint.Basic session = sessionMap.get(truckId).getBasicRemote();
+        final Session websocket = sessionMap.get(truckId);
+        if (websocket == null) return;
+        final RemoteEndpoint.Basic session = websocket.getBasicRemote();
         final TruckMessage truckMessage = new TruckMessage(truckId,
                 TruckMessage.MessageType.CHECK_OUT,
                 TruckState.LocationState.LEAVING,
