@@ -36,11 +36,13 @@ public class TruckServerController<T extends ITruckService & Cancellable> {
                        @PathParam("truckID") int truckID) {
         log.info("New connection opened with ID: " + truckID);
         session.setMaxIdleTimeout(0); // Remove maximum timeout.
+        if(truckService.isTruckIDTaken(truckID)) return;
         sessionMap.put(truckID, session);
     }
 
     @OnMessage
-    public void onMessage(Session session, TruckMessage message) throws IOException {
+    public void onMessage(Session session,
+                          TruckMessage message) throws IOException {
         log.info("Message received: " + message);
         switch (message.getType()) {
             case CHECK_IN -> handleCheckIn(session, message);
@@ -66,7 +68,6 @@ public class TruckServerController<T extends ITruckService & Cancellable> {
         final TruckMessage response = new TruckMessage(state, CHECK_OUT);
         try {
             session.getBasicRemote().sendObject(response);
-            session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Check-out successful"));
         } catch (EncodeException e) {
             log.warning("Failed to encode  check-in response object: " + e.getMessage());
         }

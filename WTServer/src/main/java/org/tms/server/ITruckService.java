@@ -22,4 +22,11 @@ public interface ITruckService {
      * @return The current state of the truck.
      */
     TruckState getCurrentTruckState(int truckId);
+
+    /**
+     * Checks if the truck id is already taken. If so, then the truck driver cannot check in.
+     * @param truckID The id of the truck to check.
+     * @return True if the truck id is already taken, false otherwise.
+     */
+    boolean isTruckIDTaken(int truckID);
 }
