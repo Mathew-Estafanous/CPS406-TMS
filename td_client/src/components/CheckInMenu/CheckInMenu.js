@@ -22,9 +22,13 @@ function CheckIn() {
     console.log(receivedMessage);
     if (receivedMessage.type !== "check-in") return;
     if (receivedMessage.locationState === "waiting_area") {
-      navigate("/WaitingArea");
+        navigate("/WaitingArea");
     } else if (receivedMessage.locationState === "docking_area") {
-      navigate("/DockingArea");
+        navigate("/DockingArea");
+    } else if (receivedMessage.locationState === "unknown") {
+        let errorMessages = [...errors];
+        errorMessages[1] = "Existing Truck ID";
+        changeErrorMessage(errorMessages);
     }
   }, [receivedMessage])
 

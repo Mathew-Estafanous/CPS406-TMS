@@ -16,9 +16,9 @@ function DockingAreaMenu() {
     useEffect(() => {
         console.log("DOCKING AREA");
         console.log(receivedMessage);
-        if (receivedMessage.type === "state_update") {
+        if (receivedMessage.locationState === "docking_area") {
             setPosition(receivedMessage.position)
-            setETA(receivedMessage.estimatedTime)
+            setETA(parse(receivedMessage.estimatedTime))
         } else if (receivedMessage.locationState === "leaving") {
             sessionStorage.setItem("dockingAreaTime", null);
             navigate("/");

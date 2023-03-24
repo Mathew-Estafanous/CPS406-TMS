@@ -8,7 +8,7 @@ const initialState = {
     "type": "",
     "truckID": "",
     "driverName": "",
-    "estimatedTime": "",
+    "estimatedTime": "PT0S",
     "locationState": "",
     "position": ""
 };
