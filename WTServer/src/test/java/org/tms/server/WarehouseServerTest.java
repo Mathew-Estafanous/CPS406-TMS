@@ -130,14 +130,14 @@ class WarehouseServerTest {
         final TruckDriver johnDriver = new TruckDriver(1, "John", Duration.ofHours(1));
         final TruckDriver janeDriver = new TruckDriver(2, "Jane", Duration.ofHours(2));
         when(dockingAreaManager.isTruckUnloading(1)).thenReturn(false);
-        when(truckWaitingQueue.queuePosition(1)).thenReturn(0);
+        when(truckWaitingQueue.queuePosition(1)).thenReturn(1);
         when(truckWaitingQueue.cancelTruck(1)).thenReturn(johnDriver);
         when(truckWaitingQueue.getQueueCurrentState()).thenReturn(List.of(janeDriver));
         when(truckWaitingQueue.getWaitTime(2)).thenReturn(Duration.ZERO);
 
         final TruckDriver resultDriver = warehouseServer.cancelTruck(1);
         verify(notificationService).notifyTruckCancelled(1);
-        verify(notificationService).notifyTruckUpdatedState(2, 0, Duration.ZERO);
+        verify(notificationService).notifyTruckUpdatedState(2, 1, Duration.ZERO);
         assertEquals(johnDriver, resultDriver);
     }
 
@@ -145,15 +145,15 @@ class WarehouseServerTest {
     void givenValidChangeQueue_correctlyChangeQueuePos() {
         final TruckDriver johnDriver = new TruckDriver(1, "John", Duration.ofHours(1));
         final TruckDriver janeDriver = new TruckDriver(2, "Jane", Duration.ofHours(2));
-        when(truckWaitingQueue.repositionTruck(1, 0)).thenReturn(0);
+        when(truckWaitingQueue.repositionTruck(1, 1)).thenReturn(1);
         when(truckWaitingQueue.getQueueCurrentState()).thenReturn(List.of(janeDriver, johnDriver));
         when(truckWaitingQueue.getWaitTime(2)).thenReturn(Duration.ZERO);
         when(truckWaitingQueue.getWaitTime(1)).thenReturn(Duration.ofHours(2));
 
-        final boolean success = warehouseServer.changeQueuePosition(1, 0);
+        final boolean success = warehouseServer.changeQueuePosition(1, 1);
         assertTrue(success);
-        verify(notificationService).notifyTruckUpdatedState(janeDriver.getTruckID(), 0, Duration.ZERO);
-        verify(notificationService).notifyTruckUpdatedState(johnDriver.getTruckID(), 1, Duration.ofHours(2));
+        verify(notificationService).notifyTruckUpdatedState(janeDriver.getTruckID(), 1, Duration.ZERO);
+        verify(notificationService).notifyTruckUpdatedState(johnDriver.getTruckID(), 2, Duration.ofHours(2));
     }
 
     @Test
