@@ -43,9 +43,9 @@ function ElapsedTime({eta}) {
     }, [elapsedTime]);
 
     return (
-        <>
+        <div className={durationToMs(eta) >= durationToMs(elapsedTime)? "" : "Red"}>
             {elapsedTime.hours} : {elapsedTime.minutes} : {elapsedTime.seconds}
-        </>
+        </div>
     )
 }
 
