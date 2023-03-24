@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom"
 import {useContext, useEffect, useState} from "react";
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 import { parse } from "tinyduration";
-import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import {toast, ToastContainer} from "react-toastify";
 
 function WaitingAreaMenu() {
     //Check out just takes you back to the Check In for now
@@ -14,25 +15,30 @@ function WaitingAreaMenu() {
     const [position, setPosition] = useState(receivedMessage.position)
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime))
 
+    let notify = () => {
+        toast.info('Your Position Has Updated', {
+            toastId: 1,
+            position: "top-left",
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    }
+
     useEffect(() => {
         console.log("WAITING AREA");
         console.log(receivedMessage);
         if (receivedMessage.locationState === "waiting_area") {
             setPosition(receivedMessage.position);
             setETA(parse(receivedMessage.estimatedTime));
-            toast.info('Your Position Has Updated', {
-                position: "top-left",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
+            notify();
         } else if (receivedMessage.locationState === "docking_area") {
             navigate("/DockingArea");
-        } else if (receivedMessage.locationState === "leaving") {
+        } else {
             navigate("/");
         }
     }, [receivedMessage]);
@@ -48,6 +54,7 @@ function WaitingAreaMenu() {
 
     return (
         <div>
+            <ToastContainer limit={1}/>
             <div className="WhiteMenu-title">Waiting Area:</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Position Number: {position}</div>
             <hr className="Divider"/>

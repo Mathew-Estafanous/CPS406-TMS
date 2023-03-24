@@ -101,8 +101,10 @@ public class WarehouseServer implements ITruckService, IAdminService, Cancellabl
         } else {
             final int position = waitingQueue.queuePosition(truckId);
             final TruckDriver driver = waitingQueue.cancelTruck(truckId);
-            if (driver == null) throw new IllegalArgumentException("Truck not found");
-            notifyAllAffectedTrucksInQueue(waitingQueue.queuePosition(position));
+            if (driver == null) {
+                throw new IllegalArgumentException("Truck not found");
+            }
+            notifyAllAffectedTrucksInQueue(position);
             notificationService.notifyTruckCancelled(truckId);
             return driver;
         }

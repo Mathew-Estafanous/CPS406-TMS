@@ -8,11 +8,11 @@ import React from 'react';
 function App() {
     return (
     <BrowserRouter>
-    <Routes>
-      <Route exact path="/" element={<Home history/>}/>
-      <Route exact path="/WaitingArea" element={<WaitingArea/>}/>
-      <Route exact path="/DockingArea" element={<DockingArea/>}/>
-    </Routes>
+        <Routes>
+          <Route exact path="/" element={<Home history/>}/>
+          <Route exact path="/WaitingArea" element={<WaitingArea/>}/>
+          <Route exact path="/DockingArea" element={<DockingArea/>}/>
+        </Routes>
     </BrowserRouter>
   );
 }

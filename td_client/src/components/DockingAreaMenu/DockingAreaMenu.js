@@ -19,7 +19,7 @@ function DockingAreaMenu() {
         if (receivedMessage.locationState === "docking_area") {
             setPosition(receivedMessage.position)
             setETA(parse(receivedMessage.estimatedTime))
-        } else if (receivedMessage.locationState === "leaving") {
+        } else {
             sessionStorage.setItem("dockingAreaTime", null);
             navigate("/");
         }
