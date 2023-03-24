@@ -60,11 +60,25 @@ class WarehouseServerTest {
     @Test
     void givenValidCheckOut_truckInDA_truckStopsUnloading() {
         final TruckDriver driver = new TruckDriver(1, "John", Duration.ofHours(1));
+        when(dockingAreaManager.isTruckUnloading(1)).thenReturn(true);
         when(dockingAreaManager.stopUnload(1)).thenReturn(driver);
 
         final TruckState truckState = warehouseServer.checkOut(1);
         verify(dockingAreaManager).stopUnload(1);
         final TruckState state = new TruckState(driver, LEAVING, 0);
+        assertEquals(state, truckState);
+    }
+
+    @Test
+    void givenValidCheckOut_truckInQueue_removeFromQueueAndReturn() {
+        final TruckDriver driver = new TruckDriver(1, "John", Duration.ofHours(1));
+        when(dockingAreaManager.isTruckUnloading(1)).thenReturn(false);
+        when(truckWaitingQueue.queuePosition(1)).thenReturn(1);
+        when(truckWaitingQueue.cancelTruck(1)).thenReturn(driver);
+
+        final TruckState truckState = warehouseServer.checkOut(1);
+        verify(truckWaitingQueue).cancelTruck(1);
+        final TruckState state = new TruckState(driver, LEAVING, 1);
         assertEquals(state, truckState);
     }
 

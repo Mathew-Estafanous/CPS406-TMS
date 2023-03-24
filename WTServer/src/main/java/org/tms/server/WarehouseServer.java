@@ -33,10 +33,20 @@ public class WarehouseServer implements ITruckService, IAdminService {
 
     @Override
     public TruckState checkOut(int truckId) {
-        final TruckDriver driver = dockingArea.stopUnload(truckId);
-        // get the next truck in the queue and start unloading it.
-        startUnloadingOfNextInQueue();
-        return new TruckState(driver, LEAVING, 0);
+        if (dockingArea.isTruckUnloading(truckId)) {
+            final TruckDriver driver = dockingArea.stopUnload(truckId);
+            // get the next truck in the queue and start unloading it.
+            startUnloadingOfNextInQueue();
+            return new TruckState(driver, LEAVING, 0);
+        } else {
+            int position = waitingQueue.queuePosition(truckId);
+            if (position == -1) {
+                throw new IllegalArgumentException(String.format("No truck with ID %d is in the warehouse.", truckId));
+            }
+            TruckDriver truckDriver = waitingQueue.cancelTruck(truckId);
+            notifyAllAffectedTrucksInQueue(position);
+            return new TruckState(truckDriver, LEAVING, position);
+        }
     }
 
     private void startUnloadingOfNextInQueue() {
