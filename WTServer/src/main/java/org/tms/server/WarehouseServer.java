@@ -54,7 +54,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
         if (nextTruckOptional.isEmpty()) return;
         final TruckDriver nextTruck = nextTruckOptional.get();
         final int dockingNumber = dockingArea.startUnload(nextTruck);
-        notificationService.notifyTruckStartedUnloading(nextTruck.getTruckID(), dockingNumber);
+        notificationService.notifyTruckStartedUnloading(nextTruck, dockingNumber);
 
         waitingQueue.getQueueCurrentState().forEach(truck -> {
             final Duration waitTime = waitingQueue.getWaitTime(truck.getTruckID());

@@ -29,7 +29,6 @@ function DockingAreaMenu() {
             "truckID": id
         }
         sendJsonMessage(message);
-        navigate("/");
     }
 
     return (

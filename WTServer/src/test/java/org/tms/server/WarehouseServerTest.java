@@ -120,7 +120,7 @@ class WarehouseServerTest {
         final TruckDriver resultDriver = warehouseServer.cancelTruck(1);
         verify(dockingAreaManager).stopUnload(1);
         verify(dockingAreaManager).startUnload(janeDriver);
-        verify(notificationService).notifyTruckStartedUnloading(2, 2);
+        verify(notificationService).notifyTruckStartedUnloading(janeDriver, 2);
         verify(notificationService).notifyTruckCancelled(1);
         assertEquals(johnDriver, resultDriver);
     }

@@ -24,8 +24,13 @@ class NotificationServiceTest {
         final NotificationService notificationService = new NotificationService(Map.of(1, session));
         final RemoteEndpoint.Basic mockRemote = mock(RemoteEndpoint.Basic.class);
         when(session.getBasicRemote()).thenReturn(mockRemote);
-        notificationService.notifyTruckStartedUnloading(1, 3);
-        final TruckMessage expectedMessage = new TruckMessage(1, TruckMessage.MessageType.STATE_UPDATE, TruckState.LocationState.DOCKING_AREA, 3);
+        TruckDriver driver = new TruckDriver(1, "Bob", Duration.ofMinutes(3));
+        notificationService.notifyTruckStartedUnloading(driver, 3);
+        final TruckMessage expectedMessage = new TruckMessage(1,
+                TruckMessage.MessageType.STATE_UPDATE,
+                TruckState.LocationState.DOCKING_AREA,
+                3,
+                Duration.ofMinutes(3));
         verify(mockRemote).sendObject(expectedMessage);
     }
 
