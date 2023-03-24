@@ -17,7 +17,14 @@ function msToTime(milliseconds) {
     }
 }
 
-function ElapsedTime() {
+function durationToMs(duration) {
+    let hourMs = (duration.hours * 60 * 60 * 1000) || 0,
+        minutesMs = (duration.minutes * 60 * 1000) || 0,
+        secondsMs = (duration.seconds * 1000) || 0;
+    return hourMs + minutesMs + secondsMs
+}
+
+function ElapsedTime({eta}) {
     //dockingAreaTime is milliseconds
     let startingTime = JSON.parse(sessionStorage.getItem("dockingAreaTime"))
     if (startingTime === null) {
