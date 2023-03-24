@@ -9,12 +9,14 @@ import { toast } from "react-toastify";
 function WaitingAreaMenu() {
     //Check out just takes you back to the Check In for now
     const navigate = useNavigate();
-    const { receivedMessage } = useContext(WebSocketContext);
+    const { receivedMessage, id, sendJsonMessage } = useContext(WebSocketContext);
 
     const [position, setPosition] = useState(receivedMessage.position)
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime))
 
     useEffect(() => {
+        console.log("WAITING AREA");
+        console.log(receivedMessage);
         if (receivedMessage.type !== "state_update") return;
         if (receivedMessage.locationState === "waiting_area") {
             setPosition(receivedMessage.position);
@@ -35,6 +37,11 @@ function WaitingAreaMenu() {
     }, [receivedMessage]);
 
     const submitHandler = (_) => {
+        let message = {
+            "type": "check-out",
+            "truckID": id
+        }
+        sendJsonMessage(message);
         navigate("/");
     }
 

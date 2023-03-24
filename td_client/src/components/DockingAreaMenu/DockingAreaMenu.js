@@ -13,6 +13,8 @@ function DockingAreaMenu() {
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime));
 
     useEffect(() => {
+        console.log("DOCKING AREA");
+        console.log(receivedMessage);
         if (receivedMessage.type === "state_update") {
             setPosition(receivedMessage.position)
             setETA(receivedMessage.estimatedTime)
