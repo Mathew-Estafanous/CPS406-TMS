@@ -27,7 +27,7 @@ public class NotificationService {
         if (websocket == null) return;
         final RemoteEndpoint.Basic session = websocket.getBasicRemote();
         final TruckMessage truckMessage = new TruckMessage(driver.getTruckID(),
-                TruckMessage.MessageType.STATE_UPDATE,
+                TruckMessage.TruckMessageType.STATE_UPDATE,
                 TruckState.LocationState.DOCKING_AREA,
                 dockingNumber, driver.getEstimatedDockingTime());
         try {
@@ -48,7 +48,7 @@ public class NotificationService {
         if (websocket == null) return;
         final RemoteEndpoint.Basic session = websocket.getBasicRemote();
         final TruckMessage truckMessage = new TruckMessage(truckID,
-                TruckMessage.MessageType.STATE_UPDATE,
+                TruckMessage.TruckMessageType.STATE_UPDATE,
                 TruckState.LocationState.WAITING_AREA,
                 queuePosition,
                 waitTime);
@@ -64,7 +64,7 @@ public class NotificationService {
         if (websocket == null) return;
         final RemoteEndpoint.Basic session = websocket.getBasicRemote();
         final TruckMessage truckMessage = new TruckMessage(truckId,
-                TruckMessage.MessageType.CHECK_OUT,
+                TruckMessage.TruckMessageType.CHECK_OUT,
                 TruckState.LocationState.LEAVING,
                 -1);
         try {

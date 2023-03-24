@@ -21,7 +21,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.tms.server.TruckState.LocationState.*;
-import static org.tms.server.websocket.TruckMessage.MessageType.*;
+import static org.tms.server.websocket.TruckMessage.TruckMessageType.*;
 
 @ExtendWith(MockitoExtension.class)
 class TruckServerControllerTest {

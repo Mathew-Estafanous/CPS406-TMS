@@ -27,7 +27,7 @@ class NotificationServiceTest {
         TruckDriver driver = new TruckDriver(1, "Bob", Duration.ofMinutes(3));
         notificationService.notifyTruckStartedUnloading(driver, 3);
         final TruckMessage expectedMessage = new TruckMessage(1,
-                TruckMessage.MessageType.STATE_UPDATE,
+                TruckMessage.TruckMessageType.STATE_UPDATE,
                 TruckState.LocationState.DOCKING_AREA,
                 3,
                 Duration.ofMinutes(3));
@@ -40,7 +40,7 @@ class NotificationServiceTest {
         final RemoteEndpoint.Basic mockRemote = mock(RemoteEndpoint.Basic.class);
         when(session.getBasicRemote()).thenReturn(mockRemote);
         notificationService.notifyTruckUpdatedState(1, 3, Duration.ofMinutes(15));
-        final TruckMessage expectedMessage = new TruckMessage(1, TruckMessage.MessageType.STATE_UPDATE, TruckState.LocationState.WAITING_AREA, 3, Duration.ofMinutes(15));
+        final TruckMessage expectedMessage = new TruckMessage(1, TruckMessage.TruckMessageType.STATE_UPDATE, TruckState.LocationState.WAITING_AREA, 3, Duration.ofMinutes(15));
         verify(mockRemote).sendObject(expectedMessage);
     }
 }

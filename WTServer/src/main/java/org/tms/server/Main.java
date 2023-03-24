@@ -13,7 +13,7 @@ public class Main {
         WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(),
                 new DockingAreaManager(totalDockingAreas),
                 new NotificationService(sessionMap));
-        final TruckWebsocketServer truckWsServer = new TruckWebsocketServer(8080, warehouseServer, sessionMap);
+        final TruckWebsocketServer truckWsServer = new TruckWebsocketServer(8080, warehouseServer, sessionMap, warehouseServer);
         try {
             truckWsServer.start();
             truckWsServer.join();
