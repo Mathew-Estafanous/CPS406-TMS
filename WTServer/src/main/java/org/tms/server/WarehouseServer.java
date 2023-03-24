@@ -111,7 +111,7 @@ public class WarehouseServer implements ITruckService, IAdminService, Cancellabl
         for (int queuePos = pos; queuePos < queue.size(); queuePos++) {
             final TruckDriver truck = queue.get(queuePos);
             final Duration waitTime = waitingQueue.getWaitTime(truck.getTruckID());
-            notificationService.notifyTruckUpdatedState(truck.getTruckID(), queuePos, waitTime);
+            notificationService.notifyTruckUpdatedState(truck.getTruckID(), queuePos+1, waitTime);
         }
     }
 

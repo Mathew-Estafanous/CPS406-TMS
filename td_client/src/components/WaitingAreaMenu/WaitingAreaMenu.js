@@ -37,7 +37,8 @@ function WaitingAreaMenu() {
         }
     }, [receivedMessage]);
 
-    const submitHandler = (_) => {
+    const submitHandler = (e) => {
+        e.preventDefault();
         let message = {
             "type": "check-out",
             "truckID": id
