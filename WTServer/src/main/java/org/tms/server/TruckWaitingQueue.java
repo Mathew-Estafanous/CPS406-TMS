@@ -2,6 +2,7 @@ package org.tms.server;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,22 +69,28 @@ public class TruckWaitingQueue {
      *                If the truckID is not found, the queue is not modified and -1 is returned.
      * @param newPosition The new position of the truck.
      *                    If the new position is greater than the size of the queue, the truck is moved to the end of the queue.
-     *                    If the new position is less than 0, the truck is moved to the front of the queue.
-     * @return The new position of the truck.
+     *                    If the new position is less than 1, the truck is moved to the front of the queue.
+     * @return The lowest position of either the new position or current position.
      */
     public int repositionTruck(int truckID, int newPosition) {
         TruckDriver driver = findTruckDriver(truckID);
         if (driver == null) {
             return -1;
         }
-        if (newPosition >= queue.size()) {
-            newPosition = queue.size() - 1;
+        final int currentPosition = queuePosition(truckID);
+        if (newPosition > queue.size()) {
+            newPosition = queue.size();
         }
-        if (newPosition < 0) {
-            newPosition = 0;
+        if (newPosition < 1) {
+            newPosition = 1;
         }
-        queue.add(newPosition, driver);
-        return newPosition;
+
+        if (currentPosition <= newPosition) {
+            Collections.rotate(queue.subList(currentPosition-1, newPosition), -1);
+        } else {
+            Collections.rotate(queue.subList(newPosition-1, currentPosition), 1);
+        }
+        return Math.min(currentPosition, newPosition);
     }
 
     /**

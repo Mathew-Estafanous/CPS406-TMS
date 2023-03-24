@@ -36,7 +36,14 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
     }
 
     private void changeQueuePositionCommand(Session session, AdminMessage message) {
-
+        final boolean success = adminService.changeQueuePosition(message.getTruckID(), message.getNewPosition());
+        final AdminMessage response = new AdminMessage(success ? AdminMessage.AdminMessageType.CHANGE_POSITION : AdminMessage.AdminMessageType.FAILED,
+                message.getTruckID(), message.getNewPosition());
+        try {
+            session.getBasicRemote().sendObject(response);
+        } catch (Exception e) {
+            log.warning("Failed to send chane queue response: " + e.getMessage());
+        }
     }
 
     private void cancelTruckCommand(Session session, AdminMessage message) {
