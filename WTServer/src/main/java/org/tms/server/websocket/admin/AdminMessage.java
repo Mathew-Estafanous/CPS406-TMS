@@ -45,6 +45,8 @@ public class AdminMessage {
         CHANGE_POSITION,
         @SerializedName("view_state")
         VIEW_STATE,
+        @SerializedName("FAILED")
+        FAILED
     }
 
     public static class AdminMessageEncoder implements Encoder.Text<AdminMessage> {

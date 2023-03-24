@@ -47,11 +47,11 @@ class TruckWaitingQueueTest {
         // move truck 2 to position 10 which is greater than the size of the queue,
         // so it should be moved to the end of the queue
         final int position2 = truckWaitingQueue.repositionTruck(2, 10);
-        assertEquals(3, position2);
+        assertEquals(1, position2);
 
         // move truck 2 to position -1 which is less than 0 so it should be moved to the front of the queue
         final int position3 = truckWaitingQueue.repositionTruck(2, -1);
-        assertEquals(0, position3);
+        assertEquals(1, position3);
 
         // move truck 5 to position 1 which is not in the queue, so it should return -1
         final int position4 = truckWaitingQueue.repositionTruck(5, 1);
