@@ -8,14 +8,30 @@ public class AdminPortal {
     }
 
     public TruckDriver cancelTruck(int truckId) {
-        return adminService.cancelTruck(truckId);
+        try {
+            return adminService.cancelTruck(truckId);
+        } catch (Exception e) {
+            System.out.println("Unable to find truckID: " + e.getMessage());
+            return null;
+        }
     }
 
     public boolean changeQueuePosition(int truckId, int newPosition) {
-        return adminService.changeQueuePosition(truckId, newPosition);
+        try {
+            return adminService.changeQueuePosition(truckId, newPosition);
+        } catch (Exception e) {
+            System.out.println("Unable to change truck position: " + e.getMessage());
+            return false;
+        }
+
     }
 
     public WarehouseState viewEntireWarehouseState() {
-        return adminService.viewEntireWarehouseState();
+        try {
+            return adminService.viewEntireWarehouseState();
+        } catch (Exception e) {
+            System.out.println("Unable to view Warehouse state: " + e.getMessage());
+            return null;
+        }
     }
 }
