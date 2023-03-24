@@ -8,6 +8,10 @@ public class TruckDriver {
     private final String driverName;
     private final Duration estimatedDockingTime;
 
+    public TruckDriver(int truckID) {
+        this(truckID, "", Duration.ZERO);
+    }
+
     public TruckDriver(int truckID, String driverName, Duration estimatedDockingTime) {
         this.truckID = truckID;
         this.driverName = driverName;

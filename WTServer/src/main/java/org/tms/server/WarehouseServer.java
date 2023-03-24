@@ -21,6 +21,10 @@ public class WarehouseServer implements ITruckService, IAdminService, Cancellabl
 
     @Override
     public TruckState checkIn(TruckDriver driver) {
+        if(isTruckIDTaken(driver.getTruckID())) {
+            return new TruckState(driver.getTruckID());
+        }
+
         if (dockingArea.isDockingAreaAvailable()) {
             final int dockingNumber = dockingArea.startUnload(driver);
             return new TruckState(driver, DOCKING_AREA, dockingNumber);
@@ -73,12 +77,18 @@ public class WarehouseServer implements ITruckService, IAdminService, Cancellabl
         }
         final TruckDriver driver = waitingQueue.findTruckDriver(truckId);
         if (driver == null) {
-            return new TruckState();
+            return new TruckState(truckId);
         }
 
         final var waitTime = waitingQueue.getWaitTime(truckId);
         final int queuePosition = waitingQueue.queuePosition(truckId);
         return new TruckState(driver, WAITING_AREA, queuePosition, waitTime);
+    }
+
+    @Override
+    public boolean isTruckIDTaken(int truckID) {
+        return dockingArea.retrieveUnloadingTruck(truckID).isPresent() ||
+                waitingQueue.findTruckDriver(truckID) != null;
     }
 
     @Override

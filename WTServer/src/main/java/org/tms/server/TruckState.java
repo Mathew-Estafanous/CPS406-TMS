@@ -12,8 +12,8 @@ public class TruckState {
     private final int position;
     private final Duration estimatedTime;
 
-    public TruckState() {
-        this(null, LocationState.UNKNOWN, -1, Duration.ZERO);
+    public TruckState(int truckID) {
+        this(new TruckDriver(truckID), LocationState.UNKNOWN, -1, Duration.ZERO);
     }
 
     public TruckState(TruckDriver truckDriver, LocationState locationState, int position) {

@@ -56,7 +56,7 @@ public class TruckWaitingQueue {
     public int queuePosition(int truckId) {
         for (int i = 0; i < queue.size(); i++) {
             if (queue.get(i).getTruckID() == truckId) {
-                return i;
+                return i+1;
             }
         }
         return -1;
