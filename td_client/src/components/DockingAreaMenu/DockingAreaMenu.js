@@ -20,11 +20,13 @@ function DockingAreaMenu() {
             setPosition(receivedMessage.position)
             setETA(receivedMessage.estimatedTime)
         } else if (receivedMessage.locationState === "leaving") {
+            sessionStorage.setItem("dockingAreaTime", null);
             navigate("/");
         }
     }, [receivedMessage])
 
-    const submitHandler = (_) => {
+    const submitHandler = (e) => {
+        e.preventDefault();
         let message = {
             "type": "check-out",
             "truckID": id
