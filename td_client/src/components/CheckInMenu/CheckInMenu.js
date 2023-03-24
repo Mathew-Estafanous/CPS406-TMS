@@ -5,12 +5,7 @@ import NumberBox from '../NumberBox/NumberBox';
 import {useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom"
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
-
-function timeToString(time) {
-  const hours = Math.floor(time/60);
-  const minutes = time%60;
-  return "PT"+hours+"H"+minutes+"M0S";
-}
+import {serialize} from "tinyduration";
 
 function CheckIn() {
   const navigate = useNavigate();
@@ -23,7 +18,6 @@ function CheckIn() {
   }
 
   useEffect(() => {
-    console.log("CHECK IN: " + receivedMessage);
     if (receivedMessage.type !== "check-in") return;
     if (receivedMessage.locationState === "waiting_area") {
       navigate("/WaitingArea");
@@ -73,7 +67,7 @@ function CheckIn() {
     changeErrorMessage(errorMessages);
 
     if (errorMessages[0] === "." && errorMessages[1] === "." && errorMessages[2] === ".") {
-      estimatedTimeString = timeToString(inputs.estimatedTime);
+      estimatedTimeString = serialize({ minutes: inputs.estimatedTime});
 
       message.driverName = inputs.driverName;
       message.truckID = inputs.truckID;

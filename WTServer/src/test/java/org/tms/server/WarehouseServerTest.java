@@ -48,11 +48,12 @@ class WarehouseServerTest {
     void givenValidCheckIn_fullDA_driverAddedToWA() {
         final TruckDriver driver = new TruckDriver(1, "John", Duration.ofHours(1));
         when(dockingAreaManager.isDockingAreaAvailable()).thenReturn(false);
-        when(truckWaitingQueue.queueTruck(driver)).thenReturn(1);
+        when(truckWaitingQueue.queueTruck(driver)).thenReturn(2);
+        when(truckWaitingQueue.getWaitTime(1)).thenReturn(Duration.ofMinutes(25));
 
         final TruckState truckState = warehouseServer.checkIn(driver);
         verify(truckWaitingQueue).queueTruck(driver);
-        final TruckState state = new TruckState(driver, WAITING_AREA, 1);
+        final TruckState state = new TruckState(driver, WAITING_AREA, 2, Duration.ofMinutes(25));
         assertEquals(state, truckState);
     }
 

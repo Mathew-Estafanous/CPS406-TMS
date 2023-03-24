@@ -1,5 +1,5 @@
 import './WhiteMenu.css';
-import CheckInMenu from "../CheckInMenu/CheckOutMenu"
+import CheckInMenu from "../CheckInMenu/CheckInMenu"
 import WaitingAreaMenu from "../WaitingAreaMenu/WaitingAreaMenu"
 import DockingAreaMenu from "../DockingAreaMenu/DockingAreaMenu"
 
