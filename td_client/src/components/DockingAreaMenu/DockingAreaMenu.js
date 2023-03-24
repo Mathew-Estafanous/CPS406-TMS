@@ -1,4 +1,5 @@
 import ClickBox from "../ClickBox/ClickBox";
+import ElapsedTime from "../ElapsedTime/ElapsedTime";
 import '../WhiteMenu/WhiteMenu.css';
 import { useNavigate } from "react-router-dom"
 import {useContext, useEffect, useState} from "react";
@@ -10,7 +11,7 @@ function DockingAreaMenu() {
     const {sendJsonMessage, id, receivedMessage} = useContext(WebSocketContext);
 
     const [position, setPosition] = useState(receivedMessage.position);
-    const [eta, setETA] = useState(parse(receivedMessage.estimatedTime));
+    const [_, setETA] = useState(parse(receivedMessage.estimatedTime));
 
     useEffect(() => {
         console.log("DOCKING AREA");
@@ -37,9 +38,9 @@ function DockingAreaMenu() {
             <div className="WhiteMenu-header WhiteMenu-subheader">Assigned Docking #: {position}</div>
             <hr className="Divider" />
             <div className="WhiteMenu-header WhiteMenu-subheader">
-                Estimated Time:
+                Elapsed Time:
                 <div>
-                    {eta.hours || "0"} HRS {eta.minutes || "0"} MIN
+                    <ElapsedTime />
                 </div>
             </div>
             <form onSubmit={submitHandler}>
