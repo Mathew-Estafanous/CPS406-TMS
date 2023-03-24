@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class TruckMessage {
     @SerializedName("type")
-    private final MessageType type;
+    private final TruckMessageType type;
 
     private final int truckID;
     private final String driverName;
@@ -18,7 +18,7 @@ public class TruckMessage {
     private final TruckState.LocationState locationState;
     private final int position;
 
-    public TruckMessage(int truckID, MessageType type, String driverName, String estimatedDockingTime, TruckState.LocationState locationState, int position) {
+    public TruckMessage(int truckID, TruckMessageType type, String driverName, String estimatedDockingTime, TruckState.LocationState locationState, int position) {
         this.truckID = truckID;
         this.type = type;
         this.driverName = driverName;
@@ -27,7 +27,7 @@ public class TruckMessage {
         this.position = position;
     }
 
-    public TruckMessage(TruckState state, MessageType type) {
+    public TruckMessage(TruckState state, TruckMessageType type) {
         this(state.getTruckDriver().getTruckID(),
             type,
             state.getTruckDriver().getDriverName(),
@@ -36,15 +36,15 @@ public class TruckMessage {
             state.getPosition());
     }
 
-    public TruckMessage(int truckID, MessageType type, String driverName, String estimatedDockingTime) {
+    public TruckMessage(int truckID, TruckMessageType type, String driverName, String estimatedDockingTime) {
         this(truckID, type, driverName, estimatedDockingTime, TruckState.LocationState.UNKNOWN, 0);
     }
 
-    public TruckMessage(int truckID, MessageType type, TruckState.LocationState locationState, int position) {
-        this(truckID, type, "", "", locationState, position);
+    public TruckMessage(int truckID, TruckMessageType type, TruckState.LocationState locationState, int position) {
+        this(truckID, type, "", Duration.ZERO.toString(), locationState, position);
     }
 
-    public TruckMessage(int truckID, MessageType stateUpdate, TruckState.LocationState waitingArea, int queuePosition, Duration waitTime) {
+    public TruckMessage(int truckID, TruckMessageType stateUpdate, TruckState.LocationState waitingArea, int queuePosition, Duration waitTime) {
         this(truckID, stateUpdate, "", waitTime.toString(), waitingArea, queuePosition);
     }
 
@@ -60,7 +60,7 @@ public class TruckMessage {
         return estimatedTime;
     }
 
-    public MessageType getType() {
+    public TruckMessageType getType() {
         return type;
     }
 
@@ -90,7 +90,7 @@ public class TruckMessage {
         return Objects.hash(type, truckID, driverName, estimatedTime, locationState, position);
     }
 
-    public enum MessageType {
+    public enum TruckMessageType {
         @SerializedName("check-in")
         CHECK_IN,
         @SerializedName("check-out")

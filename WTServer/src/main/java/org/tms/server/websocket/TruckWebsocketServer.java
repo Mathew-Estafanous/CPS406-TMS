@@ -4,7 +4,10 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.javax.server.config.JavaxWebSocketServletContainerInitializer;
+import org.tms.server.IAdminService;
 import org.tms.server.ITruckService;
+import org.tms.server.websocket.admin.AdminPortal;
+import org.tms.server.websocket.admin.AdminWebsocketConfigurator;
 
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpointConfig;
@@ -15,7 +18,7 @@ public class TruckWebsocketServer {
     private final Server server;
     private final ServerConnector connector;
 
-    public TruckWebsocketServer(int port, ITruckService truckService, Map<Integer, Session> sessionMap) {
+    public TruckWebsocketServer(int port, ITruckService truckService, Map<Integer, Session> sessionMap, IAdminService adminService) {
         server = new Server();
         connector = new ServerConnector(server);
         server.addConnector(connector);
@@ -30,6 +33,10 @@ public class TruckWebsocketServer {
             container.addEndpoint(ServerEndpointConfig.Builder
                     .create(TruckServerController.class, "/server/{truckID}")
                     .configurator(new TruckWebsocketConfigurator(truckService, sessionMap))
+                    .build());
+            container.addEndpoint(ServerEndpointConfig.Builder
+                    .create(AdminPortal.class, "/admin")
+                    .configurator(new AdminWebsocketConfigurator(adminService))
                     .build());
         });
     }
