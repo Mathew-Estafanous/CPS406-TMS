@@ -1,14 +1,13 @@
 package org.tms.server.websocket.admin;
 
-import org.tms.server.Authenticator;
+import org.tms.server.auth.Authenticator;
 import org.tms.server.IAdminService;
 
 import javax.websocket.HandshakeResponse;
 import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpointConfig;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class AdminWebsocketConfigurator extends ServerEndpointConfig.Configurator {
     private final IAdminService adminService;
@@ -22,9 +21,12 @@ public class AdminWebsocketConfigurator extends ServerEndpointConfig.Configurato
     @Override
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
         final List<String> cookies = request.getHeaders().get("Cookie");
-        final Map<String, String> cookieMap = cookies.stream().map(val -> val.split("=", 2))
-                .collect(Collectors.toMap(a -> a[0], a -> a.length > 1 ? a[1] : ""));
-        sec.getUserProperties().put("cookie", cookieMap);
+        if (cookies != null) {
+            final Optional<String[]> authToken = cookies.stream().map(val -> val.split("=", 2))
+                    .filter(c -> c[0].equals("token"))
+                    .findFirst();
+            authToken.ifPresent(val -> sec.getUserProperties().put("token", (val.length > 1)? val[1]: ""));
+        }
     }
 
     @Override

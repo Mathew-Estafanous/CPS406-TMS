@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.eclipse.jetty.websocket:websocket-javax-client:10.0.14'
     implementation 'jakarta.websocket:jakarta.websocket-api:2.0.0'
     implementation 'org.mockito:mockito-junit-jupiter:5.2.0'
+    implementation 'com.auth0:java-jwt:4.3.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }

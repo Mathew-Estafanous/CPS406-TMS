@@ -1,16 +1,21 @@
 package org.tms.server.websocket.admin;
 
 import org.tms.server.*;
+import org.tms.server.auth.Authenticator;
 
+import javax.websocket.EncodeException;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static org.tms.server.websocket.admin.AdminMessage.AdminMessageType.FAILED;
+import static org.tms.server.websocket.admin.AdminMessage.AdminMessageType.LOGIN;
 
 @ServerEndpoint(value = "/admin",
                 decoders = AdminMessage.AdminMessageDecoder.class,
@@ -35,8 +40,21 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
     @OnMessage
     public void onMessage(Session session, AdminMessage message) {
         log.info("Message received: " + message);
+        if (message.getType() == LOGIN) {
+            handleLoginCommand(session, message);
+            return;
+        }
+        final String token = (String) session.getUserProperties().get("token");
+        if (token == null || !authenticator.authenticate(token)) {
+            AdminMessage response = new AdminMessage(FAILED, 0, 0);
+            try {
+                session.getBasicRemote().sendObject(response);
+            } catch (IOException | EncodeException e) {
+                log.warning("Failed to send auth failed message: " + e.getMessage());
+            }
+        }
+
         switch (message.getType()) {
-            case LOGIN -> handleLoginCommand(message);
             case CANCEL -> cancelTruckCommand(session, message);
             case CHANGE_POSITION -> changeQueuePositionCommand(session, message);
             case VIEW_STATE -> viewServerStateCommand(session);
@@ -44,14 +62,22 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
         }
     }
 
-    private void handleLoginCommand(AdminMessage message) {
+    private void handleLoginCommand(Session session, AdminMessage message) {
         final String username = message.getUsername();
         final String password = message.getPassword();
         AdminMessage response;
-        if (!authenticator.verifyCredentials(username, password)) {
-            response = new AdminMessage(FAILED, 0, 0);
-        } else {
-            authenticator.toCredentials(username, password);
+        try {
+            final Optional<String> token = authenticator.toCredentials(username, password);
+            if (token.isPresent()) {
+                session.getBasicRemote().sendText("Set-Cookie: token=" + token.get());
+                response = new AdminMessage(LOGIN, 0 , 0);
+                session.getBasicRemote().sendObject(response);
+            } else {
+                response = new AdminMessage(FAILED, 0, 0);
+                session.getBasicRemote().sendObject(response);
+            }
+        } catch (IOException | EncodeException e) {
+            log.warning("Failed to send login response: " + e.getMessage());
         }
     }
 

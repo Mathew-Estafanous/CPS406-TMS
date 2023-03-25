@@ -1,5 +1,6 @@
 package org.tms.server;
 
+import org.tms.server.auth.Authenticator;
 import org.tms.server.websocket.WebsocketServer;
 
 import javax.websocket.Session;
@@ -16,7 +17,11 @@ public class Main {
                 new NotificationService(sessionMap));
         final Authenticator authenticator;
         try {
-            authenticator = new Authenticator("admin", "password");
+            final String authKey = System.getenv("WAREHOUSE_AUTH_KEY");
+            if (authKey == null) {
+                throw new RuntimeException("Failed to get WAREHOUSE_AUTH_KEY. Please set an environment variable");
+            }
+            authenticator = new Authenticator("admin", "password", authKey);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Failed to create authenticator: " + e.getMessage());
         }
