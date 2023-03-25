@@ -18,25 +18,32 @@ public class AdminMessage {
     private final String estimatedTime;
     private final TruckState.LocationState locationState;
 
-    public AdminMessage(AdminMessageType type, int truckID, String driverName, String estimatedTime, TruckState.LocationState locationState, int position) {
+    private final String username;
+    private final String password;
+
+    public AdminMessage(AdminMessageType type, int truckID, String driverName,
+                        String estimatedTime, TruckState.LocationState locationState,
+                        int position, String username, String password) {
         this.type = type;
         this.truckID = truckID;
         this.driverName = driverName;
         this.estimatedTime = estimatedTime;
         this.locationState = locationState;
         this.position = position;
+        this.username = username;
+        this.password = password;
     }
 
     public AdminMessage(AdminMessageType type, int truckID, int position) {
-        this (type, truckID, null, null, null, position);
+        this (type, truckID, null, null, null, position, "", "");
     }
 
     public AdminMessage(TruckDriver driver, AdminMessageType type) {
-        this(type, driver.getTruckID(), driver.getDriverName(), driver.getEstimatedDockingTime().toString(), TruckState.LocationState.UNKNOWN, 0);
+        this(type, driver.getTruckID(), driver.getDriverName(), driver.getEstimatedDockingTime().toString(), TruckState.LocationState.UNKNOWN, 0, "", "");
     }
 
     public AdminMessage(TruckDriver driver, AdminMessageType type, int position, TruckState.LocationState locationState, String estimatedTime) {
-        this(type, driver.getTruckID(), driver.getDriverName(), estimatedTime, locationState, position);
+        this(type, driver.getTruckID(), driver.getDriverName(), estimatedTime, locationState, position, "", "");
     }
 
     public AdminMessageType getType() {
@@ -63,6 +70,14 @@ public class AdminMessage {
         return position;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
 
     public enum AdminMessageType {
         @SerializedName("cancel")
@@ -72,7 +87,9 @@ public class AdminMessage {
         @SerializedName("view_state")
         VIEW_STATE,
         @SerializedName("failed")
-        FAILED
+        FAILED,
+        @SerializedName("login")
+        LOGIN
     }
 
     public static class AdminMessageEncoder implements Encoder.Text<AdminMessage> {
