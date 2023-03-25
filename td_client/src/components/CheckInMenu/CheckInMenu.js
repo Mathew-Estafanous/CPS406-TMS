@@ -13,6 +13,9 @@ function CheckIn() {
   const [errors, changeErrorMessage] = useState([".",".","."]);
   const {sendJsonMessage, changeId, receivedMessage} = useContext(WebSocketContext);
 
+  const toAdminLogin = () => {
+    navigate("/AdminLogin");
+  }
   const changeHandler = (event) => {
     setInputs(values => ({...values, [event.target.name]: event.target.value}))
   }
@@ -97,6 +100,7 @@ function CheckIn() {
       { errors[2] !== "." ? <label className='WhiteMenu-error'>{errors[2]}</label> : <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}
       <ClickBox text={"Submit"}/>
       </form>
+      <ClickBox text={"Admin Login"} clickHandle={toAdminLogin}/>
     </div>
   );
 }
