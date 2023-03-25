@@ -14,7 +14,7 @@ const initialState = {
 };
 
 export const WebSocketsProvider = (props) => {
-    const state = JSON.parse(sessionStorage.getItem("message")) || initialState;
+    const state = JSON.parse(sessionStorage.getItem("truckMessage")) || initialState;
     const [id, changeId] = useState(state.truckID);
     const [receivedMessage, changeReceivedMessage] = useState(state);
     const {sendJsonMessage} = UseWebSocket(defaultURL + id, {
@@ -23,7 +23,7 @@ export const WebSocketsProvider = (props) => {
         onMessage: (event) => {
             const newMessage = JSON.parse(event.data);
             changeReceivedMessage(newMessage);
-            sessionStorage.setItem("message", JSON.stringify(newMessage))
+            sessionStorage.setItem("truckMessage", JSON.stringify(newMessage))
         },
         onClose: () => {
             changeReceivedMessage(initialState);

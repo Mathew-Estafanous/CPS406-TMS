@@ -3,7 +3,7 @@ import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
 import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom"
-import {AdminWebSocketContext} from "../AdminWebsocketContext/AdminWebsocketContext";
+import {AdminWebSocketContext} from "../WebsocketContext/AdminWebsocketContext";
 import SelectBox from "../SelectBox/SelectBox";
 
 function AdminPortalMenu() {

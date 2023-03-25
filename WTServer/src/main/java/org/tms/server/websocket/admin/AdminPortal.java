@@ -44,7 +44,7 @@ public class AdminPortal {
             handleLoginCommand(session, message);
             return;
         }
-        final String token = (String) session.getUserProperties().get("token");
+        final String token = (String) session.getUserProperties().get("sessionToken");
         if (token == null || !authenticator.authenticate(token)) {
             AdminMessage response = new AdminMessage(FAILED, 0, 0);
             try {
@@ -66,15 +66,12 @@ public class AdminPortal {
     private void handleLoginCommand(Session session, AdminMessage message) {
         final String username = message.getUsername();
         final String password = message.getPassword();
-        AdminMessage response;
         try {
             final Optional<String> token = authenticator.toCredentials(username, password);
             if (token.isPresent()) {
-                session.getBasicRemote().sendText("Set-Cookie: token=" + token.get());
-                response = new AdminMessage(LOGIN, 0 , 0);
-                session.getBasicRemote().sendObject(response);
+                session.getBasicRemote().sendText(new Credentials(LOGIN, username, token.get()).toJson());
             } else {
-                response = new AdminMessage(FAILED, 0, 0);
+                AdminMessage response = new AdminMessage(FAILED, 0, 0);
                 session.getBasicRemote().sendObject(response);
             }
         } catch (IOException | EncodeException e) {
