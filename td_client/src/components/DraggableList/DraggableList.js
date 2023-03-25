@@ -21,6 +21,7 @@ function DraggableList({list, title, sendRepositionCommand, cancelCommand}){
                                              ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                             <div className={"textLeft"}>{item.driverName} </div>
                                             <div className={"textRight"}>Truck ID: {item.truckID}</div>
+                                            <div className={"textCancel"} onClick={() => cancelCommand(item.truckID)}>x</div>
                                         </div>
                                     )}
                                 </Draggable>

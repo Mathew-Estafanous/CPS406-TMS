@@ -9,6 +9,7 @@ function List({list, title, cancelCommand}) {
                             <div key={item.truckID} className={"WarehouseStateMenu-listItem"}>
                                 <div className={"textLeft"}>{item.driverName} </div>
                                 <div className={"textRight"}>Truck ID: {item.truckID}</div>
+                                <div className={"textCancel"} onClick={() => cancelCommand(item.truckID)}>x</div>
                             </div>
                         );
                     })}
