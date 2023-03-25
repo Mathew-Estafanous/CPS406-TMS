@@ -8,13 +8,11 @@ import {AdminWebSocketsProvider} from "./components/AdminWebsocketContext/AdminW
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-      <AdminWebSocketsProvider>
+  <AdminWebSocketsProvider>
       <WebSocketsProvider>
         <App />
       </WebSocketsProvider>
-      </AdminWebSocketsProvider>
-  </React.StrictMode>
+  </AdminWebSocketsProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
