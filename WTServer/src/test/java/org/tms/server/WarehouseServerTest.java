@@ -165,6 +165,25 @@ class WarehouseServerTest {
     }
 
     @Test
-    void viewEntireWarehouseState() {
+    void givenValidWarehouse_returnsCorrectWarehouseState() {
+        final TruckDriver johnDriver = new TruckDriver(1, "John", Duration.ofHours(1));
+        final TruckDriver janeDriver = new TruckDriver(2, "Jane", Duration.ofHours(2));
+        final TruckDriver bobDriver = new TruckDriver(3, "Jane", Duration.ofHours(2));
+        when(truckWaitingQueue.getQueueCurrentState()).thenReturn(List.of(johnDriver, janeDriver));
+        when(truckWaitingQueue.queuePosition(1)).thenReturn(1);
+        when(truckWaitingQueue.getWaitTime(1)).thenReturn(Duration.ZERO);
+        when(truckWaitingQueue.getWaitTime(2)).thenReturn(Duration.ofHours(1));
+        when(truckWaitingQueue.queuePosition(2)).thenReturn(2);
+        when(dockingAreaManager.getCurrentState()).thenReturn(Map.of(3, bobDriver));
+
+        final List<TruckState> expectedWaitingState = List.of(
+                new TruckState(johnDriver, WAITING_AREA, 1, Duration.ZERO),
+                new TruckState(janeDriver, WAITING_AREA, 2, Duration.ofHours(1))
+        );
+        final List<TruckState> expectedDockingState = List.of(new TruckState(bobDriver, DOCKING_AREA, 3, Duration.ofHours(2)));
+        final WarehouseState warehouseState = warehouseServer.viewEntireWarehouseState();
+        assertEquals(expectedDockingState, warehouseState.dockingTruckDrivers());
+        assertTrue(expectedWaitingState.containsAll(warehouseState.waitingTruckDrivers()));
+        assertTrue(warehouseState.waitingTruckDrivers().containsAll(expectedWaitingState));
     }
 }

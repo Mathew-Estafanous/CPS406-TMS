@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static org.tms.server.websocket.admin.AdminMessage.AdminMessageType.FAILED;
+
 @ServerEndpoint(value = "/admin",
                 decoders = AdminMessage.AdminMessageDecoder.class,
                 encoders = AdminMessage.AdminMessageEncoder.class)
@@ -17,9 +19,11 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
 
     private static final Logger log = Logger.getLogger(AdminPortal.class.getName());
     private final T adminService;
+    private final Authenticator authenticator;
 
-    public AdminPortal(T adminService) {
+    public AdminPortal(T adminService, Authenticator authenticator) {
         this.adminService = adminService;
+        this.authenticator = authenticator;
     }
 
     @OnOpen
@@ -32,9 +36,22 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
     public void onMessage(Session session, AdminMessage message) {
         log.info("Message received: " + message);
         switch (message.getType()) {
+            case LOGIN -> handleLoginCommand(message);
             case CANCEL -> cancelTruckCommand(session, message);
             case CHANGE_POSITION -> changeQueuePositionCommand(session, message);
             case VIEW_STATE -> viewServerStateCommand(session);
+            default -> log.warning(String.format("Received unsupported message of type %s", message.getType().toString()));
+        }
+    }
+
+    private void handleLoginCommand(AdminMessage message) {
+        final String username = message.getUsername();
+        final String password = message.getPassword();
+        AdminMessage response;
+        if (!authenticator.verifyCredentials(username, password)) {
+            response = new AdminMessage(FAILED, 0, 0);
+        } else {
+            authenticator.toCredentials(username, password);
         }
     }
 
