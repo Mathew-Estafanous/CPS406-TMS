@@ -8,6 +8,9 @@
     margin: 5vh auto;
 }
 
+.white {
+    color: white;
+}
 
 .WarehouseStateMenu-listContainer {
     display: inline-block;
