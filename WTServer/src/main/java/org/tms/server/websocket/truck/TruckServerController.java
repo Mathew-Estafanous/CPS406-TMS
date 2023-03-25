@@ -1,6 +1,5 @@
 package org.tms.server.websocket.truck;
 
-import org.tms.server.Cancellable;
 import org.tms.server.ITruckService;
 import org.tms.server.TruckDriver;
 import org.tms.server.TruckState;
@@ -20,13 +19,13 @@ import static org.tms.server.websocket.truck.TruckMessage.TruckMessageType.*;
 @ServerEndpoint(value = "/server/{truckID}",
                 decoders = TruckMessage.TruckMessageDecoder.class,
                 encoders = TruckMessage.TruckMessageEncoder.class)
-public class TruckServerController<T extends ITruckService & Cancellable> {
+public class TruckServerController {
 
     private static final Logger log = Logger.getLogger(TruckServerController.class.getName());
-    private final T truckService;
+    private final ITruckService truckService;
     private final Map<Integer, Session> sessionMap;
 
-    public TruckServerController(T truckService, Map<Integer, Session> sessionMap) {
+    public TruckServerController(ITruckService truckService, Map<Integer, Session> sessionMap) {
         this.truckService = truckService;
         this.sessionMap = sessionMap;
     }

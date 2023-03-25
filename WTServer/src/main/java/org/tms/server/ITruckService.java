@@ -1,6 +1,6 @@
 package org.tms.server;
 
-public interface ITruckService {
+public interface ITruckService extends Cancellable {
 
     /**
      * Handles a truck driver checking in to the warehouse.
