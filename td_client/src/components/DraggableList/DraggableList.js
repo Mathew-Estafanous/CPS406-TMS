@@ -6,10 +6,9 @@ function DraggableList({list, title, sendRepositionCommand}){
         <div className={"WarehouseStateMenu-listContainer"}>
             <DragDropContext onDragEnd={(dragItem) => {
                 const sourceIndex = dragItem.source.index;
-                const destIndex = dragItem.destination.index;
-                list.splice(destIndex, 0, list.splice(sourceIndex, 1)[0]);
-                console.log(warehouseState);
-                localStorage.setItem("warehouseState", JSON.stringify(warehouseState));
+                const truckID = dragItem.draggableId.slice(10);
+                const newPosition = dragItem.destination.index+1;
+                sendRepositionCommand(truckID, newPosition, sourceIndex);
             }}>
                 <Droppable droppableId={"droppable-1"}>
                     {(provided, _) => (

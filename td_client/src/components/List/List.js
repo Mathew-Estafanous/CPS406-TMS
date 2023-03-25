@@ -8,7 +8,7 @@ function List({list, title}) {
                         return (
                             <div key={item.truckID} className={"WarehouseStateMenu-listItem"}>
                                 <div className={"textLeft"}>{item.driverName} </div>
-                                <div className={"textRight"}>Truck ID: {item.id}</div>
+                                <div className={"textRight"}>Truck ID: {item.truckID}</div>
                             </div>
                         );
                     })}
