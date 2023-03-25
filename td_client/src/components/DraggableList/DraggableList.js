@@ -1,7 +1,7 @@
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import "../WarehouseStateMenu/WarehouseStateMenu.css"
 
-function DraggableList({list, title, warehouseState}){
+function DraggableList({list, title, sendRepositionCommand}){
     return(
         <div className={"WarehouseStateMenu-listContainer"}>
             <DragDropContext onDragEnd={(dragItem) => {
@@ -16,12 +16,12 @@ function DraggableList({list, title, warehouseState}){
                         <div ref={provided.innerRef} {...provided.droppableProps}>
                             <div className={"WarehouseStateMenu-header"}>{title}</div>
                             {list.map((item, i) => (
-                                <Draggable key={item.id} draggableId={"draggable-" + item.id} index={i}>
+                                <Draggable key={item.truckID} draggableId={"draggable-" + item.truckID} index={i}>
                                     {(provided, _) => (
                                         <div className={"WarehouseStateMenu-listItem"}
                                              ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                             <div className={"textLeft"}>{item.driverName} </div>
-                                            <div className={"textRight"}>Truck ID: {item.id}</div>
+                                            <div className={"textRight"}>Truck ID: {item.truckID}</div>
                                         </div>
                                     )}
                                 </Draggable>

@@ -1,12 +1,10 @@
 package org.tms.server.websocket.admin;
 
+import com.google.gson.Gson;
 import org.tms.server.*;
 import org.tms.server.Authenticator;
 
-import javax.websocket.EncodeException;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +68,7 @@ public class AdminPortal {
             final Optional<String> token = authenticator.toCredentials(username, password);
             if (token.isPresent()) {
                 session.getBasicRemote().sendText(new Credentials(LOGIN, username, token.get()).toJson());
+                session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Open new connection to use login credentials"));
             } else {
                 AdminMessage response = new AdminMessage(FAILED, 0, 0);
                 session.getBasicRemote().sendObject(response);
@@ -84,15 +83,13 @@ public class AdminPortal {
         // combine the two lists for waiting truck drivers and docking truck drivers
         final List<TruckState> allTruckStates = new ArrayList<>(warehouseState.waitingTruckDrivers());
         allTruckStates.addAll(warehouseState.dockingTruckDrivers());
-
-        allTruckStates.forEach(truckState -> {
-            final AdminMessage response = new AdminMessage(truckState, AdminMessage.AdminMessageType.VIEW_STATE);
-            try {
-                session.getBasicRemote().sendObject(response);
-            } catch (Exception e) {
-                log.warning("Failed to send response to client: " + e.getMessage());
-            }
-        });
+        final List<AdminMessage> adminResponse = allTruckStates.stream()
+                .map(truckState -> new AdminMessage(truckState, AdminMessage.AdminMessageType.VIEW_STATE)).toList();
+        try {
+            session.getBasicRemote().sendText(new Gson().toJson(adminResponse));
+        } catch (Exception e) {
+            log.warning("Failed to send response to client: " + e.getMessage());
+        }
     }
 
     private void changeQueuePositionCommand(Session session, AdminMessage message) {

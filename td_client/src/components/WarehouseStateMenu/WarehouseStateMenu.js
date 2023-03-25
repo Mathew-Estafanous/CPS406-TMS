@@ -1,62 +1,72 @@
 import "./WarehouseStateMenu.css"
 import "../WhiteMenu/WhiteMenu.css"
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import DraggableList from "../DraggableList/DraggableList";
 import List from "../List/List";
+import {useContext, useEffect, useState} from "react";
+import {AdminWebSocketContext} from "../WebsocketContext/AdminWebsocketContext";
+import {useNavigate} from "react-router-dom";
 
-const warehouseState = {
-    warehouseStateList: {
-        dockingAreaList: [
-            {
-                id: 1,
-                driverName: "DIE"
-            },
-            {
-                id: 2,
-                driverName: "THIS IS DOCKING"
-            },
-            {
-                id: 3,
-                driverName: "SWAG"
-            }
-        ],
-        waitingAreaList: [
-            {
-                id: 4,
-                driverName: "IM WAITING"
-            },
-            {
-                id: 5,
-                driverName: "OK"
-            },
-            {
-                id: 6,
-                driverName: "SWAG"
-            }
-        ]
-    },
-    getWarehouseState: function () {
-        return (
-            (localStorage.getItem("warehouseState") && JSON.parse(localStorage.getItem("warehouseState"))) || this.warehouseStateList
-        );
-    },
-    saveWarehouseState: function (list) {
-        localStorage.setItem("warehouseState", JSON.stringify(list));
-    }
+let initialState = {
+    dockingAreaList: [],
+    waitingAreaList: []
 }
-//    localStorage.setItem("warehouseState", JSON.stringify(warehouseState.warehouseStateList))
-
 function WarehouseStateMenu() {
-    const list = warehouseState.getWarehouseState();
-    const waitingAreaList = list.waitingAreaList;
-    const dockingAreaList = list.dockingAreaList;
-    console.log(warehouseState.getWarehouseState())
+    const { sendJsonMessage, receivedMessage, readyState } = useContext(AdminWebSocketContext);
+    const [state, setState] = useState(initialState)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log("RETRIEVING STATE")
+        sendJsonMessage({"type": "view_state"})
+    }, [readyState]);
+
+    useEffect(() => {
+        if (Array.isArray(receivedMessage)) {
+            let wState = initialState;
+            receivedMessage.forEach((item) => {
+                if (item.locationState === "docking_area") {
+                    wState = {
+                        dockingAreaList: [...wState.dockingAreaList, item],
+                        waitingAreaList: wState.waitingAreaList
+                    }
+                } else {
+                    wState = {
+                        waitingAreaList: [...wState.waitingAreaList, item],
+                        dockingAreaList: wState.dockingAreaList
+                    }
+                }
+            });
+            console.log(wState);
+            setState(wState)
+        } else if (receivedMessage.type === "change_position") {
+            console.log("SUCCESSFUL CHANGE")
+        } else if (receivedMessage.type === "failed") {
+            navigate("/AdminLogin")
+        }
+    }, [receivedMessage]);
+
+    const sendRepositionCommand = (id, newPosition, sourceIdx) => {
+        let repositionMessage = {
+            "type": "change_position",
+            "truckID": id,
+            "position": newPosition
+        }
+        sendJsonMessage(repositionMessage);
+        let newState = [...state.waitingAreaList]
+        newState.splice(newPosition-1, 0, newState.splice(sourceIdx, 1)[0]);
+        setState({
+            waitingAreaList: newState,
+            dockingAreaList: state.dockingAreaList
+        });
+    }
     return (
         <div className={"WarehouseStateMenu"}>
             <div className={"WarehouseStateMenu-title"}>Warehouse State</div>
             <div className={"Divider"}></div>
-            <List list={dockingAreaList} title={"Docking Area"}/>
-            <DraggableList list={waitingAreaList} title={"Waiting Area"} warehouseState={list}/>
+            <div className={"box"}>
+                <List list={state.dockingAreaList} title={"Docking Area"}/>
+                <DraggableList list={state.waitingAreaList} title={"Waiting Area"} sendRepositionCommand={sendRepositionCommand} />
+            </div>
         </div>
     );
 }
