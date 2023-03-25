@@ -1,4 +1,4 @@
-package org.tms.server.websocket;
+package org.tms.server.websocket.truck;
 
 import org.tms.server.Cancellable;
 import org.tms.server.ITruckService;
@@ -15,7 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import static org.tms.server.websocket.TruckMessage.TruckMessageType.*;
+import static org.tms.server.websocket.truck.TruckMessage.TruckMessageType.*;
 
 @ServerEndpoint(value = "/server/{truckID}",
                 decoders = TruckMessage.TruckMessageDecoder.class,

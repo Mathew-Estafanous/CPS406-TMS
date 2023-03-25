@@ -9,6 +9,8 @@ import org.tms.server.IAdminService;
 import org.tms.server.ITruckService;
 import org.tms.server.websocket.admin.AdminPortal;
 import org.tms.server.websocket.admin.AdminWebsocketConfigurator;
+import org.tms.server.websocket.truck.TruckServerController;
+import org.tms.server.websocket.truck.TruckWebsocketConfigurator;
 
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpointConfig;

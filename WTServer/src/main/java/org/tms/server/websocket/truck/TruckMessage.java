@@ -1,4 +1,4 @@
-package org.tms.server.websocket;
+package org.tms.server.websocket.truck;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;

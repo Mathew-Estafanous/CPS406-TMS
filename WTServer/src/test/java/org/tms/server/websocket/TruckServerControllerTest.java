@@ -8,6 +8,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.tms.server.ITruckService;
 import org.tms.server.TruckDriver;
 import org.tms.server.TruckState;
+import org.tms.server.websocket.truck.TruckMessage;
+import org.tms.server.websocket.truck.TruckServerController;
 
 import javax.websocket.EncodeException;
 import javax.websocket.RemoteEndpoint;
@@ -21,7 +23,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.tms.server.TruckState.LocationState.*;
-import static org.tms.server.websocket.TruckMessage.TruckMessageType.*;
+import static org.tms.server.websocket.truck.TruckMessage.TruckMessageType.*;
 
 @ExtendWith(MockitoExtension.class)
 class TruckServerControllerTest {
