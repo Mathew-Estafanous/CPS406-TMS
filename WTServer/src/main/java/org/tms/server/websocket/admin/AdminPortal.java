@@ -1,7 +1,7 @@
 package org.tms.server.websocket.admin;
 
 import org.tms.server.*;
-import org.tms.server.auth.Authenticator;
+import org.tms.server.Authenticator;
 
 import javax.websocket.EncodeException;
 import javax.websocket.OnMessage;

@@ -4,7 +4,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.javax.server.config.JavaxWebSocketServletContainerInitializer;
-import org.tms.server.auth.Authenticator;
+import org.tms.server.Authenticator;
 import org.tms.server.IAdminService;
 import org.tms.server.ITruckService;
 import org.tms.server.websocket.admin.AdminPortal;

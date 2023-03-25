@@ -1,4 +1,4 @@
-package org.tms.server.auth;
+package org.tms.server;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
