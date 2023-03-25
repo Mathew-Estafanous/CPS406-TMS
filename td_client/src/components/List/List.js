@@ -6,7 +6,7 @@ function List({list, title}) {
                 <div className={"WarehouseStateMenu-header"}>{title}</div>
                     {list.map((item, _) => {
                         return (
-                            <div className={"WarehouseStateMenu-listItem"}>
+                            <div key={item.truckID} className={"WarehouseStateMenu-listItem"}>
                                 <div className={"textLeft"}>{item.driverName} </div>
                                 <div className={"textRight"}>Truck ID: {item.id}</div>
                             </div>

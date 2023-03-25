@@ -13,7 +13,7 @@ function AdminLoginMenu() {
 
     useEffect(() => {
         if (receivedMessage.type === "login") {
-            navigate("/AdminPortal");
+            navigate("/WarehouseState");
         } else if (receivedMessage.type === "failed") {
             changeErrorMessage(["Incorrect username or password", false]);
         }
