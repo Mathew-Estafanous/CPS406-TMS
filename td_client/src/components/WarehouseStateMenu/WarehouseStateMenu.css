@@ -8,6 +8,7 @@
     margin: 5vh auto;
 }
 
+
 .WarehouseStateMenu-listContainer {
     display: inline-block;
     margin: auto 8px;
@@ -87,3 +88,14 @@
     height: 3px;
 }
 
+.textLeft {
+    display: inline;
+    text-align: left;
+    width: 50%;
+}
+
+.textRight {
+    display: inline;
+    text-align: right;
+    width: 40%;
+}
