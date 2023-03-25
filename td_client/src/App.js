@@ -11,11 +11,11 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route exact path="/" element={<Home history/>}/>
                 <Route exact path="/WaitingArea" element={<WaitingArea/>}/>
                 <Route exact path="/DockingArea" element={<DockingArea/>}/>
                 <Route exact path="/AdminLogin" element={<AdminLogin/>}/>
                 <Route exact path="/AdminPortal" element={<AdminPortal/>}/>
+                <Route exact path="/" element={<Home history/>}/>
             </Routes>
         </BrowserRouter>
     );
