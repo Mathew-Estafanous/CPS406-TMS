@@ -3,13 +3,14 @@ import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
 import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom"
-import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
+import {AdminWebSocketContext} from "../AdminWebsocketContext/AdminWebsocketContext";
 import SelectBox from "../SelectBox/SelectBox";
 
 function AdminPortalMenu() {
     const navigate = useNavigate();
+    const {sendJsonMessage} = useContext(AdminWebSocketContext);
     const [adminCommand, changeAdminCommand] = useState("0")
-    const [inputs, setInputs] = useState({"truckID": null, "newPosition": null});
+    const [inputs, setInputs] = useState({"truckID": null, "position": null});
     const [errors, changeErrorMessage] = useState([false, false]);
     const changeHandler = (event) => {
         setInputs(values => ({...values, [event.target.name]: event.target.value}))
@@ -86,10 +87,10 @@ function AdminPortalMenu() {
         changeAdminCommand(event.target.value)
         //Reset inputs from other Admin commands
         if (adminCommand === "0"){
-            setInputs({"truckID": null, "newPosition": null});
+            setInputs({"truckID": null, "position": null});
             changeErrorMessage([false, false]);
         } else {
-            setInputs({"truckID": inputs.truckID, "newPosition": null});
+            setInputs({"truckID": inputs.truckID, "position": null});
             changeErrorMessage([errors[0], false]);
         }
     }
