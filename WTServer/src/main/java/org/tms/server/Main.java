@@ -15,6 +15,7 @@ public class Main {
         WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(),
                 new DockingAreaManager(totalDockingAreas),
                 new NotificationService(sessionMap));
+
         final Authenticator authenticator;
         try {
             final String authKey = System.getenv("WAREHOUSE_AUTH_KEY");

@@ -1,6 +1,6 @@
 package org.tms.server;
 
-import org.tms.server.websocket.TruckMessage;
+import org.tms.server.websocket.truck.TruckMessage;
 
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;

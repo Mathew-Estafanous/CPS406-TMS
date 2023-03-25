@@ -1,4 +1,4 @@
-package org.tms.server.websocket;
+package org.tms.server.websocket.truck;
 
 import org.tms.server.ITruckService;
 
