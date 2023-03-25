@@ -36,7 +36,7 @@ function AdminPortalMenu() {
         console.log(inputs)
         if (adminCommand === "0") {
             //Get state stuff
-
+            navigate("/WarehouseState");
         } else if (adminCommand === "1") {
             //Reposition Truck
             adminMessage = {
