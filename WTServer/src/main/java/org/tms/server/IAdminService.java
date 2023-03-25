@@ -1,6 +1,6 @@
 package org.tms.server;
 
-public interface IAdminService {
+public interface IAdminService extends Cancellable {
 
     /**
      * Changes the position of a truck in the waiting area.

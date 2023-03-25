@@ -8,6 +8,8 @@ import org.tms.server.TruckState;
 import javax.websocket.Decoder;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
+import java.time.Duration;
+import java.util.Objects;
 
 public class AdminMessage {
     private final AdminMessageType type;
@@ -35,11 +37,19 @@ public class AdminMessage {
     }
 
     public AdminMessage(AdminMessageType type, int truckID, int position) {
-        this (type, truckID, null, null, null, position, "", "");
+        this (type, truckID, "", Duration.ZERO.toString(), null, position, "", "");
+    }
+
+    public AdminMessage(AdminMessageType type, String username, String password) {
+        this (type, 0, "", Duration.ZERO.toString(), null, 0, username, password);
     }
 
     public AdminMessage(TruckDriver driver, AdminMessageType type) {
         this(type, driver.getTruckID(), driver.getDriverName(), driver.getEstimatedDockingTime().toString(), TruckState.LocationState.UNKNOWN, 0, "", "");
+    }
+
+    public AdminMessage(TruckState state, AdminMessageType type) {
+        this(state.getTruckDriver(), type, state.getPosition(), state.getLocationState(), state.getEstimatedTime().toString());
     }
 
     public AdminMessage(TruckDriver driver, AdminMessageType type, int position, TruckState.LocationState locationState, String estimatedTime) {
@@ -78,6 +88,18 @@ public class AdminMessage {
         return password;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AdminMessage that = (AdminMessage) o;
+        return truckID == that.truckID && position == that.position && type == that.type && driverName.equals(that.driverName) && estimatedTime.equals(that.estimatedTime) && locationState == that.locationState && username.equals(that.username) && password.equals(that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, truckID, position, driverName, estimatedTime, locationState, username, password);
+    }
 
     public enum AdminMessageType {
         @SerializedName("cancel")

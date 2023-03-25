@@ -20,13 +20,13 @@ import static org.tms.server.websocket.admin.AdminMessage.AdminMessageType.LOGIN
 @ServerEndpoint(value = "/admin",
                 decoders = AdminMessage.AdminMessageDecoder.class,
                 encoders = AdminMessage.AdminMessageEncoder.class)
-public class AdminPortal<T extends IAdminService & Cancellable> {
+public class AdminPortal {
 
     private static final Logger log = Logger.getLogger(AdminPortal.class.getName());
-    private final T adminService;
+    private final IAdminService adminService;
     private final Authenticator authenticator;
 
-    public AdminPortal(T adminService, Authenticator authenticator) {
+    public AdminPortal(IAdminService adminService, Authenticator authenticator) {
         this.adminService = adminService;
         this.authenticator = authenticator;
     }
@@ -49,6 +49,7 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
             AdminMessage response = new AdminMessage(FAILED, 0, 0);
             try {
                 session.getBasicRemote().sendObject(response);
+                return;
             } catch (IOException | EncodeException e) {
                 log.warning("Failed to send auth failed message: " + e.getMessage());
             }
@@ -88,11 +89,7 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
         allTruckStates.addAll(warehouseState.dockingTruckDrivers());
 
         allTruckStates.forEach(truckState -> {
-            final AdminMessage response = new AdminMessage(truckState.getTruckDriver(),
-                    AdminMessage.AdminMessageType.VIEW_STATE,
-                    truckState.getPosition(),
-                    truckState.getLocationState(),
-                    truckState.getEstimatedTime().toString());
+            final AdminMessage response = new AdminMessage(truckState, AdminMessage.AdminMessageType.VIEW_STATE);
             try {
                 session.getBasicRemote().sendObject(response);
             } catch (Exception e) {
