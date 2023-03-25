@@ -3,6 +3,7 @@ package org.tms.server.websocket.admin;
 import org.tms.server.*;
 
 import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
@@ -19,6 +20,12 @@ public class AdminPortal<T extends IAdminService & Cancellable> {
 
     public AdminPortal(T adminService) {
         this.adminService = adminService;
+    }
+
+    @OnOpen
+    public void onOpen(Session session) {
+        log.info("Session Opened: " + session.getId());
+        session.setMaxIdleTimeout(0);
     }
 
     @OnMessage

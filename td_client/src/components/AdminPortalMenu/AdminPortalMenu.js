@@ -1,7 +1,7 @@
 import '../WhiteMenu/WhiteMenu.css';
 import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom"
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 import SelectBox from "../SelectBox/SelectBox";
@@ -18,6 +18,70 @@ function AdminPortalMenu() {
     const exitAdminPortal = () => {
         navigate("/AdminLogin");
     }
+
+    const handleCancelCommand = (errorMessages) => {
+        //Cancel truck
+        let adminMessage = {
+            "type": "cancel",
+            "truckID": inputs.truckID
+        }
+
+        if (inputs.truckID == null || inputs.truckID === "") {
+            errorMessages[0] = "Enter a truck ID";
+        } else if (!Number.isInteger(parseInt(inputs.truckID))) {
+            errorMessages[0] = "Invalid truck ID";
+        } else {
+            errorMessages[0] = false;
+        }
+
+        changeErrorMessage(errorMessages);
+        if (!errorMessages[0]) {
+            //Send cancel
+            sendJsonMessage(adminMessage)
+            console.log("Cancel Message");
+        }
+    }
+
+    const handleRepositionCommand = (errorMessages) => {
+        //Reposition Truck
+        let adminMessage = {
+            "type": "change_position",
+            "truckID": inputs.truckID,
+            "position": inputs.newPosition
+        };
+
+        if (inputs.newPosition === null || inputs.newPosition === "") {
+            errorMessages[1] = "Enter a position";
+        } else if (!Number.isInteger(parseInt(inputs.newPosition)) || parseInt(inputs.newPosition) < 1) {
+            errorMessages[1] = "Invalid position";
+        } else {
+            errorMessages[1] = false;
+        }
+
+        if (inputs.truckID === null || inputs.truckID === "") {
+            errorMessages[0] = "Enter a truck ID";
+        } else if (!Number.isInteger(parseInt(inputs.truckID))) {
+            errorMessages[0] = "Invalid truck ID";
+        } else {
+            errorMessages[0] = false;
+        }
+        changeErrorMessage(errorMessages);
+        //If no error message
+        if (!errorMessages[0] && !errorMessages[1]) {
+            //Send admin message
+            sendJsonMessage(adminMessage)
+            console.log("Reposition Message");
+        }
+    }
+
+    const handleGetStateCommand = (errorMessages) => {
+        let adminMessage = {
+            "type": "view_state"
+        }
+
+    };
+
+
     const onChangedAdminCommand = (event) => {
         changeAdminCommand(event.target.value)
         //Reset inputs from other Admin commands
@@ -31,63 +95,14 @@ function AdminPortalMenu() {
     }
     const submitHandler = (event) => {
         event.preventDefault();
-        let adminMessage;
         let errorMessages = [...errors];
         console.log(inputs)
         if (adminCommand === "0") {
-            //Get state stuff
-
+            handleGetStateCommand(errorMessages);
         } else if (adminCommand === "1") {
-            //Reposition Truck
-            adminMessage = {
-                "type": "change_position",
-                "truckID": inputs.truckID,
-                "newPosition": inputs.newPosition
-            };
-
-            if (inputs.newPosition == null || inputs.newPosition === "") {
-                errorMessages[1] = "Enter a position";
-            } else if (!Number.isInteger(parseInt(inputs.newPosition)) || parseInt(inputs.newPosition) < 0) {
-                errorMessages[1] = "Invalid position";
-            } else {
-                errorMessages[1] = false;
-            }
-
-            if (inputs.truckID == null || inputs.truckID === "") {
-                errorMessages[0] = "Enter a truck ID";
-            } else if (!Number.isInteger(parseInt(inputs.truckID))) {
-                errorMessages[0] = "Invalid truck ID";
-            } else {
-                errorMessages[0] = false;
-            }
-            changeErrorMessage(errorMessages);
-            //If no error message
-            if (!errorMessages[0] && !errorMessages[1]) {
-                //Send admin message
-                console.log("Reposition Message");
-            }
-
+            handleRepositionCommand(errorMessages);
         } else {
-            //Cancel truck
-            adminMessage = {
-                "type": "cancel",
-                "truckID": inputs.truckID
-            }
-
-            if (inputs.truckID == null || inputs.truckID === "") {
-                errorMessages[0] = "Enter a truck ID";
-            } else if (!Number.isInteger(parseInt(inputs.truckID))) {
-                errorMessages[0] = "Invalid truck ID";
-            } else {
-                errorMessages[0] = false;
-            }
-
-            changeErrorMessage(errorMessages);
-            if (!errorMessages[0]) {
-                //Send cancel
-                console.log("Cancel Message");
-
-            }
+            handleCancelCommand(errorMessages);
         }
     }
 
