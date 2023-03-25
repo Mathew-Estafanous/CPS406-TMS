@@ -9,7 +9,7 @@ import org.tms.server.IAdminService;
 import org.tms.server.TruckDriver;
 import org.tms.server.TruckState;
 import org.tms.server.WarehouseState;
-import org.tms.server.auth.Authenticator;
+import org.tms.server.Authenticator;
 
 import javax.websocket.EncodeException;
 import javax.websocket.RemoteEndpoint;

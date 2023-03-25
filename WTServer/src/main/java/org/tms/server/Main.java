@@ -1,6 +1,5 @@
 package org.tms.server;
 
-import org.tms.server.auth.Authenticator;
 import org.tms.server.websocket.WebsocketServer;
 
 import javax.websocket.Session;
