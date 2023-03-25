@@ -5,11 +5,24 @@ import List from "../List/List";
 import {useContext, useEffect, useState} from "react";
 import {AdminWebSocketContext} from "../WebsocketContext/AdminWebsocketContext";
 import {useNavigate} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
 
 let initialState = {
     dockingAreaList: [],
     waitingAreaList: []
 }
+
+let notificationOptions = {
+    position: "top-left",
+    autoClose: 1500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+}
+
 function WarehouseStateMenu() {
     const { sendJsonMessage, receivedMessage} = useContext(AdminWebSocketContext);
     const [state, setState] = useState(initialState)
@@ -17,7 +30,6 @@ function WarehouseStateMenu() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log("RETRIEVING STATE")
             sendJsonMessage({"type": "view_state"})
         }, 1000);
         return () => {
@@ -43,8 +55,10 @@ function WarehouseStateMenu() {
             });
             setState(wState)
         } else if (receivedMessage.type === "change_position") {
-            console.log("SUCCESSFUL CHANGE")
-        } else if (receivedMessage.type === "failed") {
+            toast.success(`Success: Truck ID #${receivedMessage.truckID} moved`, notificationOptions);
+        } else if (receivedMessage.type === "cancel") {
+            toast.success(`Success: Cancelled Truck ID #${receivedMessage.truckID}`, notificationOptions);
+        }else if (receivedMessage.type === "failed") {
             navigate("/AdminLogin")
         }
     }, [receivedMessage]);
@@ -75,6 +89,7 @@ function WarehouseStateMenu() {
 
     return (
         <div className={"WarehouseStateMenu"}>
+            <ToastContainer />
             <div className={"WarehouseStateMenu-title"}>Warehouse State</div>
             <div className={"Divider"}></div>
             <div className={"box"}>
