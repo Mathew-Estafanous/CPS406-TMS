@@ -130,7 +130,13 @@ public class WarehouseServer implements ITruckService, IAdminService, Cancellabl
     @Override
     public WarehouseState viewEntireWarehouseState() {
         final Map<Integer, TruckDriver> currentState = dockingArea.getCurrentState();
+        final List<TruckState> dockingAreaState = currentState.entrySet().stream()
+                .map(state -> new TruckState(state.getValue(), DOCKING_AREA, state.getKey())).toList();
         final List<TruckDriver> queue = waitingQueue.getQueueCurrentState();
-        return new WarehouseState(currentState.values().stream().toList(), queue);
+        final List<TruckState> waitingQueueState = queue.stream().map(truck -> new TruckState(truck,
+                WAITING_AREA,
+                waitingQueue.queuePosition(truck.getTruckID()),
+                waitingQueue.getWaitTime(truck.getTruckID()))).toList();
+        return new WarehouseState(waitingQueueState, dockingAreaState);
     }
 }

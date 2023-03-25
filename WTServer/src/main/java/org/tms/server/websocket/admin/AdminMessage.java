@@ -3,6 +3,7 @@ package org.tms.server.websocket.admin;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import org.tms.server.TruckDriver;
+import org.tms.server.TruckState;
 
 import javax.websocket.Decoder;
 import javax.websocket.Encoder;
@@ -12,17 +13,30 @@ public class AdminMessage {
     private final AdminMessageType type;
 
     private final int truckID;
-    private final int newPosition;
+    private final int position;
+    private final String driverName;
+    private final String estimatedTime;
+    private final TruckState.LocationState locationState;
 
-
-    public AdminMessage(AdminMessageType type, int truckID, int newPosition) {
+    public AdminMessage(AdminMessageType type, int truckID, String driverName, String estimatedTime, TruckState.LocationState locationState, int position) {
         this.type = type;
         this.truckID = truckID;
-        this.newPosition = newPosition;
+        this.driverName = driverName;
+        this.estimatedTime = estimatedTime;
+        this.locationState = locationState;
+        this.position = position;
     }
 
-    public AdminMessage(TruckDriver cancelledDriver, AdminMessageType cancel) {
-        this(cancel, cancelledDriver.getTruckID(), 0);
+    public AdminMessage(AdminMessageType type, int truckID, int position) {
+        this (type, truckID, null, null, null, position);
+    }
+
+    public AdminMessage(TruckDriver driver, AdminMessageType type) {
+        this(type, driver.getTruckID(), driver.getDriverName(), driver.getEstimatedDockingTime().toString(), TruckState.LocationState.UNKNOWN, 0);
+    }
+
+    public AdminMessage(TruckDriver driver, AdminMessageType type, int position, TruckState.LocationState locationState, String estimatedTime) {
+        this(type, driver.getTruckID(), driver.getDriverName(), estimatedTime, locationState, position);
     }
 
     public AdminMessageType getType() {
@@ -33,8 +47,20 @@ public class AdminMessage {
         return truckID;
     }
 
-    public int getNewPosition() {
-        return newPosition;
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public String getEstimatedTime() {
+        return estimatedTime;
+    }
+
+    public TruckState.LocationState getLocationState() {
+        return locationState;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
 
@@ -45,7 +71,7 @@ public class AdminMessage {
         CHANGE_POSITION,
         @SerializedName("view_state")
         VIEW_STATE,
-        @SerializedName("FAILED")
+        @SerializedName("failed")
         FAILED
     }
 
