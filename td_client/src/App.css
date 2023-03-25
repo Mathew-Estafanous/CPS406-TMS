@@ -26,6 +26,7 @@
 .Background-Image {
   background-image: url("./Boxes.svg");
   background-size: cover;
+  background-attachment: fixed;
   height: 100vh;
   
 }
