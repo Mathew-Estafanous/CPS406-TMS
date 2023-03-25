@@ -89,14 +89,24 @@
 .textLeft {
     display: inline-block;
     text-align: left;
-    width: 50%;
+    width: 40%;
 
 }
 
 .textRight {
     display: inline-block;
-    text-align: right;
-    width: 40%;
+    text-align: center;
+    width: 30%;
+}
+
+.textCancel {
+    background-color: #f23d3d;
+    border-radius: 20px;
+    color: white;
+    display: inline-block;
+    text-align: center;
+    margin-left: 20%;
+    width: 10%;
 }
 
 .box {
