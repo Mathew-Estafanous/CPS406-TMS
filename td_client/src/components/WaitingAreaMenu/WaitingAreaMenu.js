@@ -15,36 +15,30 @@ function WaitingAreaMenu() {
     const [position, setPosition] = useState(receivedMessage.position)
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime))
 
-    let notify = () => {
-        toast.info('Your Position Has Updated', {
-            toastId: 1,
-            position: "top-left",
-            autoClose: 1500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    }
-
     useEffect(() => {
         console.log("WAITING AREA");
         console.log(receivedMessage);
         if (receivedMessage.locationState === "waiting_area") {
             setPosition(receivedMessage.position);
             setETA(parse(receivedMessage.estimatedTime));
-            notify();
+            toast.info('Your Position Has Updated', {
+                position: "top-left",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         } else if (receivedMessage.locationState === "docking_area") {
             navigate("/DockingArea");
-        } else {
+        } else if (receivedMessage.locationState === "leaving") {
             navigate("/");
         }
     }, [receivedMessage]);
 
-    const submitHandler = (e) => {
-        e.preventDefault();
+    const submitHandler = (_) => {
         let message = {
             "type": "check-out",
             "truckID": id

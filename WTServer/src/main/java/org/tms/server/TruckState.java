@@ -8,7 +8,8 @@ import java.util.Objects;
 public class TruckState {
     private final TruckDriver truckDriver;
     private final LocationState locationState;
-    // position represents either the position in the waiting area or the position in the docking area.
+    // position represents either the position in the waiting area or the position
+    // in the docking area.
     private final int position;
     private final Duration estimatedTime;
 
@@ -49,10 +50,13 @@ public class TruckState {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         TruckState that = (TruckState) o;
-        return position == that.position && truckDriver.equals(that.truckDriver) && locationState == that.locationState && Objects.equals(estimatedTime, that.estimatedTime);
+        return position == that.position && truckDriver.equals(that.truckDriver) && locationState == that.locationState
+                && Objects.equals(estimatedTime, that.estimatedTime);
     }
 
     @Override
