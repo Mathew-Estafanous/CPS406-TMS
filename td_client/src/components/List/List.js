@@ -1,5 +1,5 @@
 import "../WarehouseStateMenu/WarehouseStateMenu.css"
-function List({list, title}) {
+function List({list, title, cancelCommand}) {
     return (
         <div className={"WarehouseStateMenu-listContainer"}>
             <div>

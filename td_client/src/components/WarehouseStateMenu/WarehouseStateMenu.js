@@ -11,14 +11,19 @@ let initialState = {
     waitingAreaList: []
 }
 function WarehouseStateMenu() {
-    const { sendJsonMessage, receivedMessage, readyState } = useContext(AdminWebSocketContext);
+    const { sendJsonMessage, receivedMessage} = useContext(AdminWebSocketContext);
     const [state, setState] = useState(initialState)
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("RETRIEVING STATE")
-        sendJsonMessage({"type": "view_state"})
-    }, [readyState]);
+        const interval = setInterval(() => {
+            console.log("RETRIEVING STATE")
+            sendJsonMessage({"type": "view_state"})
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     useEffect(() => {
         if (Array.isArray(receivedMessage)) {
@@ -36,7 +41,6 @@ function WarehouseStateMenu() {
                     }
                 }
             });
-            console.log(wState);
             setState(wState)
         } else if (receivedMessage.type === "change_position") {
             console.log("SUCCESSFUL CHANGE")
@@ -59,13 +63,26 @@ function WarehouseStateMenu() {
             dockingAreaList: state.dockingAreaList
         });
     }
+
+    const sendCancelCommand = (id) => {
+        console.log("CANCELLINGG")
+        let cancelMessage = {
+            "type": "cancel",
+            "truckID": id
+        }
+        sendJsonMessage(cancelMessage)
+    }
+
     return (
         <div className={"WarehouseStateMenu"}>
             <div className={"WarehouseStateMenu-title"}>Warehouse State</div>
             <div className={"Divider"}></div>
             <div className={"box"}>
-                <List list={state.dockingAreaList} title={"Docking Area"}/>
-                <DraggableList list={state.waitingAreaList} title={"Waiting Area"} sendRepositionCommand={sendRepositionCommand} />
+                <List list={state.dockingAreaList} title={"Docking Area"} cancelCommand={sendCancelCommand}/>
+                <DraggableList list={state.waitingAreaList}
+                               title={"Waiting Area"}
+                               sendRepositionCommand={sendRepositionCommand}
+                               cancelCommand={sendCancelCommand}/>
             </div>
         </div>
     );

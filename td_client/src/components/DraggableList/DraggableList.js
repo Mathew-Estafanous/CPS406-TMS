@@ -1,7 +1,7 @@
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import "../WarehouseStateMenu/WarehouseStateMenu.css"
 
-function DraggableList({list, title, sendRepositionCommand}){
+function DraggableList({list, title, sendRepositionCommand, cancelCommand}){
     return(
         <div className={"WarehouseStateMenu-listContainer"}>
             <DragDropContext onDragEnd={(dragItem) => {
