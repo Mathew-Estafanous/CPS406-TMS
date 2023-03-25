@@ -12,7 +12,7 @@ function List({list, title}) {
                             </div>
                         );
                     })}
-                .
+                <div className={"white"}>.</div>
             </div>
         </div>
     );

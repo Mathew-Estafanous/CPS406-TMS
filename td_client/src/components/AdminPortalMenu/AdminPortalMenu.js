@@ -79,7 +79,7 @@ function AdminPortalMenu() {
         let adminMessage = {
             "type": "view_state"
         }
-
+        navigate("/WarehouseState");
     };
 
 

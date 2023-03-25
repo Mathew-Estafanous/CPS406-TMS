@@ -20,14 +20,14 @@ function DraggableList({list, title, warehouseState}){
                                     {(provided, _) => (
                                         <div className={"WarehouseStateMenu-listItem"}
                                              ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                            {item.driverName}
-                                            {item.id}
+                                            <div className={"textLeft"}>{item.driverName} </div>
+                                            <div className={"textRight"}>Truck ID: {item.id}</div>
                                         </div>
                                     )}
                                 </Draggable>
                             ))}
                             {provided.placeholder}
-                            .
+                            <div className={"white"}>.</div>
                         </div>
                     )}
                 </Droppable>
