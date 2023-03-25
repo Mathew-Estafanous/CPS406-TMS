@@ -1,4 +1,4 @@
-package org.tms.server.websocket;
+package org.tms.server.websocket.truck;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,8 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.tms.server.ITruckService;
 import org.tms.server.TruckDriver;
 import org.tms.server.TruckState;
-import org.tms.server.websocket.truck.TruckMessage;
-import org.tms.server.websocket.truck.TruckServerController;
 
 import javax.websocket.EncodeException;
 import javax.websocket.RemoteEndpoint;
