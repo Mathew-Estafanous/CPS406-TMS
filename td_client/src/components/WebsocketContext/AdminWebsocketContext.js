@@ -18,7 +18,7 @@ export const AdminWebSocketsProvider = (props) => {
     const [receivedMessage, changeReceivedMessage] = useState(initialState);
     const [_, setCookies ] = useCookies(['sessionToken']);
 
-    const {sendJsonMessage, readyState} = UseWebSocket(defaultURL, {
+    const {sendJsonMessage} = UseWebSocket(defaultURL, {
         onOpen: () => console.log('Opened connection'),
         onError: () => console.log("Error"),
         onMessage: (event) => {
@@ -37,5 +37,5 @@ export const AdminWebSocketsProvider = (props) => {
         reconnectInterval: 100,
     });
 
-    return <AdminWebSocketContext.Provider value={{sendJsonMessage, receivedMessage, readyState}} {...props} />
+    return <AdminWebSocketContext.Provider value={{sendJsonMessage, receivedMessage}} {...props} />
 }
