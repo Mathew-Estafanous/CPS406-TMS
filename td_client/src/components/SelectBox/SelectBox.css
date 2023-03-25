@@ -1,0 +1,14 @@
+.SelectBox-input {
+    display: -ms-flexbox;
+    margin: 3px;
+    height: 2%;
+    width: 65%;
+    padding: 2%;
+    border-radius: 8px;
+    border: 2px;
+    border-style: solid;
+    border-color: #a4abb3;
+    font-family: inherit;
+    font-weight: 500;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
