@@ -5,11 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.tms.server.IAdminService;
-import org.tms.server.TruckDriver;
-import org.tms.server.TruckState;
-import org.tms.server.WarehouseState;
-import org.tms.server.Authenticator;
+import org.tms.server.*;
 
 import javax.websocket.EncodeException;
 import javax.websocket.RemoteEndpoint;
@@ -38,15 +34,14 @@ class AdminPortalTest {
     }
 
     @Test
-    void givenValidLoginMessage_returnCookieAndSuccessMessage(@Mock Session session) throws IOException, EncodeException {
+    void givenValidLoginMessage_returnCookieAndSuccessMessage(@Mock Session session) throws IOException {
         final AdminMessage loginMessage = new AdminMessage(AdminMessage.AdminMessageType.LOGIN, "admin", "admin");
         when(authenticator.toCredentials(loginMessage.getUsername(), loginMessage.getPassword())).thenReturn(Optional.of("someToken"));
         final RemoteEndpoint.Basic mockRemote = mock(RemoteEndpoint.Basic.class);
         when(session.getBasicRemote()).thenReturn(mockRemote);
         portal.onMessage(session, loginMessage);
 
-        verify(mockRemote).sendText(contains("Set-Cookie: token=someToken"));
-        verify(mockRemote).sendObject(new AdminMessage(AdminMessage.AdminMessageType.LOGIN, 0, 0));
+        verify(mockRemote).sendText(new Credentials(AdminMessage.AdminMessageType.LOGIN, "admin", "someToken").toJson());
     }
 
     @Test

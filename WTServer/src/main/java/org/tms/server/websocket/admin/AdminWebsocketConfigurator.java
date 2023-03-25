@@ -6,8 +6,8 @@ import org.tms.server.IAdminService;
 import javax.websocket.HandshakeResponse;
 import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpointConfig;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class AdminWebsocketConfigurator extends ServerEndpointConfig.Configurator {
     private final IAdminService adminService;
@@ -22,10 +22,12 @@ public class AdminWebsocketConfigurator extends ServerEndpointConfig.Configurato
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
         final List<String> cookies = request.getHeaders().get("Cookie");
         if (cookies != null) {
-            final Optional<String[]> authToken = cookies.stream().map(val -> val.split("=", 2))
-                    .filter(c -> c[0].equals("token"))
-                    .findFirst();
-            authToken.ifPresent(val -> sec.getUserProperties().put("token", (val.length > 1)? val[1]: ""));
+            // iterate through cookies and split them up by ';' and collect as a List of Strings.
+            cookies.replaceAll(val -> val.replaceAll("\\s", ""));
+            cookies.stream()
+                    .flatMap(val -> Arrays.stream(val.split(";")))
+                    .map(val -> val.split("="))
+                    .forEach(c -> sec.getUserProperties().put(c[0], (c.length > 1)? c[1]: ""));
         }
     }
 

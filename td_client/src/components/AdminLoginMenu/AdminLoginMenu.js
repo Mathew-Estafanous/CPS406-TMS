@@ -1,16 +1,23 @@
 import '../WhiteMenu/WhiteMenu.css';
 import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
-import NumberBox from '../NumberBox/NumberBox';
 import {useContext, useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom"
-import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
-import {serialize} from "tinyduration";
+import {AdminWebSocketContext} from "../WebsocketContext/AdminWebsocketContext";
 
 function AdminLoginMenu() {
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({"username": null, "password": null});
     const [errors, changeErrorMessage] = useState([false, false]);
+    const {sendJsonMessage, receivedMessage} = useContext(AdminWebSocketContext);
+
+    useEffect(() => {
+        if (receivedMessage.type === "login") {
+            navigate("/AdminPortal");
+        } else if (receivedMessage.type === "failed") {
+            changeErrorMessage(["Incorrect username or password", false]);
+        }
+    }, [receivedMessage]);
 
     const toTruckLogin = () => {
         navigate("/");
@@ -33,11 +40,15 @@ function AdminLoginMenu() {
         } else {
             errorMessages[1] = false;
         }
-
         changeErrorMessage(errorMessages);
 
         if ( !errorMessages[1] && !errorMessages[0]) {
-            navigate("/AdminPortal");
+            let loginMessage = {
+                "type": "login",
+                "username": inputs.username,
+                "password": inputs.password
+            }
+            sendJsonMessage(loginMessage);
         }
     }
 

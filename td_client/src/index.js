@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {WebSocketsProvider} from "./components/WebsocketContext/WebsocketContext";
-import {AdminWebSocketsProvider} from "./components/AdminWebsocketContext/AdminWebsocketContext";
+import {AdminWebSocketsProvider} from "./components/WebsocketContext/AdminWebsocketContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
