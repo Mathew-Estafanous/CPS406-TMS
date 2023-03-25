@@ -33,7 +33,7 @@ export const AdminWebSocketsProvider = (props) => {
             changeReceivedMessage(initialState);
         },
         shouldReconnect: () => true,
-        reconnectAttempts: 10,
+        reconnectAttempts: 1000,
         reconnectInterval: 100,
     });
 
