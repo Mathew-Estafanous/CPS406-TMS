@@ -1,7 +1,7 @@
 import ClickBox from "../ClickBox/ClickBox";
 import ElapsedTime from "../ElapsedTime/ElapsedTime";
 import '../WhiteMenu/WhiteMenu.css';
-import { useNavigate } from "react-router-dom"
+import {createSearchParams, useNavigate} from "react-router-dom"
 import {useContext, useEffect, useState} from "react";
 import {parse} from "tinyduration";
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
@@ -10,6 +10,7 @@ function DockingAreaMenu() {
     const navigate = useNavigate();
     const {sendJsonMessage, id, receivedMessage} = useContext(WebSocketContext);
 
+    const [sentCheckout, setSentCheckout] = useState(false);
     const [position, setPosition] = useState(receivedMessage.position);
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime));
 
@@ -21,7 +22,12 @@ function DockingAreaMenu() {
             setETA(parse(receivedMessage.estimatedTime))
         } else {
             sessionStorage.setItem("dockingAreaTime", null);
-            navigate("/");
+            navigate({
+                pathname: "/",
+                search: createSearchParams({
+                    wasKicked: !sentCheckout
+                }).toString()
+            });
         }
     }, [receivedMessage])
 
@@ -31,6 +37,7 @@ function DockingAreaMenu() {
             "type": "check-out",
             "truckID": id
         }
+        setSentCheckout(true);
         sendJsonMessage(message);
     }
 
