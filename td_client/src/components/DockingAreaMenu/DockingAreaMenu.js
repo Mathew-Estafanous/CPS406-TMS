@@ -45,16 +45,16 @@ function DockingAreaMenu() {
         <div>
             <div className="WhiteMenu-title">Docking Area</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Assigned Docking #: {position}</div>
-            <hr className="Divider" />
+            <hr className={"Divider Divider-blue"} />
             <div className="WhiteMenu-header WhiteMenu-subheader">Truck ID: {id}</div>
-            <hr className="Divider" />
+            <hr className={"Divider Divider-blue"} />
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Estimated Time:
                 <div>
                     {eta.hours || "0"} HRS { eta.minutes || "0"} MIN
                 </div>
             </div>
-            <hr className="Divider" />
+            <hr className={"Divider Divider-blue"} />
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Elapsed Time:
                 <div>
