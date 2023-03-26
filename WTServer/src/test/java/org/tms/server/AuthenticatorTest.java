@@ -56,8 +56,8 @@ class AuthenticatorTest {
 
     @Test
     void givenCorrectCredentials_whenToCredentials_thenValidToken() {
-        final String token = auth.toCredentials("username", "password").orElseThrow();
-        assertDoesNotThrow(() -> verifier.verify(token));
-        assertNotNull(verifier.verify(token));
+        final Credentials credentials = auth.toCredentials("username", "password").orElseThrow();
+        assertDoesNotThrow(() -> verifier.verify(credentials.sessionToken()));
+        assertNotNull(verifier.verify(credentials.sessionToken()));
     }
 }

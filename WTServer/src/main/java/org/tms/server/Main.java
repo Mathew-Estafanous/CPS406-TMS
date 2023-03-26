@@ -9,22 +9,35 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static void main(String[] args) {
-        final int totalDockingAreas = 4;
+        final String dockingAreasValue = System.getenv("TOTAL_DOCKING_AREAS");
+        int totalDockingAreas;
+        try {
+            totalDockingAreas = Integer.parseInt(dockingAreasValue);
+            if (totalDockingAreas < 1) {
+                throw new NumberFormatException("Must be greater than 1");
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            throw new RuntimeException("Failed to get the total docking areas from TOTAL_DOCKING_AREAS: " + e.getMessage());
+        }
+
         final Map<Integer, Session> sessionMap = new ConcurrentHashMap<>();
         WarehouseServer warehouseServer = new WarehouseServer(new TruckWaitingQueue(),
                 new DockingAreaManager(totalDockingAreas),
                 new NotificationService(sessionMap));
 
         final Authenticator authenticator;
+        final String authKey = System.getenv("AUTH_KEY");
+        validateEnvString(authKey, "AUTH_KEY");
+        final String username = System.getenv("AUTH_USERNAME");
+        validateEnvString(username, "AUTH_USERNAME");
+        final String password = System.getenv("AUTH_PASSWORD");
+        validateEnvString(password, "AUTH_PASSWORD");
         try {
-            final String authKey = System.getenv("WAREHOUSE_AUTH_KEY");
-            if (authKey == null) {
-                throw new RuntimeException("Failed to get WAREHOUSE_AUTH_KEY. Please set an environment variable");
-            }
-            authenticator = new Authenticator("admin", "password", authKey);
+            authenticator = new Authenticator(username, password, authKey);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Failed to create authenticator: " + e.getMessage());
         }
+        
         final WebsocketServer truckWsServer = new WebsocketServer(8080, warehouseServer, sessionMap, warehouseServer, authenticator);
         try {
             truckWsServer.start();
@@ -33,4 +46,11 @@ public class Main {
             e.printStackTrace();
         }
     }
+
+    private static void validateEnvString(String value, String keyName) {
+        if (value == null || value.isEmpty()) {
+            throw new RuntimeException(String.format("Failed to get %s. Please set an environment variable", keyName));
+        }
+    }
+
 }

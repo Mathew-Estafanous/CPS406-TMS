@@ -65,9 +65,9 @@ public class AdminPortal {
         final String username = message.getUsername();
         final String password = message.getPassword();
         try {
-            final Optional<String> token = authenticator.toCredentials(username, password);
-            if (token.isPresent()) {
-                session.getBasicRemote().sendText(new Credentials(LOGIN, username, token.get()).toJson());
+            final Optional<Credentials> credentials = authenticator.toCredentials(username, password);
+            if (credentials.isPresent()) {
+                session.getBasicRemote().sendText(credentials.get().toJson());
                 session.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Open new connection to use login credentials"));
             } else {
                 AdminMessage response = new AdminMessage(FAILED, 0, 0);
