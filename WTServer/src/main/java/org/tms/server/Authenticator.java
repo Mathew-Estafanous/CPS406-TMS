@@ -3,6 +3,7 @@ package org.tms.server;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.tms.server.websocket.admin.AdminMessage;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -36,7 +37,7 @@ public class Authenticator {
         }
     }
 
-    public Optional<String> toCredentials(String username, String password) {
+    public Optional<Credentials> toCredentials(String username, String password) {
         if (!isCorrectLogin(username, password)) {
             return Optional.empty();
         }
@@ -44,7 +45,7 @@ public class Authenticator {
                 .withIssuer("admin_auth")
                 .withExpiresAt(Instant.now().plusSeconds(SECONDS_UNTIL_EXPIRE))
                 .sign(algorithm);
-        return Optional.of(token);
+        return Optional.of(new Credentials(AdminMessage.AdminMessageType.LOGIN, username, token));
     }
 
     private boolean isCorrectLogin(String username, String password) {
