@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@400;500&display=swap');
 
 .WhiteMenu {
-  height: 50vh;
-  width: 40vh;
-  background: white;
-  border-radius: 37px;
-  margin: auto;
-  margin-top: 2vh;
+    color: white;
+    height: 50vh;
+    width: 40vh;
+    background-color: #1e232c;
+    border: 3px solid #3b434b;
+    border-radius: 37px;
+    margin: 2vh auto auto;
 }
 
 .WhiteMenu-error {

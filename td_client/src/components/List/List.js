@@ -4,16 +4,16 @@ function List({list, title, cancelCommand}) {
         <div className={"WarehouseStateMenu-listContainer"}>
             <div>
                 <div className={"WarehouseStateMenu-header"}>{title}</div>
-                    {list.map((item, _) => {
+                <div className={"Divider Divider-spaced Divider-red"}/>
+                {sortedList.map((item, _) => {
                         return (
                             <div key={item.truckID} className={"WarehouseStateMenu-listItem"}>
                                 <div className={"textLeft"}>{item.driverName} </div>
                                 <div className={"textRight"}>Truck ID: {item.truckID}</div>
-                                <div className={"textCancel"} onClick={() => cancelCommand(item.truckID)}>x</div>
+                                <div className={"textCancel textCancel-red"} onClick={() => cancelCommand(item.truckID)}>X</div>
                             </div>
                         );
                     })}
-                <div className={"white"}>.</div>
             </div>
         </div>
     );

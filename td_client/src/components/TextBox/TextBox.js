@@ -1,11 +1,11 @@
 import './TextBox.css'
 
-function TextBox({ placeholder, name, changeHandler, error}) {
+function TextBox({ placeholder, name, changeHandler, error, password}) {
   return (
     <>
       {error ?
         <input
-          type="text"
+          type={password ? "password" : "text"}
           className="TextBox-input TextBox-error"
           autoComplete='off'
 
@@ -15,7 +15,7 @@ function TextBox({ placeholder, name, changeHandler, error}) {
         />
         :
         <input
-          type="text"
+          type={password ? "password" : "text"}
           className="TextBox-input"
           autoComplete='off'
 

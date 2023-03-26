@@ -91,7 +91,6 @@ function WarehouseStateMenu() {
         <div className={"WarehouseStateMenu"}>
             <ToastContainer />
             <div className={"WarehouseStateMenu-title"}>Warehouse State</div>
-            <div className={"Divider"}></div>
             <div className={"box"}>
                 <List list={state.dockingAreaList} title={"Docking Area"} cancelCommand={sendCancelCommand}/>
                 <DraggableList list={state.waitingAreaList}

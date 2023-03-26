@@ -1,4 +1,4 @@
-import './NumberBox.css'
+import '../TextBox/TextBox.css'
 
 function NumberBox({placeholder, name, changeHandler, error}) {
     return (

@@ -58,9 +58,9 @@ function AdminLoginMenu() {
             <form onSubmit={submitHandler}>
                 <TextBox changeHandler={changeHandler} name={"username"} placeholder={"Username"} error={errors[0]}/>
                 <label className={ errors[0] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[0] ? errors[0] : "."}</label>
-                <TextBox changeHandler={changeHandler} name={"password"} placeholder={"Password"} error={errors[1]}/>
+                <TextBox changeHandler={changeHandler} name={"password"} placeholder={"Password"} error={errors[1]} password={true}/>
                 <label className={ errors[1] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[1] ? errors[1] : "."}</label>
-                <ClickBox text={"Login"}/>
+                <ClickBox text={"Submit"}/>
             </form>
             <ClickBox text={"Truck Login"} clickHandle={toTruckLogin}/>
         </div>
