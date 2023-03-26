@@ -24,13 +24,13 @@
 }
 
 .ClickBox-green {
-    background: linear-gradient(180deg, #9ebd13 0%, #008552 100%);
+    background: linear-gradient(180deg, #9ebd13 0%, #009a73 100%);
 }
 
 .ClickBox-green:hover {
-    background: linear-gradient(180deg, #8a9d0c 0%, #027348 100%);
+    background: linear-gradient(180deg, #8a9d0c 0%, #009170 100%);
 }
 
 .ClickBox-green:active{
-    background: linear-gradient(0deg, #8a9d0c 0%, #027348 100%);
+    background: linear-gradient(0deg, #8a9d0c 0%, #009170 100%);
 }
