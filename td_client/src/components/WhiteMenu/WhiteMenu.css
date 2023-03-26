@@ -44,8 +44,9 @@
 }
 
 .WhiteMenu-subheader {
-  color: #373737;
-  font-size: 22px;
+    color: white;
+    font-size: 22px;
+    padding: 5px 0;
 }
 
 .Divider {

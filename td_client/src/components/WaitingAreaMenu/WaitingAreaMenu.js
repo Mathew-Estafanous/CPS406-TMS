@@ -64,9 +64,9 @@ function WaitingAreaMenu() {
             <ToastContainer limit={1}/>
             <div className="WhiteMenu-title">Waiting Area:</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Position Number: {position}</div>
-            <hr className="Divider"/>
+            <hr className={"Divider Divider-blue"} />
             <div className="WhiteMenu-header WhiteMenu-subheader">Truck ID: {id}</div>
-            <hr className="Divider" />
+            <hr className={"Divider Divider-blue"} />
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Estimated Time:
                 <div>

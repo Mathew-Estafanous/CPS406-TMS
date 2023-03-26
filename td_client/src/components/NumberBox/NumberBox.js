@@ -6,7 +6,7 @@ function NumberBox({placeholder, name, changeHandler, error}) {
         { error ?
                 <input
                     type="number"
-                    className="NumberBox-input NumberBox-error"
+                    className="TextBox-input TextBox-error removeArrows"
                     autoComplete='off'
 
                     name={name}
@@ -16,7 +16,7 @@ function NumberBox({placeholder, name, changeHandler, error}) {
                 :
                 <input
                     type="number"
-                    className="NumberBox-input"
+                    className="TextBox-input removeArrows"
                     autoComplete='off'
 
                     name={name}
