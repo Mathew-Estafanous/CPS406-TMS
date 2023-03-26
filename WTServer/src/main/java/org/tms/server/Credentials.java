@@ -3,9 +3,12 @@ package org.tms.server;
 import com.google.gson.Gson;
 import org.tms.server.websocket.admin.AdminMessage;
 
+/**
+ * Credentials holds vital information of the Admin including their Username and SessionToken, and AdminMessageType.
+ */
 public record Credentials(AdminMessage.AdminMessageType type, String username, String sessionToken) {
     /**
-     * Cancels a truck that is either in the waiting area or docking area.
+     * A Collection of Admin Credentials.
      * @return a collection of Admin Credentials
      */
     public String toJson() {

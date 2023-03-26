@@ -8,6 +8,9 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * NotificationService produces a message that can displayed in realtime on the Website to notify users about any changes.
+ */
 public class NotificationService {
 
     private static final Logger log = Logger.getLogger(NotificationService.class.getName());
@@ -59,6 +62,10 @@ public class NotificationService {
         }
     }
 
+    /**
+     * Notify the truck that it is cancelled.
+     * @param truckId The truckID that is waiting in the queue.
+     */
     public void notifyTruckCancelled(int truckId) {
         final Session websocket = sessionMap.get(truckId);
         if (websocket == null) return;

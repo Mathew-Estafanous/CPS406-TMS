@@ -11,11 +11,12 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+/**
+ * Authenticator represents a security system to authenticate Admin Credentials .
+ */
 public class Authenticator {
 
-    /**
-     * Authenticator represents a security system to authenticate Admin Credentials .
-     */
+
     private static final long SECONDS_UNTIL_EXPIRE = 1200;
     private static final Logger log = Logger.getLogger(Authenticator.class.getName());
     private final String adminUsername;
@@ -29,7 +30,7 @@ public class Authenticator {
     }
 
     /**
-     * Adds a truck to the queue and returns the position of the truck in the queue.
+     * Authenticates the Admins credentials.
      * @param credentials The credentials of the Admin.
      * @return Whether the credentials were valid or not.
      */
@@ -45,7 +46,7 @@ public class Authenticator {
     }
 
     /**
-     * Adds a truck to the queue and returns the position of the truck in the queue.
+     * Puts the Credentials into a collection.
      * @param username The username the Admin uses to access the Admin portal.
      * @param password The password the Admin uses to access the Admin portal.
      * @return The container that holds the credentials of all admins.
@@ -62,7 +63,7 @@ public class Authenticator {
     }
 
     /**
-     * Adds a truck to the queue and returns the position of the truck in the queue.
+     * Verifies the Login Information.
      * @param username The username the Admin uses to access the Admin portal.
      * @param password The password the Admin uses to access the Admin portal.
      * @return Whether the Login Information is correct.
@@ -77,7 +78,7 @@ public class Authenticator {
     }
 
     /**
-     * Adds a truck to the queue and returns the position of the truck in the queue.
+     * Encrypts the Users password for security.
      * @param password The password the Admin uses to access the Admin portal.
      * @return A string holding the encrypted password.
      * @throws NoSuchAlgorithmException if the password cannot be encrypted

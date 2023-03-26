@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * DockingAreaManager manages which trucks can be docked in an effective manner.
+ */
 public class DockingAreaManager {
 
     // Map of Docking Number to Truck Driver.

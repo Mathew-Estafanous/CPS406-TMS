@@ -1,5 +1,8 @@
 package org.tms.server;
 
+/**
+ * Functionality accessible to truck drivers on the App.
+ */
 public interface ITruckService extends Cancellable {
 
     /**
