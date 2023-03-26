@@ -60,7 +60,7 @@ function AdminLoginMenu() {
                 <label className={ errors[0] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[0] ? errors[0] : "."}</label>
                 <TextBox changeHandler={changeHandler} name={"password"} placeholder={"Password"} error={errors[1]} password={true}/>
                 <label className={ errors[1] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[1] ? errors[1] : "."}</label>
-                <ClickBox text={"Submit"}/>
+                <ClickBox text={"Submit"} color={"green"}/>
             </form>
             <ClickBox text={"Truck Login"} clickHandle={toTruckLogin}/>
         </div>

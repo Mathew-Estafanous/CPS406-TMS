@@ -66,6 +66,8 @@ function CheckIn() {
         //Logic for determining a valid name
         if (inputs.driverName === undefined || inputs.driverName === "") {
             errorMessages[0] = "Enter a name";
+        } else if (inputs.driverName.length > 20) {
+            errorMessages[0] = "Maximum 20 characters";
         } else {
             errorMessages[0] = ".";
         }
@@ -82,8 +84,10 @@ function CheckIn() {
         //Logic for determining a valid estimated time
         if (inputs.estimatedTime === undefined || inputs.estimatedTime === "") {
             errorMessages[2] = "Enter an estimated time";
-        } else if (!Number.isInteger(parseInt(inputs.estimatedTime)) || parseInt(inputs.estimatedTime) < 0 || parseInt(inputs.estimatedTime) > 360) {
+        } else if (!Number.isInteger(parseInt(inputs.estimatedTime)) || parseInt(inputs.estimatedTime) < 1) {
             errorMessages[2] = "Invalid estimation";
+        } else if (parseInt(inputs.estimatedTime) > 360) {
+            errorMessages[2] = "Maximum 360 minutes"
         } else {
             errorMessages[2] = ".";
         }
@@ -113,8 +117,8 @@ function CheckIn() {
                 {errors[0] !== "." ? <label className='WhiteMenu-error'>{errors[0]}</label> :
                     <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}
                 {errors[1] !== "." ?
-                    <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={true}/> :
-                    <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={false}/>}
+                    <NumberBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={true}/> :
+                    <NumberBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={false}/>}
                 {errors[1] !== "." ? <label className='WhiteMenu-error'>{errors[1]}</label> :
                     <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}
                 {errors[2] !== "." ?
@@ -124,7 +128,7 @@ function CheckIn() {
                                error={false}/>}
                 {errors[2] !== "." ? <label className='WhiteMenu-error'>{errors[2]}</label> :
                     <label className='WhiteMenu-error WhiteMenu-hide'>.</label>}
-                <ClickBox text={"Submit"}/>
+                <ClickBox text={"Submit"} color={"green"}/>
             </form>
             <ClickBox text={"Admin Login"} clickHandle={toAdminLogin}/>
         </div>
