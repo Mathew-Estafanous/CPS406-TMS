@@ -14,20 +14,26 @@ function DraggableList({list, title, sendRepositionCommand, cancelCommand}){
                     {(provided, _) => (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
                             <div className={"WarehouseStateMenu-header"}>{title}</div>
+                            <div className={"Divider Divider-spaced Divider-blue"}/>
                             {list.map((item, i) => (
                                 <Draggable key={item.truckID} draggableId={"draggable-" + item.truckID} index={i}>
-                                    {(provided, _) => (
-                                        <div className={"WarehouseStateMenu-listItem"}
-                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                    {(provided, snapshot) => (
+                                        <div className={"WarehouseStateMenu-listItem listItem-blue"}
+                                             ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+                                             style={{
+                                                 ...provided.draggableProps.style,
+                                                 boxShadow: snapshot.isDragging ? "0 0 .4rem #3185FC" : "none",
+                                                 "border-color": snapshot.isDragging && "#3185FC",
+                                                 color: snapshot.isDragging && "white",
+                                             }}
+                                        >
                                             <div className={"textLeft"}>{item.driverName} </div>
                                             <div className={"textRight"}>Truck ID: {item.truckID}</div>
-                                            <div className={"textCancel"} onClick={() => cancelCommand(item.truckID)}>x</div>
+                                            <div className={"textCancel textCancel-blue"} onClick={() => cancelCommand(item.truckID)}>X</div>
                                         </div>
                                     )}
                                 </Draggable>
                             ))}
-                            {provided.placeholder}
-                            <div className={"white"}>.</div>
                         </div>
                     )}
                 </Droppable>

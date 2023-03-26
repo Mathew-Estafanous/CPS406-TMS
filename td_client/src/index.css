@@ -6,9 +6,13 @@
 /*
   background-image: url("https://cdn.discordapp.com/attachments/419635961350193162/1086782752281604186/chuttersnap-BNBA1h-NgdY-unsplash_1.jpg");
 */
+
+
+
 body {
-  
-  background: linear-gradient(180deg, #3185FC 0%, #3185FC 59.9%, #495BFF 100%);
+
+  background: rgb(15,21,44);
+  background: linear-gradient(180deg, rgba(15,21,44,1) 0%, rgba(23,45,59,1) 100%);
   background-size: cover;
   overflow: hidden;
   height: 100vh;
