@@ -37,7 +37,6 @@ public class AdminPortal {
 
     @OnMessage
     public void onMessage(Session session, AdminMessage message) {
-        log.info("Message received: " + message);
         if (message.getType() == LOGIN) {
             handleLoginCommand(session, message);
             return;

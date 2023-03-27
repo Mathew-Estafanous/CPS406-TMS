@@ -35,8 +35,7 @@ public class TruckServerController {
                        @PathParam("truckID") int truckID) {
         log.info("New connection opened with ID: " + truckID);
         session.setMaxIdleTimeout(0); // Remove maximum timeout.
-        if(truckService.isTruckIDTaken(truckID)) return;
-        sessionMap.put(truckID, session);
+        sessionMap.putIfAbsent(truckID, session);
     }
 
     @OnMessage
