@@ -47,10 +47,10 @@ public class Authenticator {
     }
 
     /**
-     * Puts the Credentials into a collection.
+     * Validates Username and Password and returns a session token if they are.
      * @param username The username the Admin uses to access the Admin portal.
      * @param password The password the Admin uses to access the Admin portal.
-     * @return The container that holds the credentials of all admins.
+     * @return A session token.
      */
 
     public Optional<Credentials> toCredentials(String username, String password) {

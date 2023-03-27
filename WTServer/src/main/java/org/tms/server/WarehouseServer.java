@@ -8,8 +8,9 @@ import java.util.Optional;
 import static org.tms.server.TruckState.LocationState.*;
 
 /**
- * Obtains the ID of the truck.
- * @return The truckID.
+ * WarehouseServer contains the vital components linking the waitingQueue and
+ * dockingArea and NotificationServes while getting obtaining the correct
+ * information for the ITruckService and IAdminService.
  */
 public class WarehouseServer implements ITruckService, IAdminService {
 
@@ -24,9 +25,9 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * Checks into a TD into the Warehouse.
-     * @param driver The driver that is entering the warehouse.
-     * @return The truck state of the truck driver.
+     * Checks into a TD into the Warehouse by ensuring the truckID has not been used
+     * by another truck driver. If the customer is valid, it assigns them a spot in
+     * either the docking area or the waiting queue.
      */
     @Override
     public TruckState checkIn(TruckDriver driver) {
@@ -45,9 +46,9 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * Checks out of a TD into the Warehouse.
-     * @param truckId The driver that is entering the warehouse.
-     * @return The truck state of the truck driver.
+     * Checks out of a TD into the Warehouse when the truck driver is done unloading.
+     * It gets the next truck to start unloading, and it notifies all other trucks that
+     * their position in line has changed.
      */
     @Override
     public TruckState checkOut(int truckId) {
@@ -85,9 +86,8 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * Gets the current state of the Truck.
-     * @param truckId The driver that is entering the warehouse.
-     * @return The state of the truck.
+     * Gets the current state of the Truck. Possible TuckStates include "waiting_are",
+     * "docking_area", "leaving", or "unknown".
      */
     @Override
     public TruckState getCurrentTruckState(int truckId) {
@@ -108,9 +108,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * Determines if the truckID is in use by another truck driver.
-     * @param truckID The driver that is entering the warehouse.
-     * @return whether the Truck ID has already been used.
+     * Determines if the truckID is in use by another truck driver in the Warehouse System.
      */
     @Override
     public boolean isTruckIDTaken(int truckID) {
@@ -119,9 +117,8 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * Cancels a truck in the warehouse.
-     * @param truckId The driver that is entering the warehouse.
-     * @return The truck driver who had their spot in the waiting queue cancelled
+     * Cancels a truck in the warehouse regardless of their state. It notifies all other
+     * trucks about their position.
      * @throws IllegalArgumentException if the truckID is not a valid ID.
      */
     @Override
@@ -144,10 +141,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * Changes the position of a truck in the queue.
-     * @param truckId The driver that is entering the warehouse.
-     * @return The truck driver who had their spot in the waiting queue cancelled
-     * @throws IllegalArgumentException if the truckID is not a valid ID.
+     * Changes the position of a truck in the waiting queue.
      */
     @Override
     public boolean changeQueuePosition(int truckId, int newPosition) {
@@ -171,8 +165,7 @@ public class WarehouseServer implements ITruckService, IAdminService {
     }
 
     /**
-     * View the entire warehouse state.
-     * @return The current overview of the state of the warehouse.
+     * Provides a view of the docking area and the waiting queue.
      */
     @Override
     public WarehouseState viewEntireWarehouseState() {
