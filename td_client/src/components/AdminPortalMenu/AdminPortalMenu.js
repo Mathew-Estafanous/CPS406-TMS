@@ -3,12 +3,12 @@ import TextBox from '../TextBox/TextBox'
 import ClickBox from '../ClickBox/ClickBox';
 import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom"
-import {AdminWebSocketContext} from "../WebsocketContext/AdminWebsocketContext";
+import {AdminWebsocketContext} from "../WebsocketContext/AdminWebsocketContext";
 import SelectBox from "../SelectBox/SelectBox";
 
 function AdminPortalMenu() {
     const navigate = useNavigate();
-    const {sendJsonMessage} = useContext(AdminWebSocketContext);
+    const {sendJsonMessage} = useContext(AdminWebsocketContext);
     const [adminCommand, changeAdminCommand] = useState("0")
     const [inputs, setInputs] = useState({"truckID": null, "position": null});
     const [errors, changeErrorMessage] = useState([false, false]);
@@ -75,10 +75,7 @@ function AdminPortalMenu() {
         }
     }
 
-    const handleGetStateCommand = (errorMessages) => {
-        let adminMessage = {
-            "type": "view_state"
-        }
+    const handleGetStateCommand = (_) => {
         navigate("/WarehouseState");
     };
 
@@ -86,7 +83,7 @@ function AdminPortalMenu() {
     const onChangedAdminCommand = (event) => {
         changeAdminCommand(event.target.value)
         //Reset inputs from other Admin commands
-        if (adminCommand === "0"){
+        if (adminCommand === "0") {
             setInputs({"truckID": null, "position": null});
             changeErrorMessage([false, false]);
         } else {
@@ -116,15 +113,21 @@ function AdminPortalMenu() {
                     switch (adminCommand) {
                         case "1":
                             return (<>
-                                <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={errors[0]}/>
-                                <label className={errors[0] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[0] ? errors[0] : "."}</label>
-                                <TextBox placeholder={"Position Number"} name={"newPosition"} changeHandler={changeHandler} error={errors[1]}/>
-                                <label className={errors[1] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[1] ? errors[1] : "."}</label>
+                                <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler}
+                                         error={errors[0]}/>
+                                <label
+                                    className={errors[0] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[0] ? errors[0] : "."}</label>
+                                <TextBox placeholder={"Position Number"} name={"newPosition"}
+                                         changeHandler={changeHandler} error={errors[1]}/>
+                                <label
+                                    className={errors[1] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[1] ? errors[1] : "."}</label>
                             </>)
                         case "2":
                             return (<>
-                                <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler} error={errors[0]}/>
-                                <label className={errors[0] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[0] ? errors[0] : "."}</label>
+                                <TextBox placeholder={"Truck ID"} name={"truckID"} changeHandler={changeHandler}
+                                         error={errors[0]}/>
+                                <label
+                                    className={errors[0] ? 'WhiteMenu-error' : 'WhiteMenu-error WhiteMenu-hide'}>{errors[0] ? errors[0] : "."}</label>
                             </>)
                         default:
                             return <></>

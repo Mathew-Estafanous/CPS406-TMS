@@ -3,15 +3,17 @@ import '../WhiteMenu/WhiteMenu.css';
 import {createSearchParams, useNavigate} from "react-router-dom"
 import {useContext, useEffect, useState} from "react";
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
-import { parse } from "tinyduration";
+import {parse} from "tinyduration";
 import 'react-toastify/dist/ReactToastify.css';
 import {toast, ToastContainer} from "react-toastify";
 
+/**
+ * UI for the menu of the Waiting Area.
+ * @return {JSX.Element} The menu for the Waiting Area.
+ */
 function WaitingAreaMenu() {
-    //Check out just takes you back to the Check In for now
     const navigate = useNavigate();
-    const { receivedMessage, id, sendJsonMessage } = useContext(WebSocketContext);
-
+    const {receivedMessage, id, sendJsonMessage} = useContext(WebSocketContext);
     const [sentCheckout, setSentCheckout] = useState(false);
     const [position, setPosition] = useState(receivedMessage.position)
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime))
@@ -64,13 +66,13 @@ function WaitingAreaMenu() {
             <ToastContainer limit={1}/>
             <div className="WhiteMenu-title">Waiting Area:</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Position Number: {position}</div>
-            <hr className={"Divider Divider-blue"} />
+            <hr className={"Divider Divider-blue"}/>
             <div className="WhiteMenu-header WhiteMenu-subheader">Truck ID: {id}</div>
-            <hr className={"Divider Divider-blue"} />
+            <hr className={"Divider Divider-blue"}/>
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Estimated Time:
                 <div>
-                    {eta.hours || "0"} HRS { eta.minutes || "0"} MIN
+                    {eta.hours || "0"} HRS {eta.minutes || "0"} MIN
                 </div>
             </div>
             <form onSubmit={submitHandler}>

@@ -1,9 +1,18 @@
 import '../TextBox/TextBox.css'
 
+/**
+ *
+ * @param {String} placeholder Placeholder text.
+ * @param {String} name Name of the number box.
+ * @param {Function} changeHandler Function used to change the state of the inputs.
+ * @param {Boolean} error If an error is detected in the inputs.
+ * @return {JSX.Element} A numeric input box.
+ * @constructor
+ */
 function NumberBox({placeholder, name, changeHandler, error}) {
     return (
         <>
-        { error ?
+            {error ?
                 <input
                     type="number"
                     className="TextBox-input TextBox-error removeArrows"
@@ -23,9 +32,9 @@ function NumberBox({placeholder, name, changeHandler, error}) {
                     placeholder={placeholder}
                     onChange={changeHandler}
                 />
-        }
+            }
         </>
     );
-  }
-  
-  export default NumberBox;
+}
+
+export default NumberBox;

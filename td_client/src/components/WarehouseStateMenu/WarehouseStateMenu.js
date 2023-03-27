@@ -3,7 +3,7 @@ import "../WhiteMenu/WhiteMenu.css"
 import DraggableList from "../DraggableList/DraggableList";
 import List from "../List/List";
 import {useContext, useEffect, useState} from "react";
-import {AdminWebSocketContext} from "../WebsocketContext/AdminWebsocketContext";
+import {AdminWebsocketContext} from "../WebsocketContext/AdminWebsocketContext";
 import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
@@ -23,8 +23,12 @@ let notificationOptions = {
     theme: "dark",
 }
 
+/**
+ * UI Menu for the Warehouse State Page.
+ * @return {JSX.Element} The menu for the Warehouse State page.
+ */
 function WarehouseStateMenu() {
-    const { sendJsonMessage, receivedMessage} = useContext(AdminWebSocketContext);
+    const {sendJsonMessage, receivedMessage} = useContext(AdminWebsocketContext);
     const [state, setState] = useState(initialState)
     const navigate = useNavigate();
 
@@ -58,7 +62,7 @@ function WarehouseStateMenu() {
             toast.success(`Success: Truck ID #${receivedMessage.truckID} moved`, notificationOptions);
         } else if (receivedMessage.type === "cancel") {
             toast.success(`Success: Cancelled Truck ID #${receivedMessage.truckID}`, notificationOptions);
-        }else if (receivedMessage.type === "failed") {
+        } else if (receivedMessage.type === "failed") {
             navigate("/AdminLogin")
         }
     }, [receivedMessage]);
@@ -71,7 +75,7 @@ function WarehouseStateMenu() {
         }
         sendJsonMessage(repositionMessage);
         let newState = [...state.waitingAreaList]
-        newState.splice(newPosition-1, 0, newState.splice(sourceIdx, 1)[0]);
+        newState.splice(newPosition - 1, 0, newState.splice(sourceIdx, 1)[0]);
         setState({
             waitingAreaList: newState,
             dockingAreaList: state.dockingAreaList
@@ -89,7 +93,7 @@ function WarehouseStateMenu() {
 
     return (
         <div className={"WarehouseStateMenu"}>
-            <ToastContainer />
+            <ToastContainer/>
             <div className={"WarehouseStateMenu-title"}>Warehouse State</div>
             <div className={"box"}>
                 <List list={state.dockingAreaList} title={"Docking Area"} cancelCommand={sendCancelCommand}/>

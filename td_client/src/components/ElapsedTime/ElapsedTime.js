@@ -1,6 +1,11 @@
 import "../WhiteMenu/WhiteMenu.css"
 import {useEffect, useState} from "react";
 
+/**
+ * Converts milliseconds to hours, minutes, and seconds.
+ * @param  {Number} milliseconds The milliseconds to be converted.
+ * @return {Object} Hours, minutes, and seconds equivalent to the milliseconds.
+ */
 function msToTime(milliseconds) {
     let seconds = Math.floor((milliseconds / 1000) % 60),
         minutes = Math.floor((milliseconds / (1000 * 60)) % 60),
@@ -16,7 +21,11 @@ function msToTime(milliseconds) {
         "seconds": seconds
     }
 }
-
+/**
+ * Converts duration to milliseconds.
+ * @param  {Object} duration Hours, minutes, and seconds.
+ * @return {Number} Milliseconds equivalent to the duration.
+ */
 function durationToMs(duration) {
     let hourMs = (duration.hours * 60 * 60 * 1000) || 0,
         minutesMs = (duration.minutes * 60 * 1000) || 0,
@@ -24,8 +33,13 @@ function durationToMs(duration) {
     return hourMs + minutesMs + secondsMs
 }
 
+/**
+ * ElapsedTime represents an increasing timer.
+ * @param {Object} eta The estimated time of a Truck Driver.
+ * @returns {JSX.Element} A display of the current elapsed time of the client.
+ */
 function ElapsedTime({eta}) {
-    //dockingAreaTime is milliseconds
+
     let startingTime = JSON.parse(sessionStorage.getItem("dockingAreaTime"))
     if (startingTime === null) {
         startingTime = new Date().getTime();
@@ -37,7 +51,7 @@ function ElapsedTime({eta}) {
         const interval = setInterval(() => {
             const newElapsedTime = msToTime(new Date().getTime()-startingTime);
             setElapsedTime(newElapsedTime);
-        }, 1000); //Do this every 1 second XD !!1!!1
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [elapsedTime]);
