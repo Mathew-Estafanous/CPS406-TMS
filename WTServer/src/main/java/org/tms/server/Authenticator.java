@@ -17,7 +17,6 @@ import java.util.logging.Logger;
  */
 public class Authenticator {
 
-
     private static final long SECONDS_UNTIL_EXPIRE = 1200;
     private static final Logger log = Logger.getLogger(Authenticator.class.getName());
     private final String adminUsername;

@@ -37,7 +37,7 @@ public class Main {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Failed to create authenticator: " + e.getMessage());
         }
-        
+
         final WebsocketServer truckWsServer = new WebsocketServer(8080, warehouseServer, sessionMap, warehouseServer, authenticator);
         try {
             truckWsServer.start();
