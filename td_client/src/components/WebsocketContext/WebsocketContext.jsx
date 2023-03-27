@@ -13,6 +13,11 @@ const initialState = {
     "position": ""
 };
 
+/**
+ * The Websocket commands for sending Truck messages.
+ * @param props Misc properties.
+ * @return {JSX.Element} Context of websocket commands for sending Truck messages.
+ */
 export const WebSocketsProvider = (props) => {
     const state = JSON.parse(sessionStorage.getItem("truckMessage")) || initialState;
     const [id, changeId] = useState(state.truckID);

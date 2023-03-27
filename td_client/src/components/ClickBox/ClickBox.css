@@ -19,7 +19,7 @@
     background: linear-gradient(180deg, #236dd6 0%, #2167c9 59.9%, #2836b8 100%);
 }
 
-.ClickBox-Input:active{
+.ClickBox-Input:active {
     background: linear-gradient(0deg, #236dd6 0%, #2167c9 59.9%, #2836b8 100%);
 }
 
@@ -31,6 +31,6 @@
     background: linear-gradient(180deg, #8a9d0c 0%, #009170 100%);
 }
 
-.ClickBox-green:active{
+.ClickBox-green:active {
     background: linear-gradient(0deg, #8a9d0c 0%, #009170 100%);
 }

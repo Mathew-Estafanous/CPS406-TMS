@@ -2,6 +2,10 @@ import '../App.css';
 import WhiteMenu from '../components/WhiteMenu/WhiteMenu';
 import Logo from '../components/Logo/Logo';
 
+/**
+ * The Admin Portal page.
+ * @return {JSX.Element} UI for the Admin Portal page.
+ */
 function AdminPortal() {
     return (
         <div className="App">

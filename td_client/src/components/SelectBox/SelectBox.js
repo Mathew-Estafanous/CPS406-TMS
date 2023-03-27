@@ -1,6 +1,13 @@
 import "./SelectBox.css"
 
-function SelectBox({placeholder, name, changeHandler, selectType}) {
+/**
+ * UI for a selection box.
+ * @param {String} name Name of selection box.
+ * @param {Function} changeHandler Function used to update state of selection box.
+ * @param {String} selectType Type of selection box.
+ * @return {JSX.Element} UI for a selection box.
+ */
+function SelectBox({name, changeHandler, selectType}) {
     if (selectType === "Admin") {
         return (
             <>

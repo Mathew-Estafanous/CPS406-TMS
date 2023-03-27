@@ -11,36 +11,36 @@
 }
 
 .WhiteMenu-error {
-  margin: auto;
-  padding-bottom: 5px;
-  text-align: left;
-  width: 22vh;
-  display: block;
-  font-size: 8px;
-  font-weight: 600;
-  color: #f23d3d;
+    margin: auto;
+    padding-bottom: 5px;
+    text-align: left;
+    width: 22vh;
+    display: block;
+    font-size: 8px;
+    font-weight: 600;
+    color: #f23d3d;
 }
 
 .Red {
     color: #f23d3d;
 }
 
-.WhiteMenu-hide{
-  visibility: hidden;
+.WhiteMenu-hide {
+    visibility: hidden;
 }
 
 .WhiteMenu-title {
-  padding-top: 10px;
-  margin-bottom: 10px;
-  font-size: 30px;
-  font-family: 'M PLUS 2', sans-serif;
-  font-weight: bold;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-family: 'M PLUS 2', sans-serif;
+    font-weight: bold;
 }
 
 .WhiteMenu-header {
-  font-size: 25px;
-  font-weight: bold;
-  font-family: 'M PLUS 2', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'M PLUS 2', sans-serif;
 }
 
 .WhiteMenu-subheader {

@@ -3,7 +3,7 @@ import UseWebSocket from "react-use-websocket";
 import {useCookies} from "react-cookie";
 
 const defaultURL = 'ws://localhost:8080/admin';
-export const AdminWebSocketContext = createContext(null);
+export const AdminWebsocketContext = createContext(null);
 
 const initialState = {
     "type": "",
@@ -14,9 +14,14 @@ const initialState = {
     "sessionToken": ""
 };
 
+/**
+ * The Websocket commands for sending Admin messages.
+ * @param props Misc properties.
+ * @return {JSX.Element} Context of websocket commands for sending Admin messages.
+ */
 export const AdminWebSocketsProvider = (props) => {
     const [receivedMessage, changeReceivedMessage] = useState(initialState);
-    const [_, setCookies ] = useCookies(['sessionToken']);
+    const [_, setCookies] = useCookies(['sessionToken']);
 
     const {sendJsonMessage} = UseWebSocket(defaultURL, {
         onOpen: () => console.log('Opened connection'),
@@ -37,5 +42,5 @@ export const AdminWebSocketsProvider = (props) => {
         reconnectInterval: 100,
     });
 
-    return <AdminWebSocketContext.Provider value={{sendJsonMessage, receivedMessage}} {...props} />
+    return <AdminWebsocketContext.Provider value={{sendJsonMessage, receivedMessage}} {...props} />
 }

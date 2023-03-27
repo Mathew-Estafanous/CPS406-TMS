@@ -9,10 +9,6 @@
     margin: 5vh auto;
 }
 
-.white {
-    color: white;
-}
-
 .WarehouseStateMenu-listContainer {
     display: inline-block;
     padding: 10px;
@@ -41,8 +37,8 @@
 }
 
 .listItem-red:hover {
-    border-color: rgb(255,71,120);
-    filter: drop-shadow(0px 4px 4px rgba(255,71,120, 0.5));
+    border-color: rgb(255, 71, 120);
+    filter: drop-shadow(0px 4px 4px rgba(255, 71, 120, 0.5));
 }
 
 .listItem-blue:hover {
@@ -65,7 +61,7 @@
     color: #f23d3d;
 }
 
-.WarehouseStateMenu-hide{
+.WarehouseStateMenu-hide {
     visibility: hidden;
 }
 
@@ -104,7 +100,7 @@
 }
 
 .Divider-red {
-    background-color: #ff4c4c;
+    background-color: #f23d3d;
 }
 
 .Divider-blue {
@@ -133,7 +129,7 @@
     width: 10%;
 }
 
-.textCancel-blue{
+.textCancel-blue {
     background: linear-gradient(180deg, #3185FC 0%, #3185FC 59.9%, #495BFF 100%);
 }
 
@@ -141,14 +137,14 @@
     background: linear-gradient(180deg, #236dd6 0%, #2167c9 59.9%, #2836b8 100%);
 }
 
-.textCancel-red{
-    background: rgb(255,71,120);
-    background: linear-gradient(0deg, rgba(255,71,120,1) 0%, rgba(255,105,105,1) 100%);
+.textCancel-red {
+    background: rgb(255, 71, 120);
+    background: linear-gradient(0deg, rgba(255, 71, 120, 1) 0%, rgba(255, 105, 105, 1) 100%);
 }
 
 .textCancel-red:hover {
-    background: rgb(181,40,94);
-    background: linear-gradient(0deg, rgba(181,40,94,1) 0%, rgba(222,74,74,1) 100%);
+    background: rgb(181, 40, 94);
+    background: linear-gradient(0deg, rgba(181, 40, 94, 1) 0%, rgba(222, 74, 74, 1) 100%);
 }
 
 .box {

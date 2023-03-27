@@ -8,12 +8,18 @@ import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 import {serialize} from "tinyduration";
 import {toast, ToastContainer} from "react-toastify";
 
+/**
+ * CheckIn represents the menu UI for the Check-in page.
+ * @return {JSX.Element} The UI for the Check-in menu.
+ */
 function CheckIn() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [inputs, setInputs] = useState({});
     const [errors, changeErrorMessage] = useState([".", ".", "."]);
     const {sendJsonMessage, changeId, receivedMessage} = useContext(WebSocketContext);
+
+
     useEffect(() => {
         if (searchParams.get("wasKicked") === "true") {
             toast.error('Admin has checked you out of the warehouse', {
@@ -33,6 +39,7 @@ function CheckIn() {
     const toAdminLogin = () => {
         navigate("/AdminLogin");
     }
+
     const changeHandler = (event) => {
         setInputs(values => ({...values, [event.target.name]: event.target.value}))
     }
