@@ -1,7 +1,7 @@
 import './ClickBox.css'
 
 /**
- * ClickBox represents the UI for a button.
+ * UI for a button.
  * @param {String} text Text to be displayed in the button.
  * @param {Function} clickHandle Function to be called when clicking the button.
  * @param {String} color Color of the button.

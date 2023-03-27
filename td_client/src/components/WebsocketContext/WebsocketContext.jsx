@@ -22,6 +22,8 @@ export const WebSocketsProvider = (props) => {
     const state = JSON.parse(sessionStorage.getItem("truckMessage")) || initialState;
     const [id, changeId] = useState(state.truckID);
     const [receivedMessage, changeReceivedMessage] = useState(state);
+
+    //Open websocket for client.
     const {sendJsonMessage} = UseWebSocket(defaultURL + id, {
         onOpen: () => console.log('Opened connection'),
         onError: () => console.log("Error"),

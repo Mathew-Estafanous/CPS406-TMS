@@ -21,6 +21,7 @@ function msToTime(milliseconds) {
         "seconds": seconds
     }
 }
+
 /**
  * Converts duration to milliseconds.
  * @param  {Object} duration Hours, minutes, and seconds.
@@ -39,17 +40,18 @@ function durationToMs(duration) {
  * @returns {JSX.Element} A display of the current elapsed time of the client.
  */
 function ElapsedTime({eta}) {
-
+    //Prevents time from resetting on refresh.
     let startingTime = JSON.parse(sessionStorage.getItem("dockingAreaTime"))
     if (startingTime === null) {
         startingTime = new Date().getTime();
         sessionStorage.setItem("dockingAreaTime", startingTime);
     }
-    const [elapsedTime, setElapsedTime] = useState(msToTime(new Date().getTime()-startingTime));
+    const [elapsedTime, setElapsedTime] = useState(msToTime(new Date().getTime() - startingTime));
 
+    //Update time display every second.
     useEffect(() => {
         const interval = setInterval(() => {
-            const newElapsedTime = msToTime(new Date().getTime()-startingTime);
+            const newElapsedTime = msToTime(new Date().getTime() - startingTime);
             setElapsedTime(newElapsedTime);
         }, 1000);
 
@@ -57,7 +59,7 @@ function ElapsedTime({eta}) {
     }, [elapsedTime]);
 
     return (
-        <div className={durationToMs(eta) >= durationToMs(elapsedTime)? "" : "Red"}>
+        <div className={durationToMs(eta) >= durationToMs(elapsedTime) ? "" : "Red"}>
             {elapsedTime.hours} : {elapsedTime.minutes} : {elapsedTime.seconds}
         </div>
     )
