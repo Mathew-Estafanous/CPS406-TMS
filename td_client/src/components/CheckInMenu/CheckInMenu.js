@@ -80,7 +80,7 @@ function CheckIn() {
         } else if (inputs.driverName.length > 20) {
             errorMessages[0] = "Maximum 20 characters";
         } else {
-            errorMessages[0] = ".";
+            errorMessages[0] = false;
         }
 
         //Logic for determining a valid Truck ID
