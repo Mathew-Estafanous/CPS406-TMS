@@ -1,5 +1,8 @@
 package org.tms.server;
 
+/**
+ * Core Functionality reuired by the TruckServerController to fulfill requests made by the truck driver on the app.
+ */
 public interface ITruckService extends Cancellable {
 
     /**

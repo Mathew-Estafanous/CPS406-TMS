@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.time.Duration;
 import java.util.Objects;
 
+/**
+ * TruckState hold the current state of the turck in the warehouse.
+ */
 public class TruckState {
     private final TruckDriver truckDriver;
     private final LocationState locationState;
@@ -26,6 +29,7 @@ public class TruckState {
         this.position = position;
         this.estimatedTime = estimatedTime;
     }
+
 
     public int getTruckID() {
         return truckDriver.getTruckID();

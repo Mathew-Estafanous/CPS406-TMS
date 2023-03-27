@@ -1,5 +1,8 @@
 package org.tms.server;
 
+/**
+ * The basic functionality that can be performed by Admins.
+ */
 public interface IAdminService extends Cancellable {
 
     /**

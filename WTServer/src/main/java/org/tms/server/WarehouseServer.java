@@ -7,6 +7,11 @@ import java.util.Optional;
 
 import static org.tms.server.TruckState.LocationState.*;
 
+/**
+ * WarehouseServer contains the vital components linking the waitingQueue and
+ * dockingArea and NotificationServes while getting obtaining the correct
+ * information for the ITruckService and IAdminService.
+ */
 public class WarehouseServer implements ITruckService, IAdminService {
 
     private final TruckWaitingQueue waitingQueue;
@@ -19,6 +24,11 @@ public class WarehouseServer implements ITruckService, IAdminService {
         this.notificationService = notificationService;
     }
 
+    /**
+     * Checks into a TD into the Warehouse by ensuring the truckID has not been used
+     * by another truck driver. If the customer is valid, it assigns them a spot in
+     * either the docking area or the waiting queue.
+     */
     @Override
     public TruckState checkIn(TruckDriver driver) {
         if(isTruckIDTaken(driver.getTruckID())) {
@@ -35,6 +45,11 @@ public class WarehouseServer implements ITruckService, IAdminService {
         }
     }
 
+    /**
+     * Checks out of a TD into the Warehouse when the truck driver is done unloading.
+     * It gets the next truck to start unloading, and it notifies all other trucks that
+     * their position in line has changed.
+     */
     @Override
     public TruckState checkOut(int truckId) {
         if (dockingArea.isTruckUnloading(truckId)) {
@@ -53,6 +68,9 @@ public class WarehouseServer implements ITruckService, IAdminService {
         }
     }
 
+    /**
+     * Unloads the truck that is next in the waiting queue.
+     */
     private void startUnloadingOfNextInQueue() {
         final Optional<TruckDriver> nextTruckOptional = waitingQueue.dequeueNextTruck();
         if (nextTruckOptional.isEmpty()) return;
@@ -67,6 +85,10 @@ public class WarehouseServer implements ITruckService, IAdminService {
         });
     }
 
+    /**
+     * Gets the current state of the Truck. Possible TuckStates include "waiting_are",
+     * "docking_area", "leaving", or "unknown".
+     */
     @Override
     public TruckState getCurrentTruckState(int truckId) {
         final var driverEntry = dockingArea.retrieveUnloadingTruck(truckId);
@@ -85,12 +107,20 @@ public class WarehouseServer implements ITruckService, IAdminService {
         return new TruckState(driver, WAITING_AREA, queuePosition, waitTime);
     }
 
+    /**
+     * Determines if the truckID is in use by another truck driver in the Warehouse System.
+     */
     @Override
     public boolean isTruckIDTaken(int truckID) {
         return dockingArea.retrieveUnloadingTruck(truckID).isPresent() ||
                 waitingQueue.findTruckDriver(truckID) != null;
     }
 
+    /**
+     * Cancels a truck in the warehouse regardless of their state. It notifies all other
+     * trucks about their position.
+     * @throws IllegalArgumentException if the truckID is not a valid ID.
+     */
     @Override
     public TruckDriver cancelTruck(int truckId) throws IllegalArgumentException {
         if (dockingArea.isTruckUnloading(truckId)) {
@@ -110,6 +140,9 @@ public class WarehouseServer implements ITruckService, IAdminService {
         }
     }
 
+    /**
+     * Changes the position of a truck in the waiting queue.
+     */
     @Override
     public boolean changeQueuePosition(int truckId, int newPosition) {
         final int pos = waitingQueue.repositionTruck(truckId, newPosition);
@@ -118,6 +151,10 @@ public class WarehouseServer implements ITruckService, IAdminService {
         return true;
     }
 
+    /**
+     * Notifies all users that their position has changed.
+     * @param pos The position of the truck that has changed.
+     */
     private void notifyAllAffectedTrucksInQueue(int pos) {
         final List<TruckDriver> queue = waitingQueue.getQueueCurrentState();
         for (int queuePos = pos-1; queuePos < queue.size(); queuePos++) {
@@ -127,6 +164,9 @@ public class WarehouseServer implements ITruckService, IAdminService {
         }
     }
 
+    /**
+     * Provides a view of the docking area and the waiting queue.
+     */
     @Override
     public WarehouseState viewEntireWarehouseState() {
         final Map<Integer, TruckDriver> currentState = dockingArea.getCurrentState();

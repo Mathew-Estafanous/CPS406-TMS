@@ -3,6 +3,9 @@ package org.tms.server;
 import java.time.Duration;
 import java.util.Objects;
 
+/**
+ * TruckDriver hold basic information about the TruckDriver.
+ */
 public class TruckDriver {
     private final int truckID;
     private final String driverName;

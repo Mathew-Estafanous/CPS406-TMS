@@ -12,7 +12,11 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+/**
+ * Authenticator represents a security system to authenticate Admin Credentials .
+ */
 public class Authenticator {
+
 
     private static final long SECONDS_UNTIL_EXPIRE = 1200;
     private static final Logger log = Logger.getLogger(Authenticator.class.getName());
@@ -26,6 +30,11 @@ public class Authenticator {
         this.algorithm = Algorithm.HMAC256(signingKey);
     }
 
+    /**
+     * Authenticates the Admins credentials.
+     * @param credentials The credentials of the Admin.
+     * @return Whether the credentials were valid or not.
+     */
     public boolean authenticate(String credentials) {
         try {
             return JWT.require(algorithm)
@@ -36,6 +45,13 @@ public class Authenticator {
             return false;
         }
     }
+
+    /**
+     * Validates Username and Password and returns a session token if they are.
+     * @param username The username the Admin uses to access the Admin portal.
+     * @param password The password the Admin uses to access the Admin portal.
+     * @return A session token.
+     */
 
     public Optional<Credentials> toCredentials(String username, String password) {
         if (!isCorrectLogin(username, password)) {
@@ -48,6 +64,12 @@ public class Authenticator {
         return Optional.of(new Credentials(AdminMessage.AdminMessageType.LOGIN, username, token));
     }
 
+    /**
+     * Verifies the Login Information.
+     * @param username The username the Admin uses to access the Admin portal.
+     * @param password The password the Admin uses to access the Admin portal.
+     * @return Whether the Login Information is correct.
+     */
     private boolean isCorrectLogin(String username, String password) {
         try {
             return username.equals(adminUsername) && encryptedPassword.equals(encrypt(password));
@@ -57,6 +79,12 @@ public class Authenticator {
         }
     }
 
+    /**
+     * Encrypts the Users password for security.
+     * @param password The password the Admin uses to access the Admin portal.
+     * @return A string holding the encrypted password.
+     * @throws NoSuchAlgorithmException if the password cannot be encrypted
+     */
     private String encrypt(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         return new String(md.digest(password.getBytes(StandardCharsets.UTF_8)));
