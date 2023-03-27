@@ -31,7 +31,7 @@ function CheckIn() {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: "colored",
+                theme: "dark",
             });
         }
     }, [searchParams]);
