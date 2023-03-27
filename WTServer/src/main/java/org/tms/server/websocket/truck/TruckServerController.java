@@ -46,6 +46,7 @@ public class TruckServerController {
             case CHECK_IN -> handleCheckIn(session, message);
             case CHECK_OUT -> handleCheckOut(session, message);
             case STATE_UPDATE -> handleStateUpdate(session, message);
+            default -> log.warning(String.format("Received unsupported message of type %s", message.getType().toString()));
         }
     }
 

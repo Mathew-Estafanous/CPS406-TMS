@@ -32,3 +32,7 @@ Similarly, you can configure your [run configuration](https://code.visualstudio.
 include the `.env` file.
 
 ====
+
+## Running Frontend
+The frontend is a react service that can be easily started with `npm start`. There is no configuration required
+for the frontend.
