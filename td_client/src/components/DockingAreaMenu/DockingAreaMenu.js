@@ -6,14 +6,18 @@ import {useContext, useEffect, useState} from "react";
 import {parse} from "tinyduration";
 import {WebSocketContext} from "../WebsocketContext/WebsocketContext";
 
+/**
+ * Menu UI when Truck Driver is in Docking Area
+ * @return {JSX.Element} Docking Area menu.
+ */
 function DockingAreaMenu() {
     const navigate = useNavigate();
     const {sendJsonMessage, id, receivedMessage} = useContext(WebSocketContext);
-
     const [sentCheckout, setSentCheckout] = useState(false);
     const [position, setPosition] = useState(receivedMessage.position);
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime));
 
+    //Handles messages sent by server.
     useEffect(() => {
         console.log("DOCKING AREA");
         console.log(receivedMessage);
@@ -31,6 +35,7 @@ function DockingAreaMenu() {
         }
     }, [receivedMessage])
 
+    //Handles request for checking out.
     const submitHandler = (e) => {
         e.preventDefault();
         let message = {
@@ -45,16 +50,16 @@ function DockingAreaMenu() {
         <div>
             <div className="WhiteMenu-title">Docking Area</div>
             <div className="WhiteMenu-header WhiteMenu-subheader">Assigned Docking #: {position}</div>
-            <hr className={"Divider Divider-blue"} />
+            <hr className={"Divider Divider-blue"}/>
             <div className="WhiteMenu-header WhiteMenu-subheader">Truck ID: {id}</div>
-            <hr className={"Divider Divider-blue"} />
+            <hr className={"Divider Divider-blue"}/>
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Estimated Time:
                 <div>
-                    {eta.hours || "0"} HRS { eta.minutes || "0"} MIN
+                    {eta.hours || "0"} HRS {eta.minutes || "0"} MIN
                 </div>
             </div>
-            <hr className={"Divider Divider-blue"} />
+            <hr className={"Divider Divider-blue"}/>
             <div className="WhiteMenu-header WhiteMenu-subheader">
                 Elapsed Time:
                 <div>

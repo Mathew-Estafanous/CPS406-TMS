@@ -18,6 +18,7 @@ function WaitingAreaMenu() {
     const [position, setPosition] = useState(receivedMessage.position)
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime))
 
+    //Notification when the clients position has changed.
     let notify = () => {
         toast.info('Your Position Has Updated', {
             toastId: 1,
@@ -32,16 +33,21 @@ function WaitingAreaMenu() {
         });
     }
 
+    //Handles server response.
     useEffect(() => {
         console.log("WAITING AREA");
         console.log(receivedMessage);
+
         if (receivedMessage.locationState === "waiting_area") {
+            //Update and notify client when their position in the waiting area has updated.
             setPosition(receivedMessage.position);
             setETA(parse(receivedMessage.estimatedTime));
             notify();
         } else if (receivedMessage.locationState === "docking_area") {
+            //Move client to docking area.
             navigate("/DockingArea");
         } else {
+            //Client has been kicked or cancelled.
             navigate({
                 pathname: "/",
                 search: createSearchParams({
@@ -51,6 +57,7 @@ function WaitingAreaMenu() {
         }
     }, [receivedMessage]);
 
+    //Handles when client sends a check out request.
     const submitHandler = (e) => {
         e.preventDefault();
         let message = {

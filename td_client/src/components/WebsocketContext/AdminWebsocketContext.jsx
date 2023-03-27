@@ -1,7 +1,6 @@
 import {createContext, useState} from "react";
 import UseWebSocket from "react-use-websocket";
 import {useCookies} from "react-cookie";
-
 const defaultURL = 'ws://localhost:8080/admin';
 export const AdminWebsocketContext = createContext(null);
 
@@ -23,6 +22,7 @@ export const AdminWebSocketsProvider = (props) => {
     const [receivedMessage, changeReceivedMessage] = useState(initialState);
     const [_, setCookies] = useCookies(['sessionToken']);
 
+    //Open websocket for admin.
     const {sendJsonMessage} = UseWebSocket(defaultURL, {
         onOpen: () => console.log('Opened connection'),
         onError: () => console.log("Error"),

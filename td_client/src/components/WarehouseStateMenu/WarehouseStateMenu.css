@@ -9,6 +9,40 @@
     margin: 5vh auto;
 }
 
+.WarehouseStateMenu-title {
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-family: 'M PLUS 2', sans-serif;
+    font-weight: bold;
+}
+
+.WarehouseStateMenu-header {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: 'M PLUS 2', sans-serif;
+}
+
+.WarehouseStateMenu-subheader {
+    color: #373737;
+    font-size: 22px;
+}
+
+.WarehouseStateMenu-error {
+    margin: auto;
+    padding-bottom: 5px;
+    text-align: left;
+    width: 22vh;
+    display: block;
+    font-size: 8px;
+    font-weight: 600;
+    color: #f23d3d;
+}
+
+.WarehouseStateMenu-hide {
+    visibility: hidden;
+}
+
 .WarehouseStateMenu-listContainer {
     display: inline-block;
     padding: 10px;
@@ -44,44 +78,6 @@
 .listItem-blue:hover {
     border-color: #3185FC;
     filter: drop-shadow(0px 4px 4px rgba(49, 133, 252, 0.5));
-}
-
-.WarehouseStateMenu-error {
-    margin: auto;
-    padding-bottom: 5px;
-    text-align: left;
-    width: 22vh;
-    display: block;
-    font-size: 8px;
-    font-weight: 600;
-    color: #f23d3d;
-}
-
-.Red {
-    color: #f23d3d;
-}
-
-.WarehouseStateMenu-hide {
-    visibility: hidden;
-}
-
-.WarehouseStateMenu-title {
-    padding-top: 10px;
-    margin-bottom: 10px;
-    font-size: 30px;
-    font-family: 'M PLUS 2', sans-serif;
-    font-weight: bold;
-}
-
-.WarehouseStateMenu-header {
-    font-size: 25px;
-    font-weight: bold;
-    font-family: 'M PLUS 2', sans-serif;
-}
-
-.WarehouseStateMenu-subheader {
-    color: #373737;
-    font-size: 22px;
 }
 
 .Divider {
@@ -149,4 +145,8 @@
 
 .box {
     height: 80vh;
+}
+
+.Red {
+    color: #f23d3d;
 }

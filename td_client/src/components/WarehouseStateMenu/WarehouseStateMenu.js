@@ -12,6 +12,7 @@ let initialState = {
     waitingAreaList: []
 }
 
+//Settings for the notification display
 let notificationOptions = {
     position: "top-left",
     autoClose: 1500,
@@ -32,6 +33,7 @@ function WarehouseStateMenu() {
     const [state, setState] = useState(initialState)
     const navigate = useNavigate();
 
+    //Send request to view state every second.
     useEffect(() => {
         const interval = setInterval(() => {
             sendJsonMessage({"type": "view_state"})
@@ -41,6 +43,7 @@ function WarehouseStateMenu() {
         };
     }, []);
 
+    //Update warehouse state.
     useEffect(() => {
         if (Array.isArray(receivedMessage)) {
             let wState = initialState;
@@ -67,6 +70,7 @@ function WarehouseStateMenu() {
         }
     }, [receivedMessage]);
 
+    //Sends the server the command to reposition a truck.
     const sendRepositionCommand = (id, newPosition, sourceIdx) => {
         let repositionMessage = {
             "type": "change_position",
@@ -82,6 +86,7 @@ function WarehouseStateMenu() {
         });
     }
 
+    //Sends the server a command to cancel the truck.
     const sendCancelCommand = (id) => {
         console.log("CANCELLINGG")
         let cancelMessage = {

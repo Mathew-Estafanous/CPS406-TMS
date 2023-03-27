@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom"
 import {AdminWebsocketContext} from "../WebsocketContext/AdminWebsocketContext";
 
 /**
- * AdminLoginMenu represents the menu UI for the Admin Login.
+ * Menu UI for the Admin Login.
  * @returns {JSX.Element} The UI for the Admin Login.
  */
 function AdminLoginMenu() {
@@ -15,6 +15,7 @@ function AdminLoginMenu() {
     const [errors, changeErrorMessage] = useState([false, false]);
     const {sendJsonMessage, receivedMessage} = useContext(AdminWebsocketContext);
 
+    //Handles the server response for logging in as an Admin.
     useEffect(() => {
         if (receivedMessage.type === "login") {
             navigate("/WarehouseState");
@@ -23,15 +24,21 @@ function AdminLoginMenu() {
         }
     }, [receivedMessage]);
 
+    //Navigate to the Check In page.
     const toTruckLogin = () => {
         navigate("/");
     }
+
+    //Handles inputs from text boxes.
     const changeHandler = (event) => {
         setInputs(values => ({...values, [event.target.name]: event.target.value}))
     }
 
+    //Handles submission to logging in.
     const submitHandler = (event) => {
         event.preventDefault();
+
+        //Checking for input errors.
         let errorMessages = [...errors];
         if (inputs.username === null || inputs.username === "") {
             errorMessages[0] = "Enter a username";
@@ -46,6 +53,7 @@ function AdminLoginMenu() {
         }
         changeErrorMessage(errorMessages);
 
+        //If there are no error messages, send a request to login.
         if (!errorMessages[1] && !errorMessages[0]) {
             let loginMessage = {
                 "type": "login",

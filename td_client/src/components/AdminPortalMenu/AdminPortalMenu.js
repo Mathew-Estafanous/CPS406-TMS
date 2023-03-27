@@ -6,6 +6,11 @@ import {useNavigate} from "react-router-dom"
 import {AdminWebsocketContext} from "../WebsocketContext/AdminWebsocketContext";
 import SelectBox from "../SelectBox/SelectBox";
 
+/**
+ * UI menu for Admin Portal.
+ * @return {JSX.Element} The Admin Portal menu.
+ * @deprecated
+ */
 function AdminPortalMenu() {
     const navigate = useNavigate();
     const {sendJsonMessage} = useContext(AdminWebsocketContext);
