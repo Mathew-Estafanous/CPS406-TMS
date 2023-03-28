@@ -38,7 +38,14 @@ public class Main {
             throw new RuntimeException("Failed to create authenticator: " + e.getMessage());
         }
 
-        final WebsocketServer truckWsServer = new WebsocketServer(8080, warehouseServer, sessionMap, warehouseServer, authenticator);
+        int port;
+        final String envPort = System.getenv("PORT");
+        if (envPort.isEmpty()) {
+            port = Integer.parseInt(envPort);
+        } else {
+            port = 8080;
+        }
+        final WebsocketServer truckWsServer = new WebsocketServer(port, warehouseServer, sessionMap, warehouseServer, authenticator);
         try {
             truckWsServer.start();
             truckWsServer.join();
