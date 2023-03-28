@@ -1,8 +1,10 @@
 import {createContext, useState} from "react";
 import UseWebSocket from "react-use-websocket";
 import {useCookies} from "react-cookie";
-const defaultURL = 'ws://localhost:8080/admin';
+import {baseURL} from "./WebsocketContext";
 export const AdminWebsocketContext = createContext(null);
+
+const defaultURL = baseURL + 'admin';
 
 const initialState = {
     "type": "",

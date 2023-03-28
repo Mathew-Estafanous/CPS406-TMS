@@ -1,7 +1,9 @@
 import {createContext, useState} from "react";
 import UseWebSocket from "react-use-websocket";
 
-const defaultURL = 'ws://localhost:8080/server/';
+export const baseURL = (process.env.NODE_ENV === 'production')? 'https://store-it-api.herokuapp.com/': 'http://localhost:8080/';
+
+const defaultURL = baseURL + 'server/';
 export const WebSocketContext = createContext(null);
 
 const initialState = {
