@@ -40,7 +40,7 @@ public class Main {
 
         int port;
         final String envPort = System.getenv("PORT");
-        if (envPort != null && envPort.isEmpty()) {
+        if (envPort != null && !envPort.isEmpty()) {
             port = Integer.parseInt(envPort);
         } else {
             port = 8080;
