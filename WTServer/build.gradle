@@ -24,3 +24,19 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.register('stage', Jar) {
+    archiveClassifier = 'uber'
+
+    manifest {
+        attributes "Main-Class": "org.tms.server.Main"
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
