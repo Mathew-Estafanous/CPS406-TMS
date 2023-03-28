@@ -33,6 +33,19 @@ function WaitingAreaMenu() {
         });
     }
 
+    //Send update state request every 50s.
+    useEffect(() => {
+        const interval = setInterval(() => {
+            sendJsonMessage({
+                "type": "state-update",
+                "truckID": id
+            });
+        }, 50000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
     //Handles server response.
     useEffect(() => {
         console.log("WAITING AREA");

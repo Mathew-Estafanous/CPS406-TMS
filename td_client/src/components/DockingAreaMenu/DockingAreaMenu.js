@@ -17,6 +17,19 @@ function DockingAreaMenu() {
     const [position, setPosition] = useState(receivedMessage.position);
     const [eta, setETA] = useState(parse(receivedMessage.estimatedTime));
 
+    //Send update state request every 50s.
+    useEffect(() => {
+        const interval = setInterval(() => {
+            sendJsonMessage({
+                "type": "state-update",
+                "truckID": id
+            });
+        }, 50000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
     //Handles messages sent by server.
     useEffect(() => {
         console.log("DOCKING AREA");

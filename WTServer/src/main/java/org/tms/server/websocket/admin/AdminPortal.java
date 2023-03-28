@@ -60,6 +60,16 @@ public class AdminPortal {
         }
     }
 
+    @OnClose
+    public void onClose(Session session) {
+        log.info("Session Closed: " + session.getId());
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        log.warning("Session Error: " + throwable.getMessage());
+    }
+
     private void handleLoginCommand(Session session, AdminMessage message) {
         final String username = message.getUsername();
         final String password = message.getPassword();
