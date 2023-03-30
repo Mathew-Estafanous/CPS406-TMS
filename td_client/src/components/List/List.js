@@ -13,9 +13,11 @@ function List({list, title, cancelCommand}) {
 
     return (
         <div className={"WarehouseStateMenu-listContainer"}>
-            <div>
-                <div className={"WarehouseStateMenu-header"}>{title}</div>
-                <div className={"Divider Divider-spaced Divider-red"}/>
+            <div className={"WarehouseStateMenu-header"}>{title}</div>
+            <div className={"Divider Divider-spaced Divider-red"}/>
+            <div className={"WarehouseStateMenu-scrollArea"}>
+                <div>
+                <div className={"WarehouseStateMenu-scrollBar"}>
                 {sortedList.map((item, _) => {
                     return (
                         <div key={item.truckID} className={"WarehouseStateMenu-listItem listItem-red"}>
@@ -26,6 +28,8 @@ function List({list, title, cancelCommand}) {
                         </div>
                     );
                 })}
+            </div>
+                </div>
             </div>
         </div>
     );

@@ -53,8 +53,19 @@
     height: 94%;
     vertical-align: top;
     background-color: #1e232c;
+}
+.WarehouseStateMenu-scrollArea {
+    width: 100%;
+    height: 90%;
 
-    overflow: scroll;
+}
+
+.WarehouseStateMenu-scrollBar {
+    width: 100%;
+    height: 90%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
 }
 
 .WarehouseStateMenu-listItem {

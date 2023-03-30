@@ -18,11 +18,12 @@ function DraggableList({list, title, sendRepositionCommand, cancelCommand}) {
                 const newPosition = dragItem.destination.index + 1;
                 sendRepositionCommand(truckID, newPosition, sourceIndex);
             }}>
+                <div className={"WarehouseStateMenu-header"}>{title}</div>
+                <div className={"Divider Divider-spaced Divider-blue"}/>
+                <div className={"WarehouseStateMenu-scrollBar"}>
                 <Droppable droppableId={"droppable-1"}>
                     {(provided, _) => (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
-                            <div className={"WarehouseStateMenu-header"}>{title}</div>
-                            <div className={"Divider Divider-spaced Divider-blue"}/>
                             {list.map((item, i) => (
                                 <Draggable key={item.truckID} draggableId={"draggable-" + item.truckID} index={i}>
                                     {(provided, snapshot) => (
@@ -46,6 +47,7 @@ function DraggableList({list, title, sendRepositionCommand, cancelCommand}) {
                         </div>
                     )}
                 </Droppable>
+                </div>
             </DragDropContext>
         </div>
     );
