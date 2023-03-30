@@ -53,6 +53,8 @@
     height: 94%;
     vertical-align: top;
     background-color: #1e232c;
+
+    overflow: scroll;
 }
 
 .WarehouseStateMenu-listItem {
@@ -68,6 +70,27 @@
     font-weight: 500;
     background: #2e2e38;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .listItem-red:hover {
