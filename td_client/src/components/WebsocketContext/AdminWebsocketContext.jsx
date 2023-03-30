@@ -22,7 +22,7 @@ const initialState = {
  */
 export const AdminWebSocketsProvider = (props) => {
     const [receivedMessage, changeReceivedMessage] = useState(initialState);
-    const [_, setCookies] = useCookies(['sessionToken']);
+    const [cookies, setCookies] = useCookies(['sessionToken']);
 
     //Open websocket for admin.
     const {sendJsonMessage} = UseWebSocket(defaultURL, {
@@ -44,5 +44,10 @@ export const AdminWebSocketsProvider = (props) => {
         reconnectInterval: 100,
     });
 
-    return <AdminWebsocketContext.Provider value={{sendJsonMessage, receivedMessage}} {...props} />
+    const sendMessage = (message) => {
+        message.sessionToken = cookies.sessionToken;
+        sendJsonMessage(message);
+    }
+
+    return <AdminWebsocketContext.Provider value={{sendMessage, receivedMessage}} {...props} />
 }

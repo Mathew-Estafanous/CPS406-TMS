@@ -29,14 +29,14 @@ let notificationOptions = {
  * @return {JSX.Element} The menu for the Warehouse State page.
  */
 function WarehouseStateMenu() {
-    const {sendJsonMessage, receivedMessage} = useContext(AdminWebsocketContext);
+    const {sendMessage, receivedMessage} = useContext(AdminWebsocketContext);
     const [state, setState] = useState(initialState)
     const navigate = useNavigate();
 
     //Send request to view state every second.
     useEffect(() => {
         const interval = setInterval(() => {
-            sendJsonMessage({"type": "view_state"})
+            sendMessage({"type": "view_state"})
         }, 1000);
         return () => {
             clearInterval(interval);
@@ -77,7 +77,7 @@ function WarehouseStateMenu() {
             "truckID": id,
             "position": newPosition
         }
-        sendJsonMessage(repositionMessage);
+        sendMessage(repositionMessage);
         let newState = [...state.waitingAreaList]
         newState.splice(newPosition - 1, 0, newState.splice(sourceIdx, 1)[0]);
         setState({
@@ -93,7 +93,7 @@ function WarehouseStateMenu() {
             "type": "cancel",
             "truckID": id
         }
-        sendJsonMessage(cancelMessage)
+        sendMessage(cancelMessage)
     }
 
     return (

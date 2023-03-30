@@ -23,6 +23,8 @@ public class AdminMessage {
     private final String username;
     private final String password;
 
+    private String sessionToken = "";
+
     public AdminMessage(AdminMessageType type, int truckID, String driverName,
                         String estimatedTime, TruckState.LocationState locationState,
                         int position, String username, String password) {
@@ -99,6 +101,14 @@ public class AdminMessage {
     @Override
     public int hashCode() {
         return Objects.hash(type, truckID, position, driverName, estimatedTime, locationState, username, password);
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 
     public enum AdminMessageType {

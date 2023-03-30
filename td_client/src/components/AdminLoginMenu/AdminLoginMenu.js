@@ -13,7 +13,7 @@ function AdminLoginMenu() {
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({"username": null, "password": null});
     const [errors, changeErrorMessage] = useState([false, false]);
-    const {sendJsonMessage, receivedMessage} = useContext(AdminWebsocketContext);
+    const {sendMessage, receivedMessage} = useContext(AdminWebsocketContext);
 
     //Handles the server response for logging in as an Admin.
     useEffect(() => {
@@ -60,7 +60,7 @@ function AdminLoginMenu() {
                 "username": inputs.username,
                 "password": inputs.password
             }
-            sendJsonMessage(loginMessage);
+            sendMessage(loginMessage);
         }
     }
 
