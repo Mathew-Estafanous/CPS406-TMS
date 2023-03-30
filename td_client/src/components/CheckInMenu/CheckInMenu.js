@@ -59,6 +59,7 @@ function CheckIn() {
             let errorMessages = [...errors];
             errorMessages[1] = "Existing Truck ID";
             changeErrorMessage(errorMessages);
+            changeId("");
         }
     }, [receivedMessage])
 
@@ -70,7 +71,7 @@ function CheckIn() {
             "type": "check-in",
             "truckID": "",
             "driverName": "",
-            "estimatedTime": ""
+            "estimatedTim99999e": ""
         }
         let estimatedTimeString = ""
 
