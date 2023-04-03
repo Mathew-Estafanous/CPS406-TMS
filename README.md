@@ -33,6 +33,13 @@ include the `.env` file.
 
 ====
 
+If you'd like to run the project using the command line, you can start it with the following gradle commands.
+Please make sure you are in the `WTServer` subdirectory.
+
+```shell
+ export $(cat .env | xargs) && ./gradlew run
+```
+
 ## Running Frontend
 The frontend is a react service that can be easily started with `npm start`. There is no configuration required
 for the frontend.
